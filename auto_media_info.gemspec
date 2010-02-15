@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Automatically get media information from the URL.}
   s.description = %q{Automatically get media information from the UR.}
     
-  #s.files = ["LICENSE", "lib/ohembedr.rb"]
+  #s.files = ["LICENSE", "lib/auto_media_info.rb"]
   
   s.has_rdoc = false
   s.require_paths = ["lib"]
