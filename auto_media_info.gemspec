@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "README",
+     "Rakefile",
+     "VERSION.yml",
      "auto_media_info-0.0.1.gem",
      "auto_media_info.gemspec",
      "lib/auto_media_info.rb",
