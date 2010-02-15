@@ -2,7 +2,7 @@ module AutoMediaInfo
   class NoTransformer < StandardError; end
   
   def self.transform(url)
-    if transform = determine_transformer_for_url(url)
+    if transformer = determine_transformer_for_url(url)
       transformer.transform(url)
     else
       raise NoTransformer.new("No Transformer found for URL")
