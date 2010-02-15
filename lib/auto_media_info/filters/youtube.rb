@@ -7,7 +7,7 @@ module AutoMediaInfo
       end
     
       def self.able_to_transform?(url)
-        url =~ /www.youtube.com/im
+        url =~ /www\.youtube\.com/im
       end
     
     end
