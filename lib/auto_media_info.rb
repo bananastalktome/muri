@@ -4,6 +4,6 @@ end
  
 # Register built-in filters
 #
-Dir["#{File.dirname(__FILE__) + '/auto_media_info/filters'}/**/*"].each do |filter|
-  require "#{filter}"
-end
+# Dir["#{File.dirname(__FILE__) + '/auto_media_info/filters'}/**/*"].each do |filter|
+#   require "#{filter}"
+# end

@@ -1,15 +1,14 @@
-module AutoMediaInfo
-  module Transformer
+module Youtube
+  def self.included(base)
+    base.class_eval do
   
-    class Youtube
-      def self.transform(url)
-        url
-      end
     
-      def self.able_to_transform?(url)
-        url =~ /www\.youtube\.com/im
-      end
-    
-    end
+      self::PARSERS["www.youtube.com"] = "youtube_parse"
+      self::PARSERS["youtube.com"] = "youtube_parse"                             
+
+  def self.youtube_parse(url)
+    url
   end
+#http://www.youtube.com/v/4CYDFoEz8rg&hl=en_US&fs=1&
+#http://www.youtube.com/watch?v=l983Uob0Seo&feature=rec-LGOUT-exp_fresh+div-1r-1-HM
 end
