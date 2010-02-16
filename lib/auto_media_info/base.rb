@@ -4,7 +4,7 @@ module AMI
   
   PARSERS = { }
   
-  require "#{File.dirname(__FILE__) + '/auto_media_info/filters/youtube.rb'}"
+  require "#{File.dirname(__FILE__) + '/filters/youtube.rb'}"
   
   def self.parse(url)
     url_components = URI.parse(url)
