@@ -8,7 +8,7 @@ module AMI
   
   def self.parse(url)
     url_components = URI.parse(url)
-    if url_components.scheme.blank?
+    if url_components.scheme.empty?
       url = "http://#{url}"
       url_components = URI.parse(url)
     end
