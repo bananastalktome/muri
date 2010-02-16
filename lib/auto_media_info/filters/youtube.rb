@@ -2,7 +2,7 @@ module AutoMediaInfo
   module Transformer
   
     class Youtube
-      def transform(url)
+      def self.transform(url)
         url
       end
     
