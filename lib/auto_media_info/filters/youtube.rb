@@ -1,8 +1,8 @@
 module Youtube
   def self.included(base)
     base.class_eval do
-      PARSERS["www.youtube.com"] = "youtube_parse"
-      PARSERS["youtube.com"] = "youtube_parse" 
+      self::PARSERS["www.youtube.com"] = "youtube_parse"
+      self::PARSERS["youtube.com"] = "youtube_parse" 
       
       def self.youtube_parse(url)
         url_components = URI.parse(url)

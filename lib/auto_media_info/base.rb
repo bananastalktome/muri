@@ -3,9 +3,9 @@ module AMI
   class NoTransformer < StandardError; end
   class Parser
     PARSERS = { }
-  
+    
     require "#{File.dirname(__FILE__) + '/filters/youtube.rb'}"
-  
+    
     def self.parse(url)
       url_components = URI.parse(url)
       if url_components.scheme.empty?
