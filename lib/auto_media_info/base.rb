@@ -36,7 +36,7 @@ class AMI
       @url = URI.parse(raw_url)
     end
     if parse_function = PARSERS[@url.host]
-      @info[:url] = raw_url
+      @info[:original_url] = raw_url
       send(parse_function)
     else
       raise NoTransformer.new("No Transformer found for URL")

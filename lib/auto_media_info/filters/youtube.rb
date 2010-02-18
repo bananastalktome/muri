@@ -1,5 +1,4 @@
 require 'cgi'
-require 'pp'
 module Youtube
 
   def self.included(base)
@@ -19,9 +18,10 @@ module Youtube
       
     elsif (@url.path =~ /\/v\/([a-zA-Z0-9\-\_]*)/i)
       @info[:media_id] = $1
-      
     end
-    pp @info
+    
+    @info[:watch_url] = "http://www.youtube.com/watch?v=#{@info[:media_id}"
+    @info[:view_url] = "http://www.youtube.com/v/#{@info[:media_id]}"
     self
   end
   
