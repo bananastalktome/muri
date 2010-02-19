@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-02-18}
+  s.date = %q{2010-02-19}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
   s.extra_rdoc_files = [
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "lib/auto_media_info/base.rb",
      "lib/auto_media_info/builder.rb",
      "lib/auto_media_info/filter.rb",
+     "lib/auto_media_info/filters/flickr.rb",
      "lib/auto_media_info/filters/youtube.rb"
   ]
   s.homepage = %q{http://github.com/bananastalktome/auto_media_info/}

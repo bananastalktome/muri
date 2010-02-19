@@ -20,8 +20,8 @@ module Youtube
       @info[:media_id] = $1
     end
     
-    @info[:watch_url] = "http://www.youtube.com/watch?v=#{@info[:media_id}"
-    @info[:view_url] = "http://www.youtube.com/v/#{@info[:media_id]}"
+    @info[:watch_url] = "http://www.youtube.com/watch?v=" + @info[:media_id]
+    @info[:view_url] = "http://www.youtube.com/v/" + @info[:media_id]
     self
   end
   

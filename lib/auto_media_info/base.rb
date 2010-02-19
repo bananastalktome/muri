@@ -5,6 +5,7 @@ class AMI
   PARSERS = { }
 
   include Youtube
+  include Flickr
     
   def self.parse(url)
     self.new(url)
@@ -42,8 +43,8 @@ class AMI
       raise NoTransformer.new("No Transformer found for URL")
     end
     
-  rescue => e
-    raise 'failed #{e.to_yaml}'
+  #rescue => e
+    #raise "failed #{e}"
   end
       
   def field_value(field_name)
