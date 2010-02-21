@@ -4,7 +4,7 @@ Dir["#{File.dirname(__FILE__) + '/auto_media_info/filters'}/**/*"].each do |filt
   require "#{filter}"
 end
 
-%w(base filter builder).each do |f|
+%w(base).each do |f|
   require File.dirname(__FILE__) + "/auto_media_info/#{f}"
 end
  

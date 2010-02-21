@@ -4,13 +4,14 @@ class AMI
     
   PARSERS = { }
 
-  include Youtube
-  include Flickr
-    
+  include Filter::Youtube
+  include Filter::Flickr
+  include Filter::Vimeo
+  
   def self.parse(url)
     self.new(url)
   end
-    
+  
   def initialize(url)
     @info = { }
     _parse(url)
@@ -22,6 +23,12 @@ class AMI
   
   def to_s
     @info.to_s
+  end
+    
+  # Taken from uri/generic.rb
+  @@to_s = Kernel.instance_method(:to_s)
+  def inspect
+    @@to_s.bind(self).call.sub!(/>\z/) {" #{self}>"}
   end
   
   def parsers
@@ -37,6 +44,7 @@ class AMI
       @url = URI.parse(raw_url)
     end
     if parse_function = PARSERS[@url.host]
+      @info[:uri] = @url
       @info[:original_url] = raw_url
       send(parse_function)
     else
@@ -58,5 +66,4 @@ class AMI
   def method_missing(func, args = nil)
     field_value(func)
   end
-
 end
