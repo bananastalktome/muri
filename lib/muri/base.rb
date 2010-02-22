@@ -1,5 +1,5 @@
 require 'uri'
-class AMI
+class MURI
   class NoTransformer < StandardError; end
     
   PARSERS = { }

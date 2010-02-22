@@ -1,4 +1,4 @@
-class AMI
+class MURI
   module Filter
     module Flickr
 

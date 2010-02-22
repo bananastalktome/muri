@@ -1,5 +1,5 @@
 require 'cgi'
-class AMI
+class MURI
   module Filter
     module Youtube
 
