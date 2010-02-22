@@ -21,11 +21,11 @@ Gem::Specification.new do |s|
      "VERSION.yml",
      "lib/muri.rb",
      "lib/muri/base.rb",
-     "lib/muri/builder.rb",
      "lib/muri/filter.rb",
      "lib/muri/filters/flickr.rb",
      "lib/muri/filters/vimeo.rb",
      "lib/muri/filters/youtube.rb",
+     "muri-0.0.1.gem",
      "muri.gemspec"
   ]
   s.homepage = %q{http://github.com/bananastalktome/muri/}
