@@ -46,7 +46,7 @@ class MURI
     if parse_function = PARSERS[@url.host]
       @info[:uri] = @url
       @info[:original_url] = raw_url
-      send(parse_function)
+      @info.merge! self.class.send(parse_function, @url)
     else
       raise NoTransformer.new("No Transformer found for URL")
     end

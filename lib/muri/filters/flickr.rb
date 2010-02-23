@@ -9,69 +9,65 @@ class MURI
           self::PARSERS["farm2.static.flickr.com"] = "flickr_parse"
           self::PARSERS["farm1.static.flickr.com"] = "flickr_parse"
           self::PARSERS["flic.kr"] = "flickr_parse"
-        end
-      end
-      
-      def flickr_parse
-        
-        @info[:service] = 'Flickr'
-        
-        if @url.path =~ /^photos\/([a-zA-Z0-9\@]*?)\/[^(?:sets)]([0-9]*)/i
-          @info[:media_creator] = $1
-          @info[:media_id] = $2
-        elsif (@url.host + @url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]*?)\/([0-9]*?)\_([a-zA-Z0-9]*?)(\_[a-zA-Z]){0,1}\.([a-zA-Z]*)/i
-          @info[:media_id] = $3
-          if !$5.nil?
-            @info[:media_size] = case $5.downcase
-              when '_s' then 'small'
-              when '_t' then 'thumbnail'
-              when '_m' then 'medium'
-              when '_b' then 'large'
-              else nil
+          def self.flickr_parse(uri)
+            info = {}
+            info[:service] = 'Flickr'
+            
+            if uri.path =~ /^photos\/([a-zA-Z0-9\@]*?)\/[^(?:sets)]([0-9]*)/i
+              info[:media_creator] = $1
+              info[:media_id] = $2
+            elsif (uri.host + uri.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]*?)\/([0-9]*?)\_([a-zA-Z0-9]*?)(\_[a-zA-Z]){0,1}\.([a-zA-Z]*)/i
+              info[:media_id] = $3
+              if !$5.nil?
+                info[:media_size] = case $5.downcase
+                  when '_s' then 'small'
+                  when '_t' then 'thumbnail'
+                  when '_m' then 'medium'
+                  when '_b' then 'large'
+                  else nil
+                end
+              end
+              info[:content_type] = $6.downcase
+            elsif (uri.host + uri.path) =~ /^flic\.kr\/p\/([a-zA-Z0-9]*)/i
+              info[:media_id] = self.decode58($1)
             end
+            
+            if !info[:media_id].nil?
+              info[:media_url] = "http://flic.kr/p/" + self.encode58(info[:media_id].to_i)
+            end
+            
+            info
+          end      
+          def self.decode58(str)
+            decoded = 0
+            multi = 1
+            alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+            while str.length > 0
+              digit = str[(str.length - 1),1]
+              decoded += multi * alphabet.index(digit)
+              multi = multi * alphabet.length
+              str.chop!
+            end
+            
+            decoded
           end
-          @info[:content_type] = $6.downcase
-        elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-zA-Z0-9]*)/i
-          @info[:media_id] = self.decode58($1)
+    
+          def self.encode58(str)
+            alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+            base_count = alphabet.length
+            encoded = ''
+            while str >= base_count
+              div = str / base_count
+              mod = (str-(base_count * div.to_i))
+              encoded = alphabet[mod,1] + encoded
+              str = div.to_i
+            end
+            encoded = alphabet[str,1] + encoded if str
+            encoded
+          end    
         end
-        self.create_short_url
-        self
       end
       
-      def self.create_short_url
-        if !self.media_id.nil?
-          @info[:media_url] = "http://flic.kr/p/" + self.encode58(self.media_id.to_i)
-        end
-      end
-      
-      def decode58(str)
-        decoded = 0
-        multi = 1
-        alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
-        while str.length > 0
-          digit = str[(str.length - 1),1]
-          decoded += multi * alphabet.index(digit)
-          multi = multi * alphabet.length
-          str.chop!
-        end
-        
-        decoded
-      end
-
-      def encode58(str)
-        alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
-        base_count = alphabet.length
-        encoded = ''
-        while str >= base_count
-          div = str / base_count
-          mod = (str-(base_count * div.to_i))
-          encoded = alphabet[mod,1] + encoded
-          str = div.to_i
-        end
-        encoded = alphabet[str,1] + encoded if str
-        encoded
-      end
-
     end
   end
 end
