@@ -6,11 +6,10 @@ class MURI
       def self.included(base)
         base.class_eval do
           self::PARSERS["www.youtube.com"] = "youtube_parse"
-          self::PARSERS["youtube.com"] = "youtube_parse"
-          
-               
+          self::PARSERS["youtube.com"] = "youtube_parse"  
         end
       end
+      
       def youtube_parse
         @info[:service] = 'Youtube'
         
@@ -20,10 +19,12 @@ class MURI
         elsif (@url.path =~ /\/v\/([a-zA-Z0-9\-\_]*)/i)
           @info[:media_id] = $1
         end
+        
         if self.parsed?
           @info[:media_url] = "http://www.youtube.com/watch?v=" + @info[:media_id]
           @info[:url] = "http://www.youtube.com/v/" + @info[:media_id]
         end
+        
         self
       end     
       

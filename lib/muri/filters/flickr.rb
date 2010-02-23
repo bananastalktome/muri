@@ -9,13 +9,13 @@ class MURI
           self::PARSERS["farm2.static.flickr.com"] = "flickr_parse"
           self::PARSERS["farm1.static.flickr.com"] = "flickr_parse"
           self::PARSERS["flic.kr"] = "flickr_parse"
-          
         end
       end
+      
       def flickr_parse
         @info[:service] = 'Flickr'
         
-        if @url.path =~ /^photos\/([a-zA-Z0-9\@]*?)\/[^(?:sets)]([0-9]*)/i
+        if @url.path =~ /^\/photos\/([a-zA-Z0-9\@]*?)\/[^(?:sets)]([0-9]*)/i
           @info[:media_creator] = $1
           @info[:media_id] = $2
         elsif (@url.host + @url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]*?)\/([0-9]*?)\_([a-zA-Z0-9]*?)(\_[a-zA-Z]){0,1}\.([a-zA-Z]*)/i
@@ -41,7 +41,6 @@ class MURI
         self
       end
       
-          
       def decode58(str)
         decoded = 0
         multi = 1

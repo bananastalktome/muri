@@ -1,4 +1,5 @@
 require 'cgi'
+require 'pp'
 class MURI
   module Filter
     module Vimeo
@@ -13,17 +14,19 @@ class MURI
           def vimeo_parse
             @info[:service] = 'Vimeo'
             
-            if @url.path =~ /^([0-9]*)/
+            if @url.path =~ /^\/([0-9]*)/
               @info[:media_id] = $1
-            elsif (@url.path =~ /^moogaloop\.swf/i)
+            elsif (@url.path =~ /^\/moogaloop\.swf/i)
               params = CGI::parse(@url.query)
+              pp params
               if params.include?("clip_id")
-                @info[:media_id] = params["clip_id"].first if params["clip_id"].first =~ /([0-9]*)/
+                puts params["clip_id"].to_s
+                @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
               end
             end
             
             if self.parsed?
-              @info[:media_url] = "http://vimeo.com/" + @info[:media_id] if !@info[:media_id].nil?
+              @info[:media_url] = "http://vimeo.com/" + @info[:media_id].to_s
             end
             
             self

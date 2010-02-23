@@ -26,7 +26,7 @@ class MURI
   end
   
   def parsed?
-    @info[media_id].nil? ? false : true
+    @info[:media_id].nil? ? false : true
   end
   
   # Taken from uri/generic.rb
