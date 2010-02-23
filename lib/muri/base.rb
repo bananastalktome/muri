@@ -1,9 +1,9 @@
 require 'uri'
 class MURI
-  class NoTransformer < StandardError; end
+  class NoParser < StandardError; end
     
   PARSERS = { }
-
+  
   include Filter::Youtube
   include Filter::Flickr
   include Filter::Vimeo
@@ -24,11 +24,15 @@ class MURI
   def to_s
     @info.to_s
   end
-    
+  
+  def parsed?
+    @info[media_id].nil? ? false : true
+  end
+  
   # Taken from uri/generic.rb
   @@to_s = Kernel.instance_method(:to_s)
   def inspect
-    @@to_s.bind(self).call.sub!(/>\z/) {" #{self}>"}
+    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.original_url}>"}
   end
   
   def parsers
@@ -46,24 +50,20 @@ class MURI
     if parse_function = PARSERS[@url.host]
       @info[:uri] = @url
       @info[:original_url] = raw_url
-      @info.merge! self.class.send(parse_function, @url)
+      send(parse_function)
     else
-      raise NoTransformer.new("No Transformer found for URL")
+      raise NoParser.new("No Transformer found for URL")
     end
     
   #rescue => e
     #raise "failed #{e}"
   end
-      
-  def field_value(field_name)
-    if @info[field_name.to_sym] != nil
-      @info[field_name.to_sym]
-    else
-      nil
-    end
-  end
   
   def method_missing(func, args = nil)
-    field_value(func)
+    if @info[func.to_sym] != nil
+      @info[func.to_sym]
+    else
+      super(func,args)
+    end
   end
 end
