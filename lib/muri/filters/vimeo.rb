@@ -1,6 +1,5 @@
 require 'cgi'
-require 'pp'
-class MURI
+class Muri
   module Filter
     module Vimeo
 
@@ -18,9 +17,7 @@ class MURI
               @info[:media_id] = $1
             elsif (@url.path =~ /^\/moogaloop\.swf/i)
               params = CGI::parse(@url.query)
-              pp params
               if params.include?("clip_id")
-                puts params["clip_id"].to_s
                 @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
               end
             end

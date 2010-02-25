@@ -1,0 +1,42 @@
+= Media URI Parser - MURI
+
+A simple to use media URI Parser. Pass a URI in, get helpful information out.
+
+MURI Currently supports:
+* Youtube
+* Vimeo
+* Flickr
+
+== Installation & basic usage
+
+Install muri as a ruby gem (you might need to run this command as root by prepending +sudo+ to it):
+
+  $ gem install muri
+
+Using muri is just as easy!
+
+  a = Muri.parse('http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM')
+  a.service         # 'Youtube'
+  a.media_id        # 'blahblahblah'
+  a.media_url       # 'http://www.youtube.com/watch?v=blahblahblah' (flickr media_url's provide the flic.kr/p/ID short url)
+  a.original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+  a.uri             # Parsed URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+
+Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:
+  * A direct media url for Youtube videos
+    a.url             # 'http://www.youtube.com/v/blahblahblah'
+  
+  * Media creator name for Flickr URI's (for uri's in the http://www.flickr.com/photos/USER/PHOTO-ID/ format)
+    a.media_creator   # 'bananastalktome'
+  
+  * Media size and content type for Flickr URI's (for uri's in the http://farm3.static.flickr.com/NUMBERS/MORE-NUMBERS_LETTERS-AND-NUMBERS_SIZE-INDICATOR.jpg
+    a.media_size      # 'small'
+    a.content_type    # 'jpg'
+
+If an attribute is not present, muri returns +nil+.
+
+I plan on including more services _and_ more parse information with updates. That being said, MURI is currently not production quality. Please use with caution and in development only. Thank you.
+
+== Contact
+
+If you would like to get in contact with me, my email is bananastalktome@gmail.com. I appreciate any information or assistance reverse-engineering media website URI's.

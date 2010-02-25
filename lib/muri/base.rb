@@ -1,5 +1,5 @@
 require 'uri'
-class MURI
+class Muri
   class NoParser < StandardError; end
     
   PARSERS = { }
@@ -63,7 +63,7 @@ class MURI
     if @info[func.to_sym] != nil
       @info[func.to_sym]
     else
-      super(func,args)
+      nil #super(func,args)
     end
   end
 end

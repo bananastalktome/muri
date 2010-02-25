@@ -5,18 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{muri}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-02-23}
+  s.date = %q{2010-02-24}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
   s.extra_rdoc_files = [
-    "README"
+    "README.rdoc"
   ]
   s.files = [
-    "README",
+    "README.rdoc",
      "Rakefile",
      "VERSION.yml",
      "lib/muri.rb",
@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
      "lib/muri/filters/flickr.rb",
      "lib/muri/filters/vimeo.rb",
      "lib/muri/filters/youtube.rb",
-     "muri-0.0.1.gem",
      "muri.gemspec"
   ]
   s.homepage = %q{http://github.com/bananastalktome/muri/}

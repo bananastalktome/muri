@@ -8,7 +8,7 @@ begin
     gem.description = "Automatically get media information from the URL."
     gem.authors = ["William Schneider"]
     gem.files.exclude 'test.sqlite3'
-    gem.has_rdoc = false
+    gem.has_rdoc = true
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"

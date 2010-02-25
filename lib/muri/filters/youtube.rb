@@ -1,5 +1,5 @@
 require 'cgi'
-class MURI
+class Muri
   module Filter
     module Youtube
 
