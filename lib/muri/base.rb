@@ -2,16 +2,16 @@ require 'uri'
 class Muri
   class NoParser < StandardError; end
     
-  PARSERS = { }
+  PARSERS = {}
   
-  include Filter::Youtube
-  include Filter::Flickr
+  #include Filter::Youtube
+  #include Filter::Flickr
   include Filter::Vimeo
   
   def self.parse(url)
     self.new(url)
   end
-  
+    
   def initialize(url)
     @info = { }
     _parse(url)
@@ -36,7 +36,7 @@ class Muri
   end
   
   def parsers
-    PARSERS.keys  
+    PARSERS  
   end
   
   private
@@ -47,10 +47,10 @@ class Muri
       raw_url = "http://#{raw_url}"
       @url = URI.parse(raw_url)
     end
-    if parse_function = PARSERS[@url.host]
+    if parser = determine_feed_parser
       @info[:uri] = @url
       @info[:original_url] = raw_url
-      send(parse_function)
+      send(PARSERS[parser])
     else
       raise NoParser.new("No Transformer found for URL")
     end
@@ -59,6 +59,10 @@ class Muri
     #raise "failed #{e}"
   end
   
+  def determine_feed_parser
+    PARSERS.keys.detect {|klass| klass.parsable?(@url)}
+  end
+      
   def method_missing(func, args = nil)
     if @info[func.to_sym] != nil
       @info[func.to_sym]

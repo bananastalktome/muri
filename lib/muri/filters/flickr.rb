@@ -4,11 +4,12 @@ class Muri
 
       def self.included(base)
         base.class_eval do
-          self::PARSERS["www.flickr.com"] = "flickr_parse"
-          self::PARSERS["farm3.static.flickr.com"] = "flickr_parse"
-          self::PARSERS["farm2.static.flickr.com"] = "flickr_parse"
-          self::PARSERS["farm1.static.flickr.com"] = "flickr_parse"
-          self::PARSERS["flic.kr"] = "flickr_parse"
+          # self::PARSERS["www.flickr.com"] = "flickr_parse"
+#           self::PARSERS["farm3.static.flickr.com"] = "flickr_parse"
+#           self::PARSERS["farm2.static.flickr.com"] = "flickr_parse"
+#           self::PARSERS["farm1.static.flickr.com"] = "flickr_parse"
+#           self::PARSERS["flic.kr"] = "flickr_parse"
+            self::PARSERS[Muri::Filter::Flickr] = "flickr_parse"
         end
       end
       
@@ -40,6 +41,10 @@ class Muri
         
         self
       end
+      
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.|)(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
+      end  
       
       def decode58(str)
         decoded = 0

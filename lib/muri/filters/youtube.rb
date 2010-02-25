@@ -5,8 +5,9 @@ class Muri
 
       def self.included(base)
         base.class_eval do
-          self::PARSERS["www.youtube.com"] = "youtube_parse"
-          self::PARSERS["youtube.com"] = "youtube_parse"  
+          #self::PARSERS["www.youtube.com"] = "youtube_parse"
+          #self::PARSERS["youtube.com"] = "youtube_parse"  
+          self::PARSERS[Muri::Filter::Youtube] = "youtube_parse"
         end
       end
       
@@ -27,7 +28,9 @@ class Muri
         
         self
       end     
-      
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.|)youtube\.com$/i
+      end      
     end
   end
 end

@@ -9,14 +9,15 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-02-24}
+  s.date = %q{2010-02-25}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
-    "README.rdoc",
+    ".gitignore",
+     "README.rdoc",
      "Rakefile",
      "VERSION.yml",
      "lib/muri.rb",
