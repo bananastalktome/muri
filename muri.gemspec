@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
      "lib/muri/base.rb",
      "lib/muri/filter.rb",
      "lib/muri/filters/flickr.rb",
+     "lib/muri/filters/imageshack.rb",
      "lib/muri/filters/vimeo.rb",
      "lib/muri/filters/youtube.rb",
      "muri.gemspec"

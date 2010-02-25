@@ -4,9 +4,10 @@ class Muri
     
   PARSERS = {}
   
-  #include Filter::Youtube
-  #include Filter::Flickr
+  include Filter::Youtube
+  include Filter::Flickr
   include Filter::Vimeo
+  include Filter::Imageshack
   
   def self.parse(url)
     self.new(url)
@@ -36,7 +37,7 @@ class Muri
   end
   
   def parsers
-    PARSERS  
+    PARSERS.keys
   end
   
   private
