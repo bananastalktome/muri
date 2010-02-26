@@ -13,17 +13,19 @@ class Muri
       
       def youtube_parse
         @info[:service] = 'Youtube'
+        url_common = "http://www.youtube.com"
         
         if (@url.path == "/watch") && !@url.query.nil?
           params = CGI::parse(@url.query)
           @info[:media_id] = params["v"].first
-        elsif (@url.path =~ /\/v\/([a-zA-Z0-9\-\_]*)/i)
+        elsif (@url.path =~ /\/v\/([a-z0-9\-\_]*)/i)
           @info[:media_id] = $1
         end
         
         if self.parsed?
-          @info[:media_url] = "http://www.youtube.com/watch?v=" + @info[:media_id]
-          @info[:url] = "http://www.youtube.com/v/" + @info[:media_id]
+          @info[:media_url] = "#{url_common}/watch?v=#{@info[:media_id]}"
+          @info[:url] = "#{url_common}/v/#{@info[:media_id]}"
+          @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
         end
         
         self

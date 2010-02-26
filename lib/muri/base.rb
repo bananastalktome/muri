@@ -8,7 +8,8 @@ class Muri
   include Filter::Flickr
   include Filter::Vimeo
   include Filter::Imageshack
-  
+  include Filter::Photobucket
+
   def self.parse(url)
     self.new(url)
   end
@@ -40,6 +41,60 @@ class Muri
     PARSERS.keys
   end
   
+  def decode58(str)
+    decoded = 0
+    multi = 1
+    alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+    while str.length > 0
+      digit = str[(str.length - 1),1]
+      decoded += multi * alphabet.index(digit)
+      multi = multi * alphabet.length
+      str.chop!
+    end
+    
+    decoded
+  end
+
+  def encode58(str)
+    alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+    base_count = alphabet.length
+    encoded = ''
+    while str >= base_count
+      div = str / base_count
+      mod = (str-(base_count * div.to_i))
+      encoded = alphabet[mod,1] + encoded
+      str = div.to_i
+    end
+    encoded = (alphabet[str,1] + encoded) if str
+    encoded
+  end
+  
+#   protected
+#   #used by flickr. Ported from PHP.
+#   def decode58(str)
+#     decoded, multi = 0, 1
+#     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+#     str.reverse.each_char do |c|
+#       decoded += multi * alphabet.index(c)
+#       multi = multi * 58
+#     end
+#     decoded
+#   end
+# 
+#   #used by flickr. Ported from PHP.
+#   def encode58(str)
+#     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+#     encoded = ''
+#     while str >= 58
+#       div = str / 58
+#       mod = (str-(58 * div))
+#       encoded = alphabet[mod,1] + encoded
+#       str = div
+#     end
+#     encoded = alphabet[str,1] + encoded if str
+#     encoded
+#   end  
+    
   private
   
   def _parse(raw_url)
@@ -68,7 +123,7 @@ class Muri
     if @info[func.to_sym] != nil
       @info[func.to_sym]
     else
-      nil #super(func,args)
+      super(func,args)
     end
   end
 end

@@ -22,7 +22,7 @@ class Muri
         end
         
         if self.parsed?
-          @info[:media_url] = "http://vimeo.com/" + @info[:media_id].to_s
+          @info[:media_url] = "http://vimeo.com/#{@info[:media_id]}"
         end
         
         self

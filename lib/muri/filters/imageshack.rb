@@ -1,4 +1,3 @@
-require 'cgi'
 class Muri
   module Filter
     module Imageshack
@@ -13,27 +12,28 @@ class Muri
         @info[:service] = 'Imageshack'
         
         @url.host =~ /^img([0-9]*?)\.imageshack\.us/i
-        @info[:img_id] = $1
+        @info[:server_id] = $1
+        url_common = "http://img#{@info[:server_id]}.imageshack.us"
         
-        if @url.path =~ /^\/i\/([a-zA-Z0-9]*?)\.([a-zA-Z0-9]*?)\//i
+        if @url.path =~ /^\/i\/([a-z0-9]*?)\.([a-z0-9]*?)\//i
           @info[:media_id] = $1
-          @info[:content_type] = $2.downcase
-        elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]*?)\/([a-zA-Z0-9]*?)\.([a-zA-Z0-9]*?)/i
-          server_id = $2
+          @info[:content_type] = $2
+        elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]*?)\/([a-z0-9]*?)\.([a-z0-9]*?)/i
+          #server_id = $2
           @info[:media_id] = $3
-          @info[:content_type] = $4.downcase
-          @info[:url] = "http://img" + @info[:img_id] + ".imageshack.us/img" + @info[:img_id] + "/#{server_id}/" + @info[:media_id] + "." + @info[:content_type]
+          @info[:content_type] = $4
+          @info[:url] = "#{url_common}/img#{@info[:server_id]}/#{@info[:server_id]}/#{@info[:media_id]}.#{@info[:content_type]}"
         end
         
         if self.parsed?
-          @info[:media_url] = "http://img" + @info[:img_id] + ".imageshack.us/i/" + @info[:media_id] + "." + @info[:content_type] + "/"
+          @info[:media_url] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
         end
         
         self
       end       
       
       def self.parsable?(uri)
-        uri.host =~ /^img([0-9]*?)\.imageshack\.us/i #/^(img([0-9]*?)\.imageshack\.us)|(yfrog\.com)/i
+        uri.host =~ /^img([0-9]*?)\.imageshack\.us$/i #/^(img([0-9]*?)\.imageshack\.us)|(yfrog\.com)/i
       end  
       
     end
