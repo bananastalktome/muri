@@ -41,7 +41,6 @@ class Muri
     PARSERS.keys
   end
   
-  
   private
   
   def _parse(raw_url)
@@ -70,11 +69,12 @@ class Muri
     if @info[func.to_sym] != nil
       @info[func.to_sym]
     else
-      super(func,args)
+      nil #super(func,args)
     end
   end
   
   protected
+  
   #used by flickr. Ported from PHP.
   def decode58(str)
     decoded = 0
