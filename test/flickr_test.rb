@@ -1,8 +1,8 @@
 require 'lib/muri.rb'
 
-shared_examples_for "Youtube parse" do
-it "should be youtube service" do
-    @a.service == 'Youtube'
+shared_examples_for "Flickr parse" do
+it "should be Flickr service" do
+    @a.service == 'Flickr'
   end
   
   it "should have proper media id" do
