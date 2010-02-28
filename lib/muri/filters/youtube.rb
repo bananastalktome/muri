@@ -4,9 +4,7 @@ class Muri
     module Youtube
 
       def self.included(base)
-        base.class_eval do
-          #self::PARSERS["www.youtube.com"] = "youtube_parse"
-          #self::PARSERS["youtube.com"] = "youtube_parse"  
+        base.class_eval do 
           self::PARSERS[Muri::Filter::Youtube] = "youtube_parse"
         end
       end
@@ -24,7 +22,8 @@ class Muri
         
         if self.parsed?
           @info[:media_url] = "#{url_common}/watch?v=#{@info[:media_id]}"
-          @info[:url] = "#{url_common}/v/#{@info[:media_id]}"
+          @info[:website] = "#{url_common}/v/#{@info[:media_id]}"
+          @info[:media_api_id] = @info[:media_id]
           @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
         end
         

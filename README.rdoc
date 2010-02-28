@@ -22,22 +22,20 @@ Using muri is just as easy!
   a.media_id        # 'blahblahblah'
   a.media_url       # 'http://www.youtube.com/watch?v=blahblahblah' (flickr media_url's provide the flic.kr/p/ID short url)
   a.original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
-  a.uri             # Parsed URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+  a.uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
 
 Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:
-  * A direct media url for Youtube, Photobucket, and Flickr (http://imgBLAH.imageshack.us/imgBLAH/NUMBER/IMAGENAME format)
-    a.url             # 'http://www.youtube.com/v/blahblahblah'
+  * All but Imageshack have a media_api_id, which is the ID which can be used in API calls to the related services. Typically the same as media_id.
+    a.media_api_id  # 'blahblahblah'
+
+  * A direct media url for Youtube, Photobucket, and Flickr (http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME} format)
+    a.website         # 'http://www.youtube.com/v/blahblahblah'
   
-  * Media creator name for Flickr URI's (for uri's in the http://www.flickr.com/photos/USER/PHOTO-ID/ format)
-    a.media_creator   # 'bananastalktome'
-  
-  * Media size and content type for Flickr URI's (for uri's in the http://farm3.static.flickr.com/NUMBERS/MORE-NUMBERS_LETTERS-AND-NUMBERS_SIZE-INDICATOR.jpg
-    a.media_size      # 'small'
+  * Content type for Imageshack, Photobucket and Flickr URI's (flickr in the http://farm#{num}.static.flickr.com/ format)
     a.content_type    # 'jpg' (Content Type also for Imageshack and Photobucket)
     
-  * Thumbnails URL for Youtube and Photobucket
+  * Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the http://farm#{num}.static.flickr.com/ format)
     a.media_thumbnail
-    
     
   * Some additional information may be provided, which can be determined by looking through each filters code.
   

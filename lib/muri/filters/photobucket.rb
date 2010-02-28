@@ -11,33 +11,34 @@ class Muri
       def photobucket_parse
         @info[:service] = 'Photobucket'
         
-        @url.host =~ /^([a-z0-9][^(media)]*?)\.photobucket\.com/i
-        @info[:server_id] = $1.gsub(/[a-z]*/i,"")
+        @url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com/i
+        server_id = $1.gsub(/([a-z]*)/i,"")
         
         if @url.path =~ /^\/albums\/(.*?)\/(.*?)\/((?:.*?\/)*)(.*?)\.(.*)/i
           photobucket_id = $1
-          @info[:media_creator] = $2          
+          media_creator = $2          
           album = $3
           @info[:media_id] = $4
           @info[:content_type] = $5
-          url_common = "#{@info[:server_id]}.photobucket.com/albums/#{photobucket_id}/#{@info[:media_creator]}/#{album}"
+          url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"
           direct_url_suffix = "#{url_common}#{@info[:media_id]}.#{@info[:content_type]}"
           
-          @info[:url] = "http://i#{direct_url_suffix}"
+          @info[:website] = "http://i#{direct_url_suffix}"
           @info[:media_url] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         elsif @url.path =~ /^\/groups\/(.*?)\/(.*?)\/(.*?)\.(.*)/i
           group = $1
           group_hash_value = $2
           @info[:media_id] = $3
           @info[:content_type] = $4
-          url_common = "#{@info[:server_id]}.photobucket.com/groups/#{group}/#{group_hash_value}"
+          url_common = "#{server_id}.photobucket.com/groups/#{group}/#{group_hash_value}"
           direct_url_suffix = "#{url_common}/#{@info[:media_id]}.#{@info[:content_type]}"
           
-          @info[:url] = "http://gi#{direct_url_suffix}"
+          @info[:website] = "http://gi#{direct_url_suffix}"
           @info[:media_url] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         end
         
         if self.parsed?
+          @info[:media_api_id] = @info[:media_url]
           @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
         end
         
@@ -45,7 +46,7 @@ class Muri
       end       
       
       def self.parsable?(uri)
-        uri.host =~ /^([a-z0-9][^(media)]*?)\.photobucket\.com$/i
+        uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
       end  
       
     end

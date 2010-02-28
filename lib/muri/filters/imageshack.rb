@@ -12,19 +12,20 @@ class Muri
         @info[:service] = 'Imageshack'
         
         @url.host =~ /^img([0-9]*?)\.imageshack\.us/i
-        @info[:server_id] = $1
-        url_common = "http://img#{@info[:server_id]}.imageshack.us"
+        server_id = $1
+        url_common = "http://img#{server_id}.imageshack.us"
         
         if @url.path =~ /^\/i\/([a-z0-9]*?)\.([a-z0-9]*?)\//i
           @info[:media_id] = $1
           @info[:content_type] = $2
         elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]*?)\/([a-z0-9]*?)\.([a-z0-9]*?)/i
-          #server_id = $2
+          content_path_id = $2
           @info[:media_id] = $3
           @info[:content_type] = $4
-          @info[:url] = "#{url_common}/img#{@info[:server_id]}/#{@info[:server_id]}/#{@info[:media_id]}.#{@info[:content_type]}"
+          @info[:website] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
         end
         
+        # imageshack does not currently have API for retrieving individual video information
         if self.parsed?
           @info[:media_url] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
         end
