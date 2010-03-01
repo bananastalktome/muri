@@ -23,6 +23,8 @@ class Muri
           @info[:media_id] = $3
           @info[:content_type] = $4
           @info[:website] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
+        else
+          raise UnsupportedURI
         end
         
         # imageshack does not currently have API for retrieving individual video information

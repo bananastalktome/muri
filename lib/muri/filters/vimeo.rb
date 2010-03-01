@@ -19,6 +19,8 @@ class Muri
           if params.include?("clip_id")
             @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
           end
+        else
+          raise UnsupportedURI
         end
         
         if self.parsed?

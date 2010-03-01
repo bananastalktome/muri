@@ -18,6 +18,8 @@ class Muri
           @info[:media_id] = params["v"].first
         elsif (@url.path =~ /\/v\/([a-z0-9\-\_]*)/i)
           @info[:media_id] = $1
+        else
+          raise UnsupportedURI
         end
         
         if self.parsed?

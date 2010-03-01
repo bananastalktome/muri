@@ -35,6 +35,8 @@ class Muri
           
           @info[:website] = "http://gi#{direct_url_suffix}"
           @info[:media_url] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+        else
+          raise UnsupportedURI
         end
         
         if self.parsed?

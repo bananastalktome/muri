@@ -1,6 +1,7 @@
 require 'uri'
 class Muri
   class NoParser < StandardError; end
+  class UnsupportedURI < ArgumentError; end
     
   PARSERS = {}
   
