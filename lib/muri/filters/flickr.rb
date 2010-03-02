@@ -32,13 +32,13 @@ class Muri
             @info[:media_thumbnail] = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}_t.jpg"
         elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]*)/i
           @info[:media_id] = self.class.decode58($1)
-        else
-          raise UnsupportedURI
         end
         
         if self.parsed?
           @info[:media_api_id] = @info[:media_id]
           @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
+        else
+          raise UnsupportedURI          
         end
         
         self

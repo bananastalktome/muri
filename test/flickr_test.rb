@@ -9,7 +9,7 @@ shared_examples_for "Flickr parse" do
     @a.media_id == '2088436532'
   end
   
-  it "should have media url" do
+  it "should have a website" do
     @a.website == 'http://flic.kr/p/4bxMqq'
   end
    

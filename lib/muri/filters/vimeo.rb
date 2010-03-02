@@ -11,21 +11,19 @@ class Muri
       
       def vimeo_parse
         @info[:service] = 'Vimeo'
+        params = CGI::parse(@url.query) if !@url.query.nil?
         
-        if @url.path =~ /^\/([0-9]*)/
+        if @url.path =~ /^\/([0-9]+)/
           @info[:media_id] = $1
-        elsif (@url.path =~ /^\/moogaloop\.swf/i)
-          params = CGI::parse(@url.query)
-          if params.include?("clip_id")
-            @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
-          end
-        else
-          raise UnsupportedURI
+        elsif ((@url.path =~ /^\/moogaloop\.swf/i) && (params.include?("clip_id")))
+          @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
         end
         
         if self.parsed?
           @info[:media_api_id] = @info[:media_id]
           @info[:website] = "http://vimeo.com/#{@info[:media_id]}"
+        else
+          raise UnsupportedURI
         end
         
         self

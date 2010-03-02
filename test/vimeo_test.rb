@@ -9,7 +9,7 @@ shared_examples_for "Vimeo parse" do
     @a.media_id == '7312128'
   end
   
-  it "should have media url" do
+  it "should have a website" do
     @a.website == 'http://vimeo.com/7312128'
   end
    

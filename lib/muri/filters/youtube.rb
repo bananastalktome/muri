@@ -18,8 +18,6 @@ class Muri
           @info[:media_id] = params["v"].first
         elsif (@url.path =~ /\/v\/([a-z0-9\-\_]*)/i)
           @info[:media_id] = $1
-        else
-          raise UnsupportedURI
         end
         
         if self.parsed?
@@ -27,6 +25,8 @@ class Muri
           @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
           @info[:media_api_id] = @info[:media_id]
           @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
+        else
+          raise UnsupportedURI        
         end
         
         self

@@ -19,11 +19,11 @@ describe "Photobucket parse first" do
     @a.content_type == "jpg"
   end
   
-  it "should have media url" do
+  it "should have a website" do
     @a.website == "http://s244.photobucket.com/albums/gg17/pbapi/?action=view&current=file.jpg"
   end
   
-  it "should have website" do
+  it "should have media url" do
     @a.media_url == "http://i244.photobucket.com/albums/gg17/pbapi/file.jpg"
   end
     
@@ -49,11 +49,11 @@ describe "Photobucket parse second" do
     @a.content_type == "jpg"
   end
   
-  it "should have media url" do
+  it "should have a website" do
     @a.website == "http://gs0006.photobucket.com/groups/0006/G5PAK3TBQS/?action=view&current=DSCF0015-1-1.jpg"
   end
   
-  it "should have website" do
+  it "should have media url" do
     @a.media_url == "http://gi0006.photobucket.com/groups/0006/G5PAK3TBQS/DSCF0015-1-1.jpg"
   end
   
