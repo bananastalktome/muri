@@ -28,19 +28,19 @@ Due to variations in information which can be gathered from a uri, some services
   
     a.media_api_id     # 'blahblahblah'
 
-* A direct media url for Youtube, Photobucket, and Imageshack (+http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}+ format)
+* A direct media url for Youtube, Photobucket, and Imageshack (<tt>http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}</tt> format)
 
     a.media_url         # 'http://www.youtube.com/v/blahblahblah'
 
-* A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr 
+* A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr (flickr media_url's provide the flic.kr/p/ID short url)
 
-    a.website           # 'http://www.youtube.com/watch?v=blahblahblah' (flickr media_url's provide the flic.kr/p/ID short url)
+    a.website           # 'http://www.youtube.com/watch?v=blahblahblah' 
 
-* Content type for Imageshack, Photobucket and Flickr URI's (flickr in the +http://farm#{num}.static.flickr.com/+ format)
+* Content type for Imageshack, Photobucket and Flickr URI's (flickr in the http://farm#{num}.static.flickr.com/ format)
 
     a.content_type      # 'jpg' (Content Type also for Imageshack and Photobucket)
 
-* Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the +http://farm#{num}.static.flickr.com/+ format)
+* Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the http://farm#{num}.static.flickr.com/ format)
 
     a.media_thumbnail   # 'http://i.ytimg.com/vi/4CYDFoEz8rg/default.jpg'
 
