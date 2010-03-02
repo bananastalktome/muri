@@ -38,7 +38,7 @@ class Muri
         
         if self.parsed?
           @info[:media_api_id] = @info[:media_id]
-          @info[:media_url] = "http://flic.kr/p/" + self.encode58(@info[:media_id].to_i)
+          @info[:website] = "http://flic.kr/p/" + self.encode58(@info[:media_id].to_i)
         end
         
         self
@@ -52,8 +52,9 @@ class Muri
     end
   end
 end
-# http://www.flickr.com/photos/bananastalktome/2088436532/
-# http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_m.jpg
+# http://www.flickr.com/photos/bananastalktome/2088436532/ (preview)
+# http://flic.kr/p/4bxMqq (preview)
+# http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_m.jpg (direct)
 #   farm-id: 3
 #   server-id: 2178
 #   photo-id: 2088436532

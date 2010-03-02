@@ -22,14 +22,14 @@ class Muri
           content_path_id = $2
           @info[:media_id] = $3
           @info[:content_type] = $4
-          @info[:website] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
+          @info[:media_url] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
         else
           raise UnsupportedURI
         end
         
         # imageshack does not currently have API for retrieving individual video information
         if self.parsed?
-          @info[:media_url] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
+          @info[:website] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
         end
         
         self
@@ -42,8 +42,8 @@ class Muri
     end
   end
 end
-# http://img178.imageshack.us/i/dsc01576lo7.jpg/
-# http://img178.imageshack.us/img178/773/dsc01576lo7.jpg
+# http://img178.imageshack.us/i/dsc01576lo7.jpg/ (preview)
+# http://img178.imageshack.us/img178/773/dsc01576lo7.jpg (direct)
 # http://yfrog.com/4ydsc01576lo7j
 
 # http://img30.imageshack.us/img30/4184/rush02.mp4

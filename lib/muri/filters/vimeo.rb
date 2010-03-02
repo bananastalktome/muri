@@ -25,7 +25,7 @@ class Muri
         
         if self.parsed?
           @info[:media_api_id] = @info[:media_id]
-          @info[:media_url] = "http://vimeo.com/#{@info[:media_id]}"
+          @info[:website] = "http://vimeo.com/#{@info[:media_id]}"
         end
         
         self

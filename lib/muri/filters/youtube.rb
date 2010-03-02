@@ -23,8 +23,8 @@ class Muri
         end
         
         if self.parsed?
-          @info[:media_url] = "#{url_common}/watch?v=#{@info[:media_id]}"
-          @info[:website] = "#{url_common}/v/#{@info[:media_id]}"
+          @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
+          @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
           @info[:media_api_id] = @info[:media_id]
           @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
         end
@@ -37,5 +37,5 @@ class Muri
     end
   end
 end
-# http://www.youtube.com/v/4CYDFoEz8rg&hl=en_US&fs=1&
-# http://www.youtube.com/watch?v=l983Uob0Seo&feature=rec-LGOUT-exp_fresh+div-1r-1-HM
+# http://www.youtube.com/v/4CYDFoEz8rg&hl=en_US&fs=1& (direct)
+# http://www.youtube.com/watch?v=l983Uob0Seo&feature=rec-LGOUT-exp_fresh+div-1r-1-HM (preview)

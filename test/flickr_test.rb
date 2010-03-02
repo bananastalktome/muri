@@ -10,7 +10,7 @@ shared_examples_for "Flickr parse" do
   end
   
   it "should have media url" do
-    @a.media_url == 'http://flic.kr/p/4bxMqq'
+    @a.website == 'http://flic.kr/p/4bxMqq'
   end
    
   it "should have media api id" do
@@ -18,13 +18,13 @@ shared_examples_for "Flickr parse" do
   end
 end
 describe "Flickr parse first" do
-  before (:all) do
+  before(:all) do
     @a = Muri.parse 'http://www.flickr.com/photos/bananastalktome/2088436532/'
   end
   it_should_behave_like "Flickr parse"
 end
 describe "Flickr parse second" do
-  before (:all) do
+  before(:all) do
     @a = Muri.parse 'http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_m.jpg'
   end
   it_should_behave_like "Flickr parse"

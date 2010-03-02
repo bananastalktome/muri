@@ -23,8 +23,8 @@ class Muri
           url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"
           direct_url_suffix = "#{url_common}#{@info[:media_id]}.#{@info[:content_type]}"
           
-          @info[:website] = "http://i#{direct_url_suffix}"
-          @info[:media_url] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+          @info[:media_url] = "http://i#{direct_url_suffix}"
+          @info[:website] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         elsif @url.path =~ /^\/groups\/(.*?)\/(.*?)\/(.*?)\.(.*)/i
           group = $1
           group_hash_value = $2
@@ -33,8 +33,8 @@ class Muri
           url_common = "#{server_id}.photobucket.com/groups/#{group}/#{group_hash_value}"
           direct_url_suffix = "#{url_common}/#{@info[:media_id]}.#{@info[:content_type]}"
           
-          @info[:website] = "http://gi#{direct_url_suffix}"
-          @info[:media_url] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+          @info[:media_url] = "http://gi#{direct_url_suffix}"
+          @info[:website] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         else
           raise UnsupportedURI
         end
