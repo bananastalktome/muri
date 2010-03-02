@@ -1,6 +1,11 @@
 require 'uri'
 class Muri
+
+  # NoParser raised if no parser is found for URI
   class NoParser < StandardError; end
+  
+  # UnsupportedURI raised if parser is found, but URI path does not 
+  #   match accepted formats
   class UnsupportedURI < ArgumentError; end
     
   PARSERS = {}
@@ -67,17 +72,17 @@ class Muri
   end
       
   def method_missing(func, args = nil)
-    if @info[func.to_sym] != nil
-      @info[func.to_sym]
-    else
-      nil #super(func,args)
-    end
+    #if @info[func.to_sym] != nil
+      @info[func.to_sym].nil? ? nil : @info[func.to_sym]
+    #else
+    #  nil #super(func,args)
+    #end
   end
   
   protected
   
   #used by flickr. Ported from PHP.
-  def decode58(str)
+  def self.decode58(str)
     decoded = 0
     multi = 1
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
@@ -92,15 +97,15 @@ class Muri
   end
   
   #used by flickr. Ported from PHP.
-  def encode58(str)
+  def self.encode58(str)
     alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
     base_count = alphabet.length
     encoded = ''
     while str >= base_count
       div = str / base_count
-      mod = (str-(base_count * div.to_i))
+      mod = (str-(base_count * div))
       encoded = alphabet[mod,1] + encoded
-      str = div.to_i
+      str = div
     end
     encoded = (alphabet[str,1] + encoded) if str
     encoded
