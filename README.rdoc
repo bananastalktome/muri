@@ -25,19 +25,23 @@ Using muri is just as easy!
 
 Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:
 * All but Imageshack have a +media_api_id+, which is the ID which can be used in API calls to the related services. Typically the same as +media_id+.
+  
   a.media_api_id  # 'blahblahblah'
 
-
 * A direct media url for Youtube, Photobucket, and Imageshack (http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME} format)
+  
   a.media_url             # 'http://www.youtube.com/v/blahblahblah'
   
 * A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr 
+  
   a.website         # 'http://www.youtube.com/watch?v=blahblahblah'
   
 * Content type for Imageshack, Photobucket and Flickr URI's (flickr in the http://farm#{num}.static.flickr.com/ format)
+  
   a.content_type    # 'jpg' (Content Type also for Imageshack and Photobucket)
     
 * Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the http://farm#{num}.static.flickr.com/ format)
+  
   a.media_thumbnail
     
 * Some additional information may be provided, which can be determined by looking through each filters code.
