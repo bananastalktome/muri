@@ -24,6 +24,7 @@ Install muri as a ruby gem (you might need to run this command as root by prepen
 </code>
 </pre>
 Using muri is just as easy!
+
 <pre>
 <code>
   a = Muri.parse('http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM')
@@ -33,43 +34,54 @@ Using muri is just as easy!
   a.uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
 </code>
 </pre>
-  *Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:*
-  
+
+*Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:*
+
 * All but Imageshack have a @media_api_id@, which is the ID which can be used in API calls to the related services. Typically the same as @media_id@.
+
 <pre>
 <code>  
   a.media_api_id     # 'blahblahblah'
 </code>
 </pre>
-  *NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
+
+*NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
 
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, set, album, media)
 
 * A direct media url for Youtube, Photobucket, and Imageshack (@img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
+
 <pre>
 <code>
   a.media_url         # 'http://www.youtube.com/v/blahblahblah'
 </code>
 </pre>
+
 * A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr (flickr media_url's provide the @flic.kr/p/#{ID}@ short url)
+
 <pre>
 <code>
   a.website           # 'http://www.youtube.com/watch?v=blahblahblah' 
 </code>
 </pre>
+
 * Content type for Imageshack, Photobucket and Flickr URI's (flickr in the @farm#{num}.static.flickr.com/@ format)
+
 <pre>
 <code>
   a.content_type      # 'jpg' (Content Type also for Imageshack and Photobucket)
 </code>
 </pre>
+
 * Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the #farm#{num}.static.flickr.com/# format)
+
 <pre>
 <code>
   a.media_thumbnail   # 'http://i.ytimg.com/vi/4CYDFoEz8rg/default.jpg'
 </code>
 </pre>
-* Some additional information may be provided, which can be determined by looking through each filters code.
+
+*Some additional information may be provided, which can be determined by looking through each filters code.*
 
 
 If an attribute is not present, muri returns @nil@.
