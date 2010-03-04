@@ -33,14 +33,15 @@ Using muri is just as easy!
   a.uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
 </code>
 </pre>
-*Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:*
+  *Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:*
+  
 * All but Imageshack have a @media_api_id@, which is the ID which can be used in API calls to the related services. Typically the same as @media_id@.
 <pre>
 <code>  
   a.media_api_id     # 'blahblahblah'
 </code>
 </pre>
-*NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
+  *NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
 
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, set, album, media)
 
