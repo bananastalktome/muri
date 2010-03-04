@@ -1,4 +1,10 @@
 require 'cgi'
+## Best way I have been able to find to use the facebook API to fetch photo information is as follows:
+## First, get a list of all user photos (using media_id). Parse each resulting <photo> element until you 
+## find one where <link> equals 
+## 'http://www.facebook.com/photo.php?pid=#{media_api_id[:pid]}&amp;id=#{media_api_id[:user_id]}'
+## 
+## Sucks a whole lot, but facebook seems to no longer allow API calls using the PID from the query string.
 class Muri
   module Filter
     module Facebook
@@ -59,3 +65,4 @@ end
 #   id = user id
 #   l = photo share key
 # http://www.facebook.com/v/614695029223 (full)
+# http://www.facebook.com/album.php?aid=2149275&id=15201063&l=99900807c3

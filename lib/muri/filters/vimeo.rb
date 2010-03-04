@@ -26,7 +26,8 @@ class Muri
         
         if self.parsed?
           @info[:media_api_id] = @info[:media_id]
-          @info[:website] = "http://vimeo.com/#{@info[:media_id]}"
+          album = (@info[:media_api_type] == VIMEO_ALBUM) ? "album/" : ""
+          @info[:website] = "http://vimeo.com/#{album}#{@info[:media_id]}"
         else
           raise UnsupportedURI
         end
