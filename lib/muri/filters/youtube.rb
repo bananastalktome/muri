@@ -3,6 +3,8 @@ class Muri
   module Filter
     module Youtube
 
+      YOUTUBE_VIDEO = "video"
+
       def self.included(base)
         base.class_eval do 
           self::PARSERS[Muri::Filter::Youtube] = "youtube_parse"
@@ -13,11 +15,13 @@ class Muri
         @info[:service] = 'Youtube'
         url_common = "http://www.youtube.com"
         
-        if (@url.path == "/watch") && !@url.query.nil?
+        if (@url.path =~ /\/watch$/i) && !@url.query.nil?
           params = CGI::parse(@url.query)
           @info[:media_id] = params["v"].first
+          @info[:media_api_type] = YOUTUBE_VIDEO
         elsif (@url.path =~ /\/v\/([a-z0-9\-\_]*)/i)
           @info[:media_id] = $1
+          @info[:media_api_type] = YOUTUBE_VIDEO
         end
         
         if self.parsed?
@@ -32,7 +36,7 @@ class Muri
         self
       end     
       def self.parsable?(uri)
-        uri.host =~ /^(www\.|)youtube\.com$/i
+        uri.host =~ /^(www\.)?youtube\.com$/i
       end      
     end
   end

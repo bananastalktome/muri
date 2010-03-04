@@ -1,0 +1,94 @@
+h2. Media URI Parser - MURI
+
+A simple to use media URI Parser. Pass a URI in, get helpful information out.
+
+MURI Currently supports:
+* Youtube
+** "API documentation":http://code.google.com/apis/youtube/2.0/developers_guide_protocol_audience.html
+* Vimeo (single videos and albums)
+** "API documentation":http://vimeo.com/api/docs/simple-api
+* Flickr (single images and sets)
+** "API documentation":http://www.flickr.com/services/api/
+* Imageshack
+* Photobucket
+** "API documentation":http://photobucket.com/developer/documentation
+* Facebook
+** "API documentation":http://wiki.developers.facebook.com/index.php/API
+
+h3. Installation & basic usage
+
+Install muri as a ruby gem (you might need to run this command as root by prepending @sudo@ to it):
+
+<pre>
+<code>
+  $ gem install muri
+</code>
+</pre>
+
+Using muri is just as easy!
+
+<pre>
+<code>
+  a = Muri.parse('http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM')
+  a.service         # 'Youtube'
+  a.media_id        # 'blahblahblah'
+  a.original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+  a.uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+</code>
+</pre>
+
+Due to variations in information which can be gathered from a uri, some services provide more information than others. For example:
+* All but Imageshack have a @media_api_id@, which is the ID which can be used in API calls to the related services. Typically the same as @media_id@.
+
+<pre>
+<code>  
+  a.media_api_id     # 'blahblahblah'
+</code>
+</pre>
+
+* NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)
+
+* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, set, album, media)
+
+* A direct media url for Youtube, Photobucket, and Imageshack (@img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
+
+<pre>
+<code>
+  a.media_url         # 'http://www.youtube.com/v/blahblahblah'
+</code>
+</pre>
+
+* A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr (flickr media_url's provide the @flic.kr/p/#{ID}@ short url)
+
+<pre>
+<code>
+  a.website           # 'http://www.youtube.com/watch?v=blahblahblah' 
+</code>
+</pre>
+
+* Content type for Imageshack, Photobucket and Flickr URI's (flickr in the @farm#{num}.static.flickr.com/@ format)
+
+<pre>
+<code>
+  a.content_type      # 'jpg' (Content Type also for Imageshack and Photobucket)
+</code>
+</pre>
+
+* Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the #farm#{num}.static.flickr.com/# format)
+
+<pre>
+<code>
+  a.media_thumbnail   # 'http://i.ytimg.com/vi/4CYDFoEz8rg/default.jpg'
+</code>
+</pre>
+
+* Some additional information may be provided, which can be determined by looking through each filters code.
+
+
+If an attribute is not present, muri returns @nil@.
+
+I plan on including more services _and_ more parse information with updates. That being said, MURI is currently not production quality. Please use with caution and in development only. Thank you.
+
+h3. Contact
+
+If you would like to get in contact with me, my email is bananastalktome@gmail.com. I appreciate any information or assistance reverse-engineering media website URI's.

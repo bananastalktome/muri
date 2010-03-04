@@ -15,6 +15,7 @@ class Muri
   include Filter::Vimeo
   include Filter::Imageshack
   include Filter::Photobucket
+  include Filter::Facebook
 
   def self.parse(url)
     self.new(url)

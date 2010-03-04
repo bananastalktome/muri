@@ -2,7 +2,10 @@ require 'cgi'
 class Muri
   module Filter
     module Vimeo
-            
+      
+      VIMEO_VIDEO = "video"
+      VIMEO_ALBUM = "album"
+      
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Vimeo] = "vimeo_parse"
@@ -12,11 +15,13 @@ class Muri
       def vimeo_parse
         @info[:service] = 'Vimeo'
         params = CGI::parse(@url.query) if !@url.query.nil?
-        
-        if @url.path =~ /^\/([0-9]+)/
-          @info[:media_id] = $1
+                
+        if @url.path =~ /^\/(album\/)?([0-9]+)(\/)?$/i
+          @info[:media_id] = $2
+          @info[:media_api_type] = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
         elsif ((@url.path =~ /^\/moogaloop\.swf/i) && (params.include?("clip_id")))
           @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]*)/)
+          @info[:media_api_type] = VIMEO_VIDEO
         end
         
         if self.parsed?

@@ -2,6 +2,8 @@ class Muri
   module Filter
     module Photobucket
 
+      PHOTOBUCKET_PHOTO = "media"
+
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Photobucket] = "photobucket_parse"
@@ -38,6 +40,7 @@ class Muri
         end
         
         if self.parsed?
+          @info[:media_api_type] = PHOTOBUCKET_PHOTO
           @info[:media_api_id] = @info[:media_url]
           @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
         else
