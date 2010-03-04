@@ -3,7 +3,7 @@ h2. Media URI Parser - MURI
 A simple to use media URI Parser. Pass a URI in, get helpful information out.
 
 MURI Currently supports:
-* Youtube
+* Youtube (Single videos and Playlists)
 ** "API documentation":http://code.google.com/apis/youtube/2.0/developers_guide_protocol_audience.html
 * Vimeo (single videos and albums)
 ** "API documentation":http://vimeo.com/api/docs/simple-api
@@ -49,7 +49,7 @@ Using muri is just as easy!
 
 *NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
 
-* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, set, album, media)
+* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, media, set, album, or playlist)
 
 * A direct media url for Youtube, Photobucket, and Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
 

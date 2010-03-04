@@ -14,16 +14,17 @@ class Muri
       
       def facebook_parse
         @info[:service] = 'Facebook'
-        
+        params = @url.query.nil? ? {} : CGI::parse(@url.query)
         url_common = "http://www.facebook.com"
         
         if @url.path =~ /^\/v\/([0-9]+)/
           @info[:media_id] = $1
           @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
+          
+          # Currently no API for video, but media_id is best guess value for such content
           @info[:media_api_id] = @info[:media_id]
           @info[:media_api_type] = FACEBOOK_VIDEO
         elsif (@url.path =~ /^\/photo\.php/i)
-          params = CGI::parse(@url.query) if !@url.query.nil?
           if params.include?("pid") && params.include?("id") && params.include?("l")
             @info[:media_api_type] = FACEBOOK_PHOTO
             @info[:media_id] = params["pid"].first if (params["pid"].first =~ /([0-9]*)/)
@@ -35,7 +36,6 @@ class Muri
           end
         end
         
-        # Currently no API for video, but media_id is best guess value for such content
         #if self.parsed?
           #@info[:media_api_id] = @info[:media_id]
         #else
