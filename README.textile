@@ -18,11 +18,13 @@ MURI Currently supports:
 h3. Installation & basic usage
 
 Install muri as a ruby gem (you might need to run this command as root by prepending @sudo@ to it):
+
 <pre>
 <code>
   $ gem install muri
 </code>
 </pre>
+
 Using muri is just as easy!
 
 <pre>
