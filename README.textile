@@ -30,6 +30,15 @@ Using muri is just as easy!
 <pre>
 <code>
   a = Muri.parse('http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM')
+</code>
+</pre>
+
+If @a.valid?@ you are good to go. If not, either the URI host was not recognized, or the path/parameters provided along with a known URI host were not recognized. When these two types of errors are encountered, an exception is caught and returned in @a.errors@ as either "Muri::NoParser" or "Muri::UnrecognizedURI". If you don't care about the type of error, just that the URI was not parsed, @a.valid?@ will give you a boolean answer.
+
+Assuming the URI was successfully parsed (thus @a.valid? == true@), all media types share several common attributes:
+
+<pre>
+<code>
   a.service         # 'Youtube'
   a.media_id        # 'blahblahblah'
   a.original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
@@ -49,7 +58,7 @@ Using muri is just as easy!
 
 *NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
 
-* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it photo, video, media, set, album, or playlist)
+* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
 
 * A direct media url for Youtube, Photobucket, and Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
 
