@@ -26,7 +26,7 @@ class Muri
         end
         
         # imageshack does not currently have API for retrieving individual video information
-        if self.parsed?
+        if self.valid?
           @info[:website] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
         else
           raise UnsupportedURI          

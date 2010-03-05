@@ -5,6 +5,33 @@ shared_examples_for "Vimeo parse" do
     @a.service == 'Vimeo'
   end
   
+  it "should be valid" do
+    @a.valid? == true
+  end
+
+end
+
+shared_examples_for "Vimeo parse video" do
+  it_should_behave_like "Vimeo parse"
+  
+  it "should have media api type = VIMEO_VIDEO" do
+    @a.media_api_type == Muri::VIMEO_VIDEO
+  end   
+end
+shared_examples_for "Vimeo parse album" do
+  it_should_behave_like "Vimeo parse"
+  
+  it "should have media api type = VIMEO_ALBUM" do
+    @a.media_api_type == Muri::VIMEO_ALBUM
+  end   
+end
+
+describe "Vimeo parse first" do
+  before(:all) do
+    @a = Muri.parse 'http://vimeo.com/moogaloop.swf?clip_id=7312128&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'
+  end
+  it_should_behave_like "Vimeo parse video"
+  
   it "should have media id" do
     @a.media_id == '7312128'
   end
@@ -17,15 +44,41 @@ shared_examples_for "Vimeo parse" do
     @a.media_api_id == '7312128'
   end
 end
-describe "Vimeo parse first" do
-  before(:all) do
-    @a = Muri.parse 'http://vimeo.com/moogaloop.swf?clip_id=7312128&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1'
-  end
-  it_should_behave_like "Vimeo parse"
-end
+
 describe "Vimeo parse second" do
   before(:all) do
     @a = Muri.parse 'http://vimeo.com/7312128'
   end
-  it_should_behave_like "Vimeo parse"
+  it_should_behave_like "Vimeo parse video"
+  
+  it "should have media id" do
+    @a.media_id == '7312128'
+  end
+  
+  it "should have a website" do
+    @a.website == 'http://vimeo.com/7312128'
+  end
+   
+  it "should have media api id" do
+    @a.media_api_id == '7312128'
+  end
+end
+
+describe "Vimeo parse album first" do
+  before(:all) do
+    @a = Muri.parse 'http://vimeo.com/album/89702'
+  end
+  it_should_behave_like "Vimeo parse album"
+  
+  it "should have media id" do
+    @a.media_id == '89702'
+  end
+
+  it "should have a website" do
+    @a.website == 'http://vimeo.com/album/89702'
+  end
+   
+  it "should have media api id" do
+    @a.media_api_id == '89702'
+  end  
 end

@@ -13,14 +13,20 @@ describe "Parse Errors" do
                  "http://vimeo.com/moogaloop.swf?server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"]
   
   @no_parser.each do |a|
-    it "#{a} should raise NoParser" do
-      lambda { Muri.parse a }.should raise_exception(Muri::NoParser)
+    it "#{a} should return NoParser" do
+      #lambda { Muri.parse a }.should raise_exception(Muri::NoParser)
+      m = Muri.parse a
+      m.valid? == false
+      m.errors == "Muri::NoParser"
     end
   end
   
   @unsupported.each do |b|
-    it "#{b} should raise UnsupportedURI" do
-      lambda { Muri.parse b }.should raise_exception(Muri::UnsupportedURI)
+    it "#{b} should return UnsupportedURI" do
+      #lambda { Muri.parse b }.should raise_exception(Muri::UnsupportedURI)
+      m = Muri.parse b
+      m.valid? == false
+      m.errors == "Muri::UnsupportedURI"
     end
   end
   
