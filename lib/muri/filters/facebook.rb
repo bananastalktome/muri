@@ -42,10 +42,10 @@ class Muri
           end
         end
         
-        #if self.parsed?
+        #if self.valid?
           #@info[:media_api_id] = @info[:media_id]
         #else
-        if !self.parsed?
+        if !self.valid?
           raise UnsupportedURI
         end
         

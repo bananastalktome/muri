@@ -24,7 +24,7 @@ class Muri
           @info[:media_api_type] = VIMEO_VIDEO
         end
         
-        if self.parsed?
+        if self.valid?
           @info[:media_api_id] = @info[:media_id]
           album = (@info[:media_api_type] == VIMEO_ALBUM) ? "album/" : ""
           @info[:website] = "http://vimeo.com/#{album}#{@info[:media_id]}"
@@ -44,3 +44,4 @@ class Muri
 end
 # http://vimeo.com/moogaloop.swf?clip_id=7312128&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" 
 # http://vimeo.com/7312128
+# http://vimeo.com/album/89702

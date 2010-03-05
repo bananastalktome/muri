@@ -2,7 +2,7 @@ class Muri
   module Filter
     module Photobucket
 
-      PHOTOBUCKET_PHOTO = "media"
+      PHOTOBUCKET_MEDIA = "media"
 
       def self.included(base)
         base.class_eval do
@@ -39,8 +39,8 @@ class Muri
           @info[:website] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         end
         
-        if self.parsed?
-          @info[:media_api_type] = PHOTOBUCKET_PHOTO
+        if self.valid?
+          @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_api_id] = @info[:media_url]
           @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
         else

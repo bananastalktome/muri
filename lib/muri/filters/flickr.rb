@@ -14,7 +14,7 @@ class Muri
       def flickr_parse
         @info[:service] = 'Flickr'
         
-        if @url.path =~ /^\/photos\/([a-z0-9\-\_\@]*?)\/(sets\/)?([0-9]*)(\/)?$/i
+        if @url.path =~ /^\/photos\/([a-z0-9\-\_\@]*?)\/(sets\/)?([0-9]*)/i
           media_creator = $1
           @info[:media_id] = $3
           @info[:media_api_type] = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
@@ -40,7 +40,7 @@ class Muri
           @info[:media_api_type] = FLICKR_PHOTO
         end
         
-        if self.parsed?
+        if self.valid?
           @info[:media_api_id] = @info[:media_id]
           if @info[:media_api_type] == FLICKR_PHOTO 
             @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
@@ -48,7 +48,7 @@ class Muri
             @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"
           end
         else
-          raise UnsupportedURI          
+          raise UnsupportedURI
         end
         
         self

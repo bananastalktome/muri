@@ -4,7 +4,16 @@ shared_examples_for "Photobucket parse" do
   it "should be Photobucket service" do
     @a.service == 'Photobucket'
   end
+  
+  it "should be valid" do
+    @a.valid? == true
+  end
+  
+  it "should have media api type = PHOTOBUCKET_MEDIA" do
+    @a.api_media_type == Muri::PHOTOBUCKET_MEDIA
+  end
 end
+
 describe "Photobucket parse first" do
   before(:all) do
     @a = Muri.parse 'http://i244.photobucket.com/albums/gg17/pbapi/file.jpg'
@@ -35,6 +44,7 @@ describe "Photobucket parse first" do
     @a.media_thumbnail == 'http://mobth244.photobucket.com/albums/gg17/pbapi/file.jpg'
   end
 end
+
 describe "Photobucket parse second" do
   before(:all) do
     @a = Muri.parse 'http://gi0006.photobucket.com/groups/0006/G5PAK3TBQS/DSCF0015-1-1.jpg'

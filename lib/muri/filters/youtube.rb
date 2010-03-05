@@ -31,7 +31,7 @@ class Muri
           @info[:media_api_type] = YOUTUBE_PLAYLIST
         end
         
-        if self.parsed?
+        if self.valid?
           if @info[:media_api_type] == YOUTUBE_VIDEO
             @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
             @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
@@ -42,7 +42,7 @@ class Muri
           end
           @info[:media_api_id] = @info[:media_id]
         else
-          raise UnsupportedURI        
+          raise UnsupportedURI
         end
         
         self
