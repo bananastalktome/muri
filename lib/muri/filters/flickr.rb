@@ -45,7 +45,7 @@ class Muri
           if @info[:media_api_type] == FLICKR_PHOTO 
             @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
           elsif @info[:media_api_type] == FLICKR_SET
-            @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"
+            @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"#/show takes direct
           end
         else
           raise UnsupportedURI

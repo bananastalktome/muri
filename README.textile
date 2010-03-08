@@ -12,6 +12,8 @@ MURI Currently supports:
 * Imageshack
 * Photobucket
 ** "API documentation":http://photobucket.com/developer/documentation
+* Twitpic
+** "API documentation":http://twitpic.com/api.do
 * Facebook
 ** "API documentation":http://wiki.developers.facebook.com/index.php/API
 
@@ -60,7 +62,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
 
-* A direct media url for Youtube, Photobucket, and Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
+* A direct media url for Youtube, Photobucket, Twitpic, and Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format)
 
 <pre>
 <code>
@@ -68,7 +70,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 </code>
 </pre>
 
-* A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, and Flickr (flickr media_url's provide the @http://flic.kr/p/#{ID}@ short url)
+* A media landing website url for Youtube, Photobucket, Imageshack, Vimeo, Twitpic, and Flickr (flickr media_url's provide the @http://flic.kr/p/#{ID}@ short url)
 
 <pre>
 <code>
@@ -84,7 +86,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 </code>
 </pre>
 
-* Thumbnails URL for Youtube Photobucket, and Flickr (flickr in the @http://farm#{num}.static.flickr.com/@ format)
+* Thumbnails URL for Youtube Photobucket, Twitpic, and Flickr (flickr in the @http://farm#{num}.static.flickr.com/@ format)
 
 <pre>
 <code>
