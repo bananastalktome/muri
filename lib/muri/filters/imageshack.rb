@@ -15,10 +15,10 @@ class Muri
         server_id = $1
         url_common = "http://img#{server_id}.imageshack.us"
         
-        if @url.path =~ /^\/i\/([a-z0-9]*?)\.([a-z0-9]*?)\//i
+        if @url.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+?)\//i
           @info[:media_id] = $1
           @info[:content_type] = $2
-        elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]*?)\/([a-z0-9]*?)\.([a-z0-9]*?)/i
+        elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+?)/i
           content_path_id = $2
           @info[:media_id] = $3
           @info[:content_type] = $4
@@ -48,4 +48,4 @@ end
 
 # http://img30.imageshack.us/img30/4184/rush02.mp4
 # http://img30.imageshack.us/i/rush02.mp4/
-# http://yfrog.us/0urush02z
+# http://yfrog.us/0urush02z => http://code.google.com/p/imageshackapi/wiki/YFROGurls

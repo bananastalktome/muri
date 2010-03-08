@@ -1,10 +1,4 @@
 require 'cgi'
-## Best way I have been able to find to use the facebook API to fetch photo information is as follows:
-## First, get a list of all user photos (using media_id). Parse each resulting <photo> element until you 
-## find one where <link> equals 
-## 'http://www.facebook.com/photo.php?pid=#{media_api_id[:pid]}&amp;id=#{media_api_id[:user_id]}'
-## 
-## Sucks a whole lot, but facebook seems to no longer allow API calls using the PID from the query string.
 class Muri
   module Filter
     module Facebook
@@ -38,7 +32,9 @@ class Muri
             share_key = params["l"].first
             
             @info[:website] = "#{url_common}/photo.php?pid=#{@info[:media_id]}&l=#{share_key}&id=#{media_creator}"
-            @info[:media_api_id] = { :pid => @info[:media_id], :user_id => media_creator }
+
+            # The media_api_id is the PID which can be searched for in the facebook photos table
+            @info[:media_api_id] = (media_creator << 32) + @info[:media_id]
           end
         end
         
@@ -59,8 +55,8 @@ class Muri
     end
   end
 end
-
 # http://www.facebook.com/photo.php?pid=34929102&l=a1abf8cd37&id=15201063 (preview)
+# database_pid = (USER_ID << 32) + PID
 #   pid = photo id
 #   id = user id
 #   l = photo share key

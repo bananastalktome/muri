@@ -58,7 +58,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 </code>
 </pre>
 
-*NOTE: Facebook photos return a hash for @media_api_id@, keyed with @pid@ (the ID for the photo) and @user_id@ (the ID for the user)*
+*NOTE: Facebook photos return a @media_api_id@ which can be used to search for photo information in a Facebook photos.get API call as the pid. This pid is NOT the same as the pid found in the query string (the @media_id@)*
 
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
 
