@@ -57,6 +57,6 @@ describe "Facebook parse second" do
   end
    
   it "should have media api id" do
-    @a.media_api_id == { :pid => '34929102', :user_id => '15201063' }
+    @a.media_api_id == 65288068484364750
   end  
 end
