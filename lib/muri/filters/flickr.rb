@@ -34,6 +34,7 @@ class Muri
 #             end
 #           end
 #           @info[:content_type] = $6
+            @info[:media_url] = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}.jpg"
             @info[:media_thumbnail] = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}_t.jpg"
         elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]*)/i
           @info[:media_id] = self.class.decode58($1)
