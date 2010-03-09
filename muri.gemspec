@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{muri}
-  s.version = "0.0.7"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
@@ -46,13 +46,13 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Media URI Parser}
   s.test_files = [
-    "test/error_test.rb",
-     "test/facebook_test.rb",
-     "test/flickr_test.rb",
-     "test/imageshack_test.rb",
-     "test/photobucket_test.rb",
+    "test/facebook_test.rb",
      "test/twitpic_test.rb",
+     "test/photobucket_test.rb",
      "test/vimeo_test.rb",
+     "test/imageshack_test.rb",
+     "test/error_test.rb",
+     "test/flickr_test.rb",
      "test/youtube_test.rb"
   ]
 

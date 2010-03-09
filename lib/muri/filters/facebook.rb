@@ -34,7 +34,7 @@ class Muri
             @info[:website] = "#{url_common}/photo.php?pid=#{@info[:media_id]}&l=#{share_key}&id=#{media_creator}"
 
             # The media_api_id is the PID which can be searched for in the facebook photos table
-            @info[:media_api_id] = (media_creator << 32) + @info[:media_id]
+            @info[:media_api_id] = (media_creator.to_i << 32) + @info[:media_id].to_i
           end
         end
         

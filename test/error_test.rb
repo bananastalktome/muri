@@ -30,4 +30,8 @@ describe "Parse Errors" do
     end
   end
   
+  it "should not bomb if no URI is provided" do
+    lambda { Muri.parse '' }.should_not raise_exception()
+  end
+  
 end

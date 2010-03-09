@@ -57,6 +57,6 @@ describe "Facebook parse second" do
   end
    
   it "should have media api id" do
-    @a.media_api_id == 65288068484364750
+    @a.media_api_id == '65288068484364750'
   end  
 end

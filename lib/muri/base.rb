@@ -66,7 +66,7 @@ class Muri
         raise NoParser
       end
     rescue NoParser, UnsupportedURI, URI::BadURIError, URI::InvalidURIError => e
-      @info[:errors] = "#{e}"
+      @info[:errors] = "#{e.class}"
     end
   end
   
