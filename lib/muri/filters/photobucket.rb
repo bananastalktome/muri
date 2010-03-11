@@ -1,3 +1,4 @@
+require 'cgi'
 class Muri
   module Filter
     module Photobucket
@@ -14,7 +15,7 @@ class Muri
         @info[:service] = 'Photobucket'
         
         @url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com/i
-        server_id = $1.gsub(/([a-z]*)/i,"")
+        @info[:server_id] = $1.gsub(/([a-z]*)/i,"")
         
         if @url.path =~ /^\/albums\/(.*?)\/(.*?)\/((?:.*?\/)*)(.*?)\.(.*)/i
           photobucket_id = $1
@@ -41,7 +42,7 @@ class Muri
         
         if self.valid?
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
-          @info[:media_api_id] = @info[:media_url]
+          @info[:media_api_id] = @info[:media_url] #CGI::escape @info[:media_url]
           @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
         else
           raise UnsupportedURI          

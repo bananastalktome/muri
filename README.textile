@@ -62,7 +62,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
 
-* A direct media url for Youtube, Photobucket, Twitpic, Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format) and flickr (@http://farm#{num}.static.flickr.com/@ format)
+* A direct media url for Youtube, Photobucket, Twitpic, Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format), Vimeo (Individuals videos, not albums), and flickr (@http://farm#{num}.static.flickr.com/@ format)
 
 <pre>
 <code>
