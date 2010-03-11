@@ -14,7 +14,7 @@ class Muri
         @info[:service] = 'Twitpic'
         url_common = "http://twitpic.com"
         
-        if @url.path =~ /^([a-z0-9]+)/i
+        if @url.path =~ /^\/([a-z0-9]+)/i
           @info[:media_id] = $1
           @info[:website] = "#{url_common}/#{@info[:media_id]}"
           @info[:media_url] = "#{url_common}/show/large/#{@info[:media_id]}"

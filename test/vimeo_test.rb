@@ -2,11 +2,11 @@ require 'lib/muri.rb'
 
 shared_examples_for "Vimeo parse" do
   it "should be Vimeo service" do
-    @a.service == 'Vimeo'
+    @a.service.should == 'Vimeo'
   end
   
   it "should be valid" do
-    @a.valid? == true
+    @a.valid?.should == true
   end
 
 end
@@ -15,14 +15,14 @@ shared_examples_for "Vimeo parse video" do
   it_should_behave_like "Vimeo parse"
   
   it "should have media api type = VIMEO_VIDEO" do
-    @a.media_api_type == Muri::VIMEO_VIDEO
+    @a.media_api_type.should == Muri::VIMEO_VIDEO
   end   
 end
 shared_examples_for "Vimeo parse album" do
   it_should_behave_like "Vimeo parse"
   
   it "should have media api type = VIMEO_ALBUM" do
-    @a.media_api_type == Muri::VIMEO_ALBUM
+    @a.media_api_type.should == Muri::VIMEO_ALBUM
   end   
 end
 
@@ -33,15 +33,15 @@ describe "Vimeo parse first" do
   it_should_behave_like "Vimeo parse video"
   
   it "should have media id" do
-    @a.media_id == '7312128'
+    @a.media_id.should == '7312128'
   end
   
   it "should have a website" do
-    @a.website == 'http://vimeo.com/7312128'
+    @a.website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
-    @a.media_api_id == '7312128'
+    @a.media_api_id.should == '7312128'
   end
 end
 
@@ -52,15 +52,15 @@ describe "Vimeo parse second" do
   it_should_behave_like "Vimeo parse video"
   
   it "should have media id" do
-    @a.media_id == '7312128'
+    @a.media_id.should == '7312128'
   end
   
   it "should have a website" do
-    @a.website == 'http://vimeo.com/7312128'
+    @a.website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
-    @a.media_api_id == '7312128'
+    @a.media_api_id.should == '7312128'
   end
 end
 
@@ -71,14 +71,14 @@ describe "Vimeo parse album first" do
   it_should_behave_like "Vimeo parse album"
   
   it "should have media id" do
-    @a.media_id == '89702'
+    @a.media_id.should == '89702'
   end
 
   it "should have a website" do
-    @a.website == 'http://vimeo.com/album/89702'
+    @a.website.should == 'http://vimeo.com/album/89702'
   end
    
   it "should have media api id" do
-    @a.media_api_id == '89702'
+    @a.media_api_id.should == '89702'
   end  
 end
