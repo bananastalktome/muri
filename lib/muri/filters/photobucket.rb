@@ -4,6 +4,7 @@ class Muri
 
       PHOTOBUCKET_MEDIA = "media"
       PHOTOBUCKET_ALBUM = "album"
+      PHOTOBUCKET_GROUP_ALBUM = "group_album"
 
       def self.included(base)
         base.class_eval do
@@ -29,14 +30,13 @@ class Muri
           @info[:media_url] = "http://i#{direct_url_suffix}"
           @info[:website] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
         elsif @url.path =~ /^\/albums\/(.+?)\/(.+?)\/((?:.+?\/?)+)/i #Albums
-        #http://s0006.photobucket.com/albums/0006/findstuff22/Best%20Images/Art%20best%20images/
           photobucket_id = $1
           media_creator = $2          
           album = $3
           @info[:media_id] = "#{media_creator}/#{album}"
           url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"
           @info[:media_api_type] = PHOTOBUCKET_ALBUM
-          @info[:website] = "http://s#{url_common}"
+          @info[:website] = "http://s#{url_common}/"
         elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)\/(.+?)\.(.+)/i #Group Images
           group = $1
           group_hash_value = $2
@@ -47,6 +47,13 @@ class Muri
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_url] = "http://gi#{direct_url_suffix}"
           @info[:website] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+        elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)(\/)?/i #Group Album
+          group = $1
+          group_hash_value = $2
+          url_common = "#{server_id}.photobucket.com/groups/#{group}/#{group_hash_value}"
+          @info[:media_id] = group_hash_value
+          @info[:website] = "http://gs#{url_common}/"
+          @info[:media_api_type] = PHOTOBUCKET_GROUP_ALBUM
         end
         
         if self.valid?
@@ -54,7 +61,7 @@ class Muri
             @info[:media_api_id] = @info[:media_url]
             @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
           else
-            @info[:media_api_id] = album
+            @info[:media_api_id] = @info[:media_id]
           end
         else
           raise UnsupportedURI          
