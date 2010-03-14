@@ -16,31 +16,31 @@ shared_examples_for "Facebook parse photo" do
   end
 end
 
-shared_examples_for "Facebook parse video" do
-  it_should_behave_like "Facebook parse"
-  it "should have media api type = FACEBOOK_VIDEO" do
-    @a.media_api_type.should == Muri::FACEBOOK_VIDEO
-  end
-end
+# shared_examples_for "Facebook parse video" do
+#   it_should_behave_like "Facebook parse"
+#   it "should have media api type = FACEBOOK_VIDEO" do
+#     @a.media_api_type.should == Muri::FACEBOOK_VIDEO
+#   end
+# end
 
-describe "Facebook parse first" do
-  before(:all) do
-    @a = Muri.parse 'http://www.facebook.com/v/614695029223'
-  end
-  it_should_behave_like "Facebook parse video"
-  
-  it "should have media id" do
-    @a.media_id.should == '614695029223'
-  end
-  
-  it "should have a media_url" do
-    @a.media_url.should == 'http://www.facebook.com/v/614695029223'
-  end
-   
-  it "should have media api id" do
-    @a.media_api_id.should == '614695029223'
-  end
-end
+# describe "Facebook parse first" do
+#   before(:all) do
+#     @a = Muri.parse 'http://www.facebook.com/v/614695029223'
+#   end
+#   it_should_behave_like "Facebook parse video"
+#   
+#   it "should have media id" do
+#     @a.media_id.should == '614695029223'
+#   end
+#   
+#   it "should have a media_url" do
+#     @a.media_url.should == 'http://www.facebook.com/v/614695029223'
+#   end
+#    
+#   it "should have media api id" do
+#     @a.media_api_id.should == '614695029223'
+#   end
+# end
 
 describe "Facebook parse second" do
   before(:all) do
