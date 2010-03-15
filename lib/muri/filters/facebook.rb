@@ -72,5 +72,5 @@ end
 #   pid = photo id
 #   id = user id
 #   l = photo share key
-# http://www.facebook.com/v/614695029223 (full)
+# http://www.facebook.com/v/614695029223 (full) - deprecated
 # http://www.facebook.com/album.php?aid=2149275&id=15201063&l=99900807c3
