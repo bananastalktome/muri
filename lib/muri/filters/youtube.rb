@@ -17,16 +17,16 @@ class Muri
         url_common = "http://www.youtube.com"
         params = @url.query.nil? ? {} : CGI::parse(@url.query)
         
-        if (@url.path =~ /\/watch$/i) && params.include?("v")
+        if (@url.path =~ /^\/watch$/i) && params.include?("v")
           @info[:media_id] = params["v"].first
           @info[:media_api_type] = YOUTUBE_VIDEO
         elsif (@url.path =~ /\/v\/([a-z0-9\-\_]+)/i)
           @info[:media_id] = $1
           @info[:media_api_type] = YOUTUBE_VIDEO
-        elsif (@url.path =~ /\/p\/([a-z0-9\-\_]+)/i)
+        elsif (@url.path =~ /^\/p\/([a-z0-9\-\_]+)/i)
           @info[:media_id] = $1
           @info[:media_api_type] = YOUTUBE_PLAYLIST
-        elsif (@url.path =~ /^\/view\_play\_list/i) && (params.include?('p'))
+        elsif (@url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
           @info[:media_id] = params['p'].first
           @info[:media_api_type] = YOUTUBE_PLAYLIST
         end

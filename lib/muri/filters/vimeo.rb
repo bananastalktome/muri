@@ -22,7 +22,7 @@ class Muri
         elsif @url.path =~ /^\/groups\/([0-9a-z\@\-\_]+)\/videos\/([0-9]+)(\/)?$/i
           @info[:media_id] = $2
           @info[:media_api_type] = VIMEO_VIDEO
-        elsif ((@url.path =~ /^\/moogaloop\.swf/i) && (params.include?("clip_id")))
+        elsif ((@url.path =~ /^\/moogaloop\.swf$/i) && (params.include?("clip_id")))
           @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]+)/)
           @info[:media_api_type] = VIMEO_VIDEO
         end
