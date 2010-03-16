@@ -16,14 +16,14 @@ class Muri
         @info[:service] = 'Vimeo'
         params = @url.query.nil? ? {} : CGI::parse(@url.query)
                 
-        if @url.path =~ /^\/(album\/)?([0-9]+)(\/)?$/i
+        if @url.path =~ /^\/(album\/)?([0-9]+)\/?$/i
           @info[:media_id] = $2
           @info[:media_api_type] = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
-        elsif @url.path =~ /^\/groups\/([0-9a-z\@\-\_]+)\/videos\/([0-9]+)(\/)?$/i
+        elsif @url.path =~ /^\/groups\/([0-9a-z\@\-\_]+)\/videos\/([0-9]+)\/?$/i
           @info[:media_id] = $2
           @info[:media_api_type] = VIMEO_VIDEO
-        elsif ((@url.path =~ /^\/moogaloop\.swf$/i) && (params.include?("clip_id")))
-          @info[:media_id] = params["clip_id"].first if (params["clip_id"].first =~ /([0-9]+)/)
+        elsif ((@url.path =~ /^\/moogaloop\.swf$/i) && (params.include?("clip_id")) && (params["clip_id"].first =~ /^([0-9]+)$/))
+          @info[:media_id] = params["clip_id"].first
           @info[:media_api_type] = VIMEO_VIDEO
         end
         

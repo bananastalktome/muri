@@ -16,10 +16,11 @@ class Muri
       def photobucket_parse
         @info[:service] = 'Photobucket'
         
-        @url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com/i
+        @url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
         @info[:server_id] = $1.gsub(/([a-z]*)/i,"")
         
-        if @url.path =~ /^\/albums\/(.+?)\/(.+?)\/((?:.+?\/)*)(.+?)\.(.+)/i #Images
+        if @url.path =~ /^\/albums\/(.+?)\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i #Images
+            # OLD: /^\/albums\/(.+?)\/(.+?)\/((?:.+?\/)*)(.+?)\.(.+)/i 
           photobucket_id = $1
           media_creator = $2          
           album = $3
@@ -30,7 +31,8 @@ class Muri
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_url] = "http://i#{direct_url_suffix}"
           @info[:website] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
-        elsif @url.path =~ /^\/albums\/(.+?)\/(.+?)\/((?:.[^\/]+?)+)(?:\/|$)/i #Albums
+        elsif @url.path =~ /^\/albums\/(.+?)\/(.+?)\/(.[^\.]*?)\/?$/i #Albums
+            # OLD: /^\/albums\/(.+?)\/(.+?)\/((?:.[^\/]+?)+)(?:\/|$)/i
           photobucket_id = $1
           media_creator = $2
           album = $3
@@ -38,7 +40,7 @@ class Muri
           url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"
           @info[:media_api_type] = PHOTOBUCKET_ALBUM
           @info[:website] = "http://s#{url_common}/"
-        elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)\/(.+?)\.(.+)/i #Group Images
+        elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)\/(.+?)\.(.+)$/i #Group Images
           group = $1
           group_hash_value = $2
           @info[:media_id] = $3
@@ -48,7 +50,7 @@ class Muri
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_url] = "http://gi#{direct_url_suffix}"
           @info[:website] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
-        elsif @url.path =~ /^\/groups\/(.+)\/(.+?)(?:\/|$)/i #Group Album
+        elsif @url.path =~ /^\/groups\/(\w+?)\/(\w+?)\/?$/i #Group Album
           group = $1
           group_hash_value = $2
           url_common = "#{server_id}.photobucket.com/groups/#{group}/#{group_hash_value}"

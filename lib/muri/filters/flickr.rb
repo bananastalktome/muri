@@ -14,11 +14,11 @@ class Muri
       def flickr_parse
         @info[:service] = 'Flickr'
         
-        if @url.path =~ /^\/photos\/([a-z0-9\-\_\@]*?)\/(sets\/)?([0-9]*)/i
+        if @url.path =~ /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
           media_creator = $1
           @info[:media_id] = $3
           @info[:media_api_type] = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
-        elsif (@url.host + @url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]*?)\/([0-9]*?)\_([a-z0-9]*?)(\_[a-z]){0,1}\.([a-z]*)/i
+        elsif (@url.host + @url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
           farm = $1
           server_id = $2
           @info[:media_id] = $3
@@ -37,7 +37,7 @@ class Muri
             url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}"
             @info[:media_url] = "#{url_prefix}.jpg"
             @info[:media_thumbnail] = "#{url_prefix}_t.jpg"
-        elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]*)/i
+        elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
           @info[:media_id] = self.class.decode58($1)
           @info[:media_api_type] = FLICKR_PHOTO
         end
