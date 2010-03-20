@@ -24,19 +24,9 @@ class Muri
           @info[:media_id] = $3
           @info[:media_api_type] = FLICKR_PHOTO
           media_secret = $4
-#           if !$5.nil?
-#             @info[:media_size] = case $5.downcase
-#               when '_s' then 'small'
-#               when '_t' then 'thumbnail'
-#               when '_m' then 'medium'
-#               when '_b' then 'large'
-#               else nil
-#             end
-#           end
-#           @info[:content_type] = $6
-            url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}"
-            @info[:media_url] = "#{url_prefix}.jpg"
-            @info[:media_thumbnail] = "#{url_prefix}_t.jpg"
+          url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}"
+          @info[:media_url] = "#{url_prefix}.jpg"
+          @info[:media_thumbnail] = "#{url_prefix}_t.jpg"
         elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
           @info[:media_id] = self.class.decode58($1)
           @info[:media_api_type] = FLICKR_PHOTO
@@ -64,6 +54,16 @@ class Muri
     end
   end
 end
+#           if !$5.nil?
+#             @info[:media_size] = case $5.downcase
+#               when '_s' then 'small'
+#               when '_t' then 'thumbnail'
+#               when '_m' then 'medium'
+#               when '_b' then 'large'
+#               else nil
+#             end
+#           end
+#           @info[:content_type] = $6
 # http://www.flickr.com/photos/bananastalktome/2088436532/ (preview)
 # http://flic.kr/p/4bxMqq (preview)
 # http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_m.jpg (direct)

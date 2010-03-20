@@ -15,7 +15,7 @@ class Muri
       def youtube_parse
         @info[:service] = 'Youtube'
         url_common = "http://www.youtube.com"
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)
+        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
         
         if (@url.path =~ /^\/watch$/i) && params.include?("v")
           @info[:media_id] = params["v"].first

@@ -14,8 +14,8 @@ class Muri
       
       def vimeo_parse
         @info[:service] = 'Vimeo'
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)
-                
+        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
+        
         if @url.path =~ /^\/(album\/)?([0-9]+)\/?$/i
           @info[:media_id] = $2
           @info[:media_api_type] = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM

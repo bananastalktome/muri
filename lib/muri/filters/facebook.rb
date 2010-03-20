@@ -15,7 +15,7 @@ class Muri
       
       def facebook_parse
         @info[:service] = 'Facebook'
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)
+        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
         url_common = "http://www.facebook.com"
         
 #         if @url.path =~ /^\/v\/([0-9]+)/
@@ -50,7 +50,7 @@ class Muri
         end
         
         if self.valid?
-          # The media_api_id is the PID which can be searched for in the facebook photos table          
+          # The media_api_id is the PID which can be searched for in the facebook photos/albums table          
           @info[:media_api_id] = (media_creator.to_i << 32) + @info[:media_id].to_i
         else
           raise UnsupportedURI
