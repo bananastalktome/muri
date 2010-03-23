@@ -23,7 +23,7 @@ class Muri
             # OLD: /^\/albums\/(.+?)\/(.+?)\/((?:.+?\/)*)(.+?)\.(.+)/i 
           photobucket_id = $1
           media_creator = $2          
-          album = $3
+          album = $3.nil? ? '' : "#{$3}/"
           @info[:media_id] = $4
           @info[:content_type] = $5
           url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"

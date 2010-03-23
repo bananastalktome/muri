@@ -77,6 +77,30 @@ end
 
 describe "Photobucket parse first" do
   before(:all) do
+    @a = Muri.parse 'http://i587.photobucket.com/albums/ss319/bananastalktome/API%20Testing/bananastalktomegmailcom_6c337a91.jpg'
+  end
+  it_should_behave_like "Photobucket parse photo"
+      
+  it "should have media id" do
+    @a.media_id.should == 'bananastalktomegmailcom_6c337a91'
+  end
+  
+  it "should have content type" do
+    @a.content_type.should == "jpg"
+  end
+
+  it "should have media url" do
+    @a.media_url.should == "http://i587.photobucket.com/albums/ss319/bananastalktome/API%20Testing/bananastalktomegmailcom_6c337a91.jpg"
+  end
+    
+  it "should have media api id" do
+    @a.media_api_id.should == "http://i587.photobucket.com/albums/ss319/bananastalktome/API%20Testing/bananastalktomegmailcom_6c337a91.jpg"
+  end
+
+end
+
+describe "Photobucket parse first" do
+  before(:all) do
     @a = Muri.parse 'http://i244.photobucket.com/albums/gg17/pbapi/file.jpg'
   end
   it_should_behave_like "Photobucket parse photo"

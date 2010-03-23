@@ -56,10 +56,11 @@ class Muri
 end
 #           if !$5.nil?
 #             @info[:media_size] = case $5.downcase
-#               when '_s' then 'small'
+#               when '_s' then 'square'
 #               when '_t' then 'thumbnail'
-#               when '_m' then 'medium'
+#               when '_m' then 'small'
 #               when '_b' then 'large'
+#               when '_o' then 'original'
 #               else nil
 #             end
 #           end
