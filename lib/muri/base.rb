@@ -7,7 +7,7 @@ class Muri
   # UnsupportedURI raised if parser is found, but URI path does not 
   #   match accepted formats
   class UnsupportedURI < ArgumentError; end
-    
+  
   PARSERS = {}
   
   include Filter::Youtube
@@ -26,25 +26,23 @@ class Muri
     @info = { }
     _parse(url)
   end  
-
-  def to_yaml
-    @info.to_yaml
-  end
   
   def to_s
     @info.to_s
   end
   
+  # Determine if Muri object is valid (errors mean not valid)
   def valid?
     @info[:errors].nil?
   end
   
-  # Taken from uri/generic.rb
+  # 'Borrowed' from uri/generic.rb
   @@to_s = Kernel.instance_method(:to_s)
   def inspect
     @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.original_url}>"}
   end
   
+  # Show a list of the available parsers
   def parsers
     PARSERS.keys
   end

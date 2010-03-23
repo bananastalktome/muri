@@ -59,7 +59,7 @@ end
 #               when '_m' then 'small'
 #               when '_b' then 'large'
 #               when '_o' then 'original'
-#               else nil
+#               else 'medium'
 #             end
 #           end
 #           @info[:content_type] = $6
