@@ -29,20 +29,18 @@ class Muri
         elsif (@url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
           @info[:media_id] = params['p'].first
           @info[:media_api_type] = YOUTUBE_PLAYLIST
+        else
+          raise UnsupportedURI          
         end
         
-        if self.valid?
-          if @info[:media_api_type] == YOUTUBE_VIDEO
-            @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
-            @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
-            @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
-          elsif @info[:media_api_type] == YOUTUBE_PLAYLIST
-            @info[:website] = "#{url_common}/view_play_list?p=#{@info[:media_id]}"
-            @info[:media_url] = "#{url_common}/p/#{@info[:media_id]}"
-          end
-          @info[:media_api_id] = @info[:media_id]
-        else
-          raise UnsupportedURI
+        @info[:media_api_id] = @info[:media_id]
+        if @info[:media_api_type] == YOUTUBE_VIDEO
+          @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
+          @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
+          @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
+        elsif @info[:media_api_type] == YOUTUBE_PLAYLIST
+          @info[:website] = "#{url_common}/view_play_list?p=#{@info[:media_id]}"
+          @info[:media_url] = "#{url_common}/p/#{@info[:media_id]}"
         end
         
         self

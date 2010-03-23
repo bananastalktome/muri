@@ -36,7 +36,7 @@ class Muri
   end
   
   def valid?
-    @info[:media_id].nil? ? false : true
+    @info[:errors].nil?
   end
   
   # Taken from uri/generic.rb

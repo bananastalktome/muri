@@ -57,17 +57,15 @@ class Muri
           @info[:media_id] = group_hash_value
           @info[:website] = "http://gs#{url_common}/"
           @info[:media_api_type] = PHOTOBUCKET_GROUP_ALBUM
-        end
-        
-        if self.valid?
-          if @info[:media_api_type] == PHOTOBUCKET_MEDIA
-            @info[:media_api_id] = @info[:media_url]
-            @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
-          else
-            @info[:media_api_id] = @info[:media_id]
-          end
         else
           raise UnsupportedURI          
+        end
+        
+        if @info[:media_api_type] == PHOTOBUCKET_MEDIA
+          @info[:media_api_id] = @info[:media_url]
+          @info[:media_thumbnail] = "http://mobth#{direct_url_suffix}"
+        else
+          @info[:media_api_id] = @info[:media_id]
         end
         
         self

@@ -47,14 +47,12 @@ class Muri
           share_key = params["l"].first
           
           @info[:website] = "#{url_common}/album.php?aid=#{@info[:media_id]}&l=#{share_key}&id=#{media_creator}"
-        end
-        
-        if self.valid?
-          # The media_api_id is the PID which can be searched for in the facebook photos/albums table          
-          @info[:media_api_id] = (media_creator.to_i << 32) + @info[:media_id].to_i
         else
-          raise UnsupportedURI
+          raise UnsupportedURI          
         end
+
+        # The media_api_id is the PID which can be searched for in the facebook photos/albums table          
+        @info[:media_api_id] = (media_creator.to_i << 32) + @info[:media_id].to_i
         
         self
       end            

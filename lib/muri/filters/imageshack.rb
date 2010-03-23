@@ -23,14 +23,12 @@ class Muri
           @info[:media_id] = $3
           @info[:content_type] = $4
           @info[:media_url] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
-        end
-        
-        # imageshack does not currently have API for retrieving individual video information
-        if self.valid?
-          @info[:website] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
         else
           raise UnsupportedURI          
         end
+        
+        # imageshack does not currently have API for retrieving individual video information
+        @info[:website] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"         
         
         self
       end       

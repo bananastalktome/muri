@@ -30,17 +30,15 @@ class Muri
         elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
           @info[:media_id] = self.class.decode58($1)
           @info[:media_api_type] = FLICKR_PHOTO
+        else
+          raise UnsupportedURI          
         end
         
-        if self.valid?
-          @info[:media_api_id] = @info[:media_id]
-          if @info[:media_api_type] == FLICKR_PHOTO 
-            @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
-          elsif @info[:media_api_type] == FLICKR_SET
-            @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"#/show takes direct
-          end
-        else
-          raise UnsupportedURI
+        @info[:media_api_id] = @info[:media_id]
+        if @info[:media_api_type] == FLICKR_PHOTO 
+          @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
+        elsif @info[:media_api_type] == FLICKR_SET
+          @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"#/show takes direct
         end
         
         self

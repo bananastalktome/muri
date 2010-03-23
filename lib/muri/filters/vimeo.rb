@@ -25,17 +25,15 @@ class Muri
         elsif ((@url.path =~ /^\/moogaloop\.swf$/i) && (params.include?("clip_id")) && (params["clip_id"].first =~ /^([0-9]+)$/))
           @info[:media_id] = params["clip_id"].first
           @info[:media_api_type] = VIMEO_VIDEO
-        end
-        
-        if self.valid?
-          @info[:media_api_id] = @info[:media_id]
-          album = (@info[:media_api_type] == VIMEO_ALBUM) ? "album/" : ""
-          @info[:website] = "http://vimeo.com/#{album}#{@info[:media_id]}"
-          if @info[:media_api_type] == VIMEO_VIDEO
-            @info[:media_url] = "http://vimeo.com/moogaloop.swf?clip_id=#{@info[:media_id]}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1"
-          end
         else
           raise UnsupportedURI
+        end
+
+        @info[:media_api_id] = @info[:media_id]
+        album = (@info[:media_api_type] == VIMEO_ALBUM) ? "album/" : ""
+        @info[:website] = "http://vimeo.com/#{album}#{@info[:media_id]}"
+        if @info[:media_api_type] == VIMEO_VIDEO
+          @info[:media_url] = "http://vimeo.com/moogaloop.swf?clip_id=#{@info[:media_id]}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1"
         end
         
         self

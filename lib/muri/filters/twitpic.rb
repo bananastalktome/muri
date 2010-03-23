@@ -20,14 +20,12 @@ class Muri
           @info[:media_url] = "#{url_common}/show/large/#{@info[:media_id]}"
           @info[:media_thumbnail] = "#{url_common}/show/thumb/#{@info[:media_id]}"          
           @info[:media_api_type] = TWITPIC_PHOTO
+        else
+          raise UnsupportedURI          
         end
 
         # Twitpic does not have an API to pull photo info. Media ID is best guess
-        if self.valid?
-          @info[:media_api_id] = @info[:media_id]
-        else
-          raise UnsupportedURI
-        end
+        @info[:media_api_id] = @info[:media_id]
         
         self
       end            
