@@ -16,6 +16,7 @@ class Muri
       def facebook_parse
         @info[:service] = 'Facebook'
         params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
+
         url_common = "http://www.facebook.com"
         
 #         if @url.path =~ /^\/v\/([0-9]+)/

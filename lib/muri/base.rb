@@ -8,7 +8,7 @@ class Muri
   #   match accepted formats
   class UnsupportedURI < ArgumentError; end
   
-  PARSERS = {}
+  PARSERS = { }
   
   include Filter::Youtube
   include Filter::Flickr
