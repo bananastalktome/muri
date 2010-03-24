@@ -18,8 +18,9 @@ class Muri
         
         @url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
         @info[:server_id] = $1.gsub(/([a-z]*)/i,"")
-        
-        if @url.path =~ /^\/albums\/(.+?)\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i #Images
+        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
+
+        if @url.path =~ /^\/albums\/(.+?)\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i #Image
             # OLD: /^\/albums\/(.+?)\/(.+?)\/((?:.+?\/)*)(.+?)\.(.+)/i 
           photobucket_id = $1
           media_creator = $2          
@@ -31,16 +32,27 @@ class Muri
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_url] = "http://i#{direct_url_suffix}"
           @info[:website] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
-        elsif @url.path =~ /^\/albums\/(.+?)\/(.+?)\/(.[^\.]*?)\/?$/i #Albums
+        elsif @url.path =~ /^\/albums\/(.+?)\/(.[^\.]*?)\/?$/i #Album OR Image if params present
             # OLD: /^\/albums\/(.+?)\/(.+?)\/((?:.[^\/]+?)+)(?:\/|$)/i
           photobucket_id = $1
-          media_creator = $2
-          album = $3
-          @info[:media_id] = "#{media_creator}/#{album}"
-          url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{media_creator}/#{album}"
-          @info[:media_api_type] = PHOTOBUCKET_ALBUM
-          @info[:website] = "http://s#{url_common}/"
-        elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)\/(.+?)\.(.+)$/i #Group Images
+          album = $2
+          url_common = "#{server_id}.photobucket.com/albums/#{photobucket_id}/#{album}"
+          if (params.include?("action") && params["action"].first =~ /^(view)$/i && 
+            params.include?("current") && params["current"].first =~ /^(.+)\.([a-z0-9]+)$/i)
+            
+            filename = params["current"].first.split(".")
+            @info[:media_id] = filename.first
+            @info[:content_type] = filename.last
+            direct_url_suffix = "#{url_common}/#{@info[:media_id]}.#{@info[:content_type]}"
+            @info[:media_api_type] = PHOTOBUCKET_MEDIA
+            @info[:media_url] = "http://i#{direct_url_suffix}"
+            @info[:website] = "http://s#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+          else
+            @info[:media_id] = "#{album}"
+            @info[:media_api_type] = PHOTOBUCKET_ALBUM
+            @info[:website] = "http://s#{url_common}/"
+          end
+        elsif @url.path =~ /^\/groups\/(.+?)\/(.+?)\/(.+?)\.(.+)$/i #Group Image
           group = $1
           group_hash_value = $2
           @info[:media_id] = $3
@@ -50,13 +62,25 @@ class Muri
           @info[:media_api_type] = PHOTOBUCKET_MEDIA
           @info[:media_url] = "http://gi#{direct_url_suffix}"
           @info[:website] = "http://gs#{url_common}/?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
-        elsif @url.path =~ /^\/groups\/(\w+?)\/(\w+?)\/?$/i #Group Album
+        elsif @url.path =~ /^\/groups\/(\w+?)\/(\w+?)\/?$/i #Group Album OR image if params present
           group = $1
           group_hash_value = $2
           url_common = "#{server_id}.photobucket.com/groups/#{group}/#{group_hash_value}"
-          @info[:media_id] = group_hash_value
-          @info[:website] = "http://gs#{url_common}/"
-          @info[:media_api_type] = PHOTOBUCKET_GROUP_ALBUM
+          if (params.include?("action") && params["action"].first =~ /^(view)$/i && 
+            params.include?("current") && params["current"].first =~ /^(.+)\.([a-z0-9]+)$/i)
+            
+            filename = params["current"].first.split(".")
+            @info[:media_id] = filename.first
+            @info[:content_type] = filename.last
+            direct_url_suffix = "#{url_common}/#{@info[:media_id]}.#{@info[:content_type]}"
+            @info[:media_api_type] = PHOTOBUCKET_MEDIA
+            @info[:media_url] = "http://gi#{direct_url_suffix}"
+            @info[:website] = "http://gs#{url_common}?action=view&current=#{@info[:media_id]}.#{@info[:content_type]}"
+          else          
+            @info[:media_id] = group_hash_value
+            @info[:website] = "http://gs#{url_common}/"
+            @info[:media_api_type] = PHOTOBUCKET_GROUP_ALBUM
+          end
         else
           raise UnsupportedURI          
         end
