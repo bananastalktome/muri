@@ -2,7 +2,7 @@ require 'lib/muri.rb'
 
 shared_examples_for "Imageshack parse" do
   it "should be Imageshack service" do
-    @a.service.should == 'Imageshack'
+    @a.media_service.should == 'Imageshack'
   end
   it "should be valid" do
     @a.valid?.should == true
@@ -20,11 +20,11 @@ describe "Imageshack parse first" do
   end
   
   it "should have website" do
-    @a.website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
+    @a.media_website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
   end
    
   it "should have content_type" do
-    @a.content_type.should == 'jpg'
+    @a.media_content_type.should == 'jpg'
   end  
 end
 describe "Imageshack parse second" do
@@ -38,11 +38,11 @@ describe "Imageshack parse second" do
   end
   
   it "should have website" do
-    @a.website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
+    @a.media_website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
   end
    
   it "should have content_type" do
-    @a.content_type.should == 'jpg'
+    @a.media_content_type.should == 'jpg'
   end  
   
   it "should have website" do

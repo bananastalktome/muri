@@ -2,7 +2,7 @@ require 'lib/muri.rb'
 
 shared_examples_for "Vimeo parse" do
   it "should be Vimeo service" do
-    @a.service.should == 'Vimeo'
+    @a.media_service.should == 'Vimeo'
   end
   
   it "should be valid" do
@@ -37,7 +37,7 @@ describe "Vimeo parse first" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/7312128'
+    @a.media_website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
@@ -56,7 +56,7 @@ describe "Vimeo parse second" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/7312128'
+    @a.media_website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
@@ -75,7 +75,7 @@ describe "Vimeo parse album first" do
   end
 
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/album/89702'
+    @a.media_website.should == 'http://vimeo.com/album/89702'
   end
    
   it "should have media api id" do

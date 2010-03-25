@@ -1,7 +1,7 @@
 require 'lib/muri.rb'
 shared_examples_for "Youtube parse" do
   it "should be Youtube service" do
-    @a.service.should == 'Youtube'
+    @a.media_service.should == 'Youtube'
   end
   
   it "should be valid" do
@@ -40,7 +40,7 @@ describe "Youtube parse first" do
   end
   
   it "should have media url" do
-    @a.website.should == 'http://www.youtube.com/watch?v=4CYDFoEz8rg'
+    @a.media_website.should == 'http://www.youtube.com/watch?v=4CYDFoEz8rg'
   end
   
   it "should have website" do
@@ -66,7 +66,7 @@ describe "Youtube parse second" do
   end
   
   it "should have media url" do
-    @a.website.should == 'http://www.youtube.com/watch?v=4CYDFoEz8rg'
+    @a.media_website.should == 'http://www.youtube.com/watch?v=4CYDFoEz8rg'
   end
   
   it "should have website" do
@@ -92,7 +92,7 @@ describe "Youtube parse playlist first" do
   end
   
   it "should have media url" do
-    @a.website.should == 'http://www.youtube.com/view_play_list?p=57633EC69B4A10A2'
+    @a.media_website.should == 'http://www.youtube.com/view_play_list?p=57633EC69B4A10A2'
   end
   
   it "should have website" do
@@ -114,7 +114,7 @@ describe "Youtube parse playlist second" do
   end
   
   it "should have media url" do
-    @a.website.should == 'http://www.youtube.com/view_play_list?p=57633EC69B4A10A2'
+    @a.media_website.should == 'http://www.youtube.com/view_play_list?p=57633EC69B4A10A2'
   end
   
   it "should have website" do

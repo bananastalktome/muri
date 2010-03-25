@@ -11,21 +11,21 @@ class Muri
       end
       
       def twitpic_parse
-        @info[:service] = 'Twitpic'
+        self.media_service = 'Twitpic'
         url_common = "http://twitpic.com"
         
-        if @url.path =~ /^\/([a-z0-9]+)/i
-          @info[:media_id] = $1
-          @info[:website] = "#{url_common}/#{@info[:media_id]}"
-          @info[:media_url] = "#{url_common}/show/large/#{@info[:media_id]}"
-          @info[:media_thumbnail] = "#{url_common}/show/thumb/#{@info[:media_id]}"          
-          @info[:media_api_type] = TWITPIC_PHOTO
+        if self.url.path =~ /^\/([a-z0-9]+)/i
+          self.media_id = $1
+          self.media_website = "#{url_common}/#{self.media_id}"
+          self.media_url = "#{url_common}/show/large/#{self.media_id}"
+          self.media_thumbnail = "#{url_common}/show/thumb/#{self.media_id}"          
+          self.media_api_type = TWITPIC_PHOTO
         else
           raise UnsupportedURI          
         end
 
         # Twitpic does not have an API to pull photo info. Media ID is best guess
-        @info[:media_api_id] = @info[:media_id]
+        self.media_api_id = self.media_id
         
         self
       end            
