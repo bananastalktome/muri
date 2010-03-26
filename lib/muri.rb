@@ -4,7 +4,6 @@ Dir["#{File.dirname(__FILE__) + '/muri/filters'}/**/*"].each do |filter|
 end
 
 # Just base now..more later(?)
-%w(base).each do |f|
+%w(filter base).each do |f|
   require File.dirname(__FILE__) + "/muri/#{f}"
 end
- 

@@ -41,10 +41,10 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 
 <pre>
 <code>
-  a.service         # 'Youtube'
-  a.media_id        # 'blahblahblah'
-  a.original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
-  a.uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+  a.media_service         # 'Youtube'
+  a.media_id              # 'blahblahblah'
+  a.media_original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
+  a.media_uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
 </code>
 </pre>
 
@@ -53,7 +53,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 * All but Imageshack have a @media_api_id@, which is the ID which can be used in API calls to the related services. Typically the same as @media_id@.
 
 <pre>
-<code>  
+<code>
   a.media_api_id     # 'blahblahblah'
 </code>
 </pre>
@@ -76,7 +76,7 @@ d
 
 <pre>
 <code>
-  a.website           # 'http://www.youtube.com/watch?v=blahblahblah' 
+  a.media_website           # 'http://www.youtube.com/watch?v=blahblahblah'
 </code>
 </pre>
 
@@ -84,7 +84,7 @@ d
 
 <pre>
 <code>
-  a.content_type      # 'jpg' (Content Type also for Imageshack and Photobucket)
+  a.media_content_type      # 'jpg' (Content Type also for Imageshack and Photobucket)
 </code>
 </pre>
 

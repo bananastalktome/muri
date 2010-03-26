@@ -2,42 +2,46 @@ require 'cgi'
 class Muri
   module Filter
     module Youtube
-      
+
       protected
       YOUTUBE_VIDEO = "video"
       YOUTUBE_PLAYLIST = "playlist"
+      REGEX_YOUTUBE_VIDEO_WATCH = /^\/watch$/i
+      REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i
+      REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list$/i
+      REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i
 
       def self.included(base)
-        base.class_eval do 
+        base.class_eval do
           self::PARSERS[Muri::Filter::Youtube] = "youtube_parse"
         end
       end
-      
+
       def self.parsable?(uri)
         uri.host =~ /^(www\.)?youtube\.com$/i
       end
-      
+
       def youtube_parse
         self.media_service = 'Youtube'
         url_common = "http://www.youtube.com"
-        params = self.url.query.nil? ? {} : CGI::parse(self.url.query)#.each {|k,v| b[k] = v.first}
-        
-        if (self.url.path =~ /^\/watch$/i) && params.include?("v")
-          self.media_id = params["v"].first
+        params = self.url.query.nil? ? {} : self.class.param_parse(self.url.query)
+
+        if (self.url.path =~ REGEX_YOUTUBE_VIDEO_WATCH) && params['v']
+          self.media_id = params['v']
           self.media_api_type = YOUTUBE_VIDEO
-        elsif (self.url.path =~ /\/v\/([a-z0-9\-\_]+)/i)
+        elsif (self.url.path =~ REGEX_YOUTUBE_VIDEO_DIRECT)
           self.media_id = $1
           self.media_api_type = YOUTUBE_VIDEO
-        elsif (self.url.path =~ /^\/p\/([a-z0-9\-\_]+)/i)
+        elsif (self.url.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
           self.media_id = $1
           self.media_api_type = YOUTUBE_PLAYLIST
-        elsif (self.url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
-          self.media_id = params['p'].first
+        elsif (self.url.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && (params['p'])
+          self.media_id = params['p']
           self.media_api_type = YOUTUBE_PLAYLIST
         else
-          raise UnsupportedURI          
+          raise UnsupportedURI
         end
-        
+
         self.media_api_id = self.media_id
         if self.media_api_type == YOUTUBE_VIDEO
           self.media_website = "#{url_common}/watch?v=#{self.media_id}"

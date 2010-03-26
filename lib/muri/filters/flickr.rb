@@ -1,29 +1,33 @@
 class Muri
   module Filter
     module Flickr
-    
+
       protected
       FLICKR_PHOTO = "photo"
       FLICKR_SET = "set"
-      
+
+      REGEX_FLICKR_PHOTO_OR_SET = /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
+      REGEX_FLICKR_STATIC_PHOTO = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
+      REGEX_FLICKR_SHORTURL = /^flic\.kr\/p\/([a-z0-9]+)/i
+
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Flickr] = "flickr_parse"
         end
       end
-      
+
       def self.parsable?(uri)
         uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
       end
-      
+
       def flickr_parse
         self.media_service = 'Flickr'
-        
-        if self.url.path =~ /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
+
+        if self.url.path =~ REGEX_FLICKR_PHOTO_OR_SET
           media_creator = $1
           self.media_id = $3
           self.media_api_type = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
-        elsif (self.url.host + self.url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
+        elsif (self.url.host + self.url.path) =~ REGEX_FLICKR_STATIC_PHOTO
           farm = $1
           server_id = $2
           self.media_id = $3
@@ -32,15 +36,15 @@ class Muri
           url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
           self.media_url = "#{url_prefix}.jpg"
           self.media_thumbnail = "#{url_prefix}_t.jpg"
-        elsif (self.url.host + self.url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
+        elsif (self.url.host + self.url.path) =~ REGEX_FLICKR_SHORTURL
           self.media_id = self.class.decode58($1)
           self.media_api_type = FLICKR_PHOTO
         else
-          raise UnsupportedURI          
+          raise UnsupportedURI
         end
-        
+
         self.media_api_id = self.media_id
-        if self.media_api_type == FLICKR_PHOTO 
+        if self.media_api_type == FLICKR_PHOTO
           self.media_website = "http://flic.kr/p/" + self.class.encode58(self.media_id.to_i)
         elsif self.media_api_type == FLICKR_SET
           self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct

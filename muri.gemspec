@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-03-25}
+  s.date = %q{2010-03-26}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
   s.extra_rdoc_files = [
@@ -48,8 +48,6 @@ Gem::Specification.new do |s|
   s.summary = %q{Media URI Parser}
   s.test_files = [
     "test/imageshack_test.rb",
-    "test/basic_tests.rb",
-     "test/facebook_test.rb",
      "test/twitpic_test.rb",
      "test/flickr_test.rb",
      "test/vimeo_test.rb",
