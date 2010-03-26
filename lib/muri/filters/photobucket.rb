@@ -4,7 +4,7 @@ class Muri
     module Photobucket
 
       protected
-      attr_accessor :server_id, :direct_url_suffix
+      attr_accessor :direct_url_suffix
       
       PHOTOBUCKET_MEDIA = "media"
       PHOTOBUCKET_ALBUM = "album"
@@ -16,11 +16,15 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
+      end
+      
       def photobucket_parse
         self.media_service = 'Photobucket'
         
         self.url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
-        self.server_id = $1.gsub(/([a-z]*)/i,"")
+        self.media_server_id = $1.gsub(/([a-z]*)/i,"")
         params = self.url.query.nil? ? {} : CGI::parse(self.url.query)#.each {|k,v| b[k] = v.first}
 
         if self.url.path =~ /^\/albums\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i #Image
@@ -30,7 +34,7 @@ class Muri
         elsif self.url.path =~ /^\/albums\/(.+?)\/(.[^\.]*?)\/?$/i #Album OR Image if params present
           pb_id = $1
           album = $2
-          url_common = "#{self.server_id}.photobucket.com/albums/#{pb_id}/#{album}"
+          url_common = "#{self.media_server_id}.photobucket.com/albums/#{pb_id}/#{album}"
           if (params.include?("action") && params["action"].first =~ /^(view)$/i && 
             params.include?("current") && params["current"].first =~ /^(.+)\.([a-z0-9]+)$/i)
             filename = params["current"].first.split(".")
@@ -49,7 +53,7 @@ class Muri
         elsif self.url.path =~ /^\/groups\/(\w+?)\/(\w+?)\/?$/i #Group Album OR image if params present
           group = $1
           hash_value = $2
-          url_common = "#{self.server_id}.photobucket.com/groups/#{group}/#{hash_value}"
+          url_common = "#{self.media_server_id}.photobucket.com/groups/#{group}/#{hash_value}"
           if (params.include?("action") && params["action"].first =~ /^(view)$/i && 
             params.include?("current") && params["current"].first =~ /^(.+)\.([a-z0-9]+)$/i)            
             filename = params["current"].first.split(".")
@@ -71,16 +75,10 @@ class Muri
         else
           self.media_api_id = self.media_id
         end
-        
-        self
       end       
-      
-      def self.parsable?(uri)
-        uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
-      end  
 
       def photobucket_image_common(pb_id, album)
-        url_common = "#{self.server_id}.photobucket.com/albums/#{pb_id}/#{album}/"
+        url_common = "#{self.media_server_id}.photobucket.com/albums/#{pb_id}/#{album}/"
         self.direct_url_suffix = "#{url_common}#{self.media_id}.#{self.media_content_type}"
         self.media_api_type = PHOTOBUCKET_MEDIA
         self.media_url = "http://i" + self.direct_url_suffix.to_s
@@ -88,7 +86,7 @@ class Muri
       end
       
       def photobucket_group_image_common(group, hash_value)
-        url_common = "#{self.server_id}.photobucket.com/groups/#{group}/#{hash_value}"
+        url_common = "#{self.media_server_id}.photobucket.com/groups/#{group}/#{hash_value}"
         self.direct_url_suffix = "#{url_common}/#{self.media_id}.#{self.media_content_type}"
         self.media_api_type = PHOTOBUCKET_MEDIA
         self.media_url = "http://gi" + self.direct_url_suffix.to_s

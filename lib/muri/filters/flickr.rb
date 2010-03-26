@@ -12,6 +12,10 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
+      end
+      
       def flickr_parse
         self.media_service = 'Flickr'
         
@@ -41,15 +45,7 @@ class Muri
         elsif self.media_api_type == FLICKR_SET
           self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct
         end
-        
-        self
       end
-      
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
-      end  
-  
-      
     end
   end
 end

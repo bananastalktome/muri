@@ -11,6 +11,10 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^twitpic\.com$/i
+      end
+      
       def twitpic_parse
         self.media_service = 'Twitpic'
         url_common = "http://twitpic.com"
@@ -27,14 +31,7 @@ class Muri
 
         # Twitpic does not have an API to pull photo info. Media ID is best guess
         self.media_api_id = self.media_id
-        
-        self
       end            
- 
-      def self.parsable?(uri)
-        uri.host =~ /^twitpic\.com$/i
-      end
-      
     end
   end
 end

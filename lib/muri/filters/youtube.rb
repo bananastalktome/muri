@@ -13,6 +13,10 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?youtube\.com$/i
+      end
+      
       def youtube_parse
         self.media_service = 'Youtube'
         url_common = "http://www.youtube.com"
@@ -43,12 +47,7 @@ class Muri
           self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
           self.media_url = "#{url_common}/p/#{self.media_id}"
         end
-        
-        self
-      end     
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?youtube\.com$/i
-      end      
+      end
     end
   end
 end

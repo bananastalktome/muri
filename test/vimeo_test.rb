@@ -36,6 +36,10 @@ describe "Vimeo parse first" do
     @a.media_id.should == '7312128'
   end
   
+  it "should have a media url" do
+    @a.media_url.should == 'http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1'
+  end
+  
   it "should have a website" do
     @a.media_website.should == 'http://vimeo.com/7312128'
   end
@@ -53,6 +57,10 @@ describe "Vimeo parse second" do
   
   it "should have media id" do
     @a.media_id.should == '7312128'
+  end
+  
+  it "should have a media url" do
+    @a.media_url.should == "http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
   end
   
   it "should have a website" do

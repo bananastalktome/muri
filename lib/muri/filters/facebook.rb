@@ -14,6 +14,10 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?facebook\.com$/i
+      end
+      
       def facebook_parse
         self.media_service = 'Facebook'
         params = self.url.query.nil? ? {} : CGI::parse(self.url.query)#.each {|k,v| b[k] = v.first}
@@ -55,13 +59,7 @@ class Muri
 
         # The media_api_id is the PID which can be searched for in the facebook photos/albums table          
         self.media_api_id = (media_creator.to_i << 32) +self.media_id.to_i
-        
-        self
       end            
- 
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?facebook\.com$/i
-      end
       
     end
   end

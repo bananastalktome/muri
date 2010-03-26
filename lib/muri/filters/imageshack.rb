@@ -8,6 +8,10 @@ class Muri
           self::PARSERS[Muri::Filter::Imageshack] = "imageshack_parse"
         end
       end
+
+      def self.parsable?(uri)
+        uri.host =~ /^img([0-9]*?)\.imageshack\.us$/i #/^(img([0-9]*?)\.imageshack\.us)|(yfrog\.com)/i
+      end
       
       def imageshack_parse
        self.media_service = 'Imageshack'
@@ -30,13 +34,7 @@ class Muri
         
         # imageshack does not currently have API for retrieving individual video information
         self.media_website = "#{url_common}/i/#{self.media_id}.#{self.media_content_type}/"         
-        
-        self
       end       
-      
-      def self.parsable?(uri)
-        uri.host =~ /^img([0-9]*?)\.imageshack\.us$/i #/^(img([0-9]*?)\.imageshack\.us)|(yfrog\.com)/i
-      end  
       
     end
   end

@@ -1,8 +1,8 @@
 require 'uri'
 class Muri
-
-  attr_accessor :media, :errors, :url
-
+  
+  attr_accessor :url, :errors
+  
   # NoParser raised if no parser is found for URI
   class NoParser < StandardError; end
   
@@ -25,12 +25,12 @@ class Muri
   end
     
   def initialize(url)
-    self.media = { }
+    @info = { }
     _parse(url)
   end  
   
   def to_s
-    self.media.to_s
+    @info.to_s
   end
   
   # Determine if Muri object is valid (errors mean not valid)
@@ -76,7 +76,7 @@ class Muri
 
 
   def method_missing(method, *arguments, &block)
-    if method.to_s =~ /media_(.+)/
+    if method.to_s =~ /^media_(.+)/
       process_option_method(method, *arguments)
     else
       super
@@ -84,10 +84,10 @@ class Muri
   end
   
   def process_option_method(method, *arguments)
-    if method.to_s =~ /media_(.+)=/
-      self.media[$1.to_sym] = arguments.first
-    elsif method.to_s =~ /media_(.+)/
-      self.media[$1.to_sym]
+    if method.to_s =~ /^media_(.+)=/
+      @info[$1.to_sym] = arguments.first
+    elsif method.to_s =~ /^media_(.+)/
+      @info[$1.to_sym]
     end
   end
   

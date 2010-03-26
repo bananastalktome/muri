@@ -7,10 +7,16 @@ class Muri
       VIMEO_VIDEO = "video"
       VIMEO_ALBUM = "album"
       
+      VIMEO_MEDIA_URL = lambda {|media_id| "http://vimeo.com/moogaloop.swf?clip_id=#{media_id}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1" }
+      
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Vimeo] = "vimeo_parse"
         end
+      end
+      
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?vimeo\.com$/i
       end
       
       def vimeo_parse
@@ -34,16 +40,9 @@ class Muri
         album = ( self.media_api_type == VIMEO_ALBUM) ? "album/" : ""
         self.media_website = "http://vimeo.com/#{album}#{self.media_id}"
         if self.media_api_type == VIMEO_VIDEO
-          self.media_url = "http://vimeo.com/moogaloop.swf?clip_id=#{self.media_id}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1"
+          self.media_url = VIMEO_MEDIA_URL.call self.media_id
         end
-        
-        self
       end            
- 
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?vimeo\.com$/i
-      end
-      
     end
   end
 end
