@@ -2,7 +2,8 @@ require 'cgi'
 class Muri
   module Filter
     module Youtube
-
+      
+      protected
       YOUTUBE_VIDEO = "video"
       YOUTUBE_PLAYLIST = "playlist"
 

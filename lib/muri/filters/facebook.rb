@@ -3,6 +3,7 @@ class Muri
   module Filter
     module Facebook
       
+      protected
       FACEBOOK_PHOTO = "photo"
       #FACEBOOK_VIDEO = "video"
       FACEBOOK_ALBUM = "album"

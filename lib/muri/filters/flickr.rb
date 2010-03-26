@@ -2,6 +2,7 @@ class Muri
   module Filter
     module Flickr
     
+      protected
       FLICKR_PHOTO = "photo"
       FLICKR_SET = "set"
       

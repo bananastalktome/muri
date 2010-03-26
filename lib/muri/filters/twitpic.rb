@@ -2,6 +2,7 @@ class Muri
   module Filter
     module Twitpic
       
+      protected
       TWITPIC_PHOTO = 'photo'
       
       def self.included(base)

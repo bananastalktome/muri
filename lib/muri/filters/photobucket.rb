@@ -24,7 +24,6 @@ class Muri
         params = self.url.query.nil? ? {} : CGI::parse(self.url.query)#.each {|k,v| b[k] = v.first}
 
         if self.url.path =~ /^\/albums\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i #Image
-            # /^\/albums\/(.+?)\/(.+?)\/(?:(.*)\/)*(.+?)\.(.+?)$/i
           self.media_id = $3
           self.media_content_type = $4
           photobucket_image_common($1, $2)
@@ -79,8 +78,6 @@ class Muri
       def self.parsable?(uri)
         uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
       end  
-      
-      protected
 
       def photobucket_image_common(pb_id, album)
         url_common = "#{self.server_id}.photobucket.com/albums/#{pb_id}/#{album}/"
@@ -97,7 +94,6 @@ class Muri
         self.media_url = "http://gi" + self.direct_url_suffix.to_s
         self.media_website = "http://gs#{url_common}/?action=view&current=#{self.media_id}.#{self.media_content_type}"
       end
-      
     end
   end
 end

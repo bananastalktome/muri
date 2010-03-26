@@ -3,6 +3,7 @@ class Muri
   module Filter
     module Vimeo
       
+      protected
       VIMEO_VIDEO = "video"
       VIMEO_ALBUM = "album"
       
