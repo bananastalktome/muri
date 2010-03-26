@@ -3,7 +3,7 @@ class Muri
   module Filter
     module Youtube
 
-      protected
+      private
       YOUTUBE_VIDEO = "video"
       YOUTUBE_PLAYLIST = "playlist"
       REGEX_YOUTUBE_VIDEO_WATCH = /^\/watch$/i
@@ -43,11 +43,11 @@ class Muri
         end
 
         self.media_api_id = self.media_id
-        if self.media_api_type == YOUTUBE_VIDEO
+        if self.youtube_video?
           self.media_website = "#{url_common}/watch?v=#{self.media_id}"
           self.media_url = "#{url_common}/v/#{self.media_id}"
           self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
-        elsif self.media_api_type == YOUTUBE_PLAYLIST
+        elsif self.youtube_playlist?
           self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
           self.media_url = "#{url_common}/p/#{self.media_id}"
         end

@@ -2,15 +2,6 @@ class Muri
 
   protected
 
-  VIMEO_MEDIA_URL = lambda do |obj|
-    "http://vimeo.com/moogaloop.swf?clip_id=#{obj.media_id}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
-  end
-  VIMEO_MEDIA_WEBSITE = lambda do |obj|
-    str = "http://vimeo.com/"
-    str += "album/" if obj.media_api_type == VIMEO_ALBUM
-    str += obj.media_id
-  end
-
   def self.param_parse(query)
     params_flat = { }
     params = CGI::parse(query)

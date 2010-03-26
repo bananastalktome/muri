@@ -3,9 +3,9 @@ class Muri
   module Filter
     module Photobucket
 
-      protected
-      attr_accessor :direct_url_suffix
 
+      attr_accessor :direct_url_suffix
+    private
       PHOTOBUCKET_MEDIA = "media"
       PHOTOBUCKET_ALBUM = "album"
       PHOTOBUCKET_GROUP_ALBUM = "group_album"
@@ -72,13 +72,15 @@ class Muri
           raise UnsupportedURI
         end
 
-        if self.media_api_type == PHOTOBUCKET_MEDIA
+        if self.photobucket_media?#self.media_api_type == PHOTOBUCKET_MEDIA
           self.media_api_id = self.media_url
           self.media_thumbnail = "http://mobth" + self.direct_url_suffix.to_s
         else
           self.media_api_id = self.media_id
         end
       end
+
+      private
 
       def photobucket_image_common(pb_id, album)
         url_common = "#{self.media_server_id}.photobucket.com/albums/#{pb_id}/#{album}/"
@@ -88,7 +90,6 @@ class Muri
         self.media_website = "http://s#{url_common}?action=view&current=#{self.media_id}.#{self.media_content_type}"
       end
 
-
       def photobucket_group_image_common(group, hash_value)
         url_common = "#{self.media_server_id}.photobucket.com/groups/#{group}/#{hash_value}"
         self.direct_url_suffix = "#{url_common}/#{self.media_id}.#{self.media_content_type}"
@@ -96,7 +97,6 @@ class Muri
         self.media_url = "http://gi" + self.direct_url_suffix.to_s
         self.media_website = "http://gs#{url_common}/?action=view&current=#{self.media_id}.#{self.media_content_type}"
       end
-
     end
   end
 end

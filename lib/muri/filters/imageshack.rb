@@ -2,8 +2,8 @@ class Muri
   module Filter
     module Imageshack
 
-      protected
-      
+      private
+
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Imageshack] = "imageshack_parse"

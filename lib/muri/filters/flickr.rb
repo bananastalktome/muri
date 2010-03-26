@@ -2,7 +2,7 @@ class Muri
   module Filter
     module Flickr
 
-      protected
+      private
       FLICKR_PHOTO = "photo"
       FLICKR_SET = "set"
 
@@ -44,9 +44,9 @@ class Muri
         end
 
         self.media_api_id = self.media_id
-        if self.media_api_type == FLICKR_PHOTO
+        if self.flickr_photo?
           self.media_website = "http://flic.kr/p/" + self.class.encode58(self.media_id.to_i)
-        elsif self.media_api_type == FLICKR_SET
+        elsif self.flickr_set?
           self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct
         end
       end

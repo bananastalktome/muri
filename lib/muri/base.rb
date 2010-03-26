@@ -1,7 +1,7 @@
 require 'uri'
 class Muri
 
-  attr_accessor :url, :errors
+  attr_reader :url, :errors
 
   # NoParser raised if no parser is found for URI
   class NoParser < StandardError; end
@@ -12,13 +12,13 @@ class Muri
 
   PARSERS = { }
 
-  include Filter::Youtube
-  include Filter::Flickr
-  include Filter::Vimeo
-  include Filter::Imageshack
-  include Filter::Photobucket
-  include Filter::Facebook
-  include Filter::Twitpic
+  ['Youtube', 'Flickr', 'Vimeo', 'Imageshack', 'Photobucket', 'Facebook', 'Twitpic'].each do |filter|
+    eval("include Filter::#{filter}")
+    self.constants.reject { |c| c !~ /^#{filter.upcase}/ }.each do |exp|
+      meth = (exp.to_s.downcase + "?").to_sym
+      define_method(meth) { self.media_api_type == eval(exp) }
+    end
+  end
 
   def self.parse(url)
     self.new(url)
@@ -50,6 +50,7 @@ class Muri
   end
 
   private
+  attr_writer :url, :errors
 
   def _parse(raw_url)
     begin

@@ -3,7 +3,7 @@ class Muri
   module Filter
     module Vimeo
 
-      protected
+      private
       VIMEO_VIDEO = "video"
       VIMEO_ALBUM = "album"
       REGEX_VIMEO_VIDEO_OR_ALBUM = /^\/(album\/)?([0-9]+)\/?$/i
@@ -38,10 +38,20 @@ class Muri
         end
 
         self.media_api_id = self.media_id
-        self.media_website = VIMEO_MEDIA_WEBSITE.call self #:api_type => self.media_api_type, :id => self.media_id
-        if self.media_api_type == VIMEO_VIDEO
-          self.media_url = VIMEO_MEDIA_URL.call self #:id => self.media_id
+        self.media_website = Filter::Vimeo.vimeo_media_website self #:api_type => self.media_api_type, :id => self.media_id
+        if self.vimeo_video?
+          self.media_url = Filter::Vimeo.vimeo_media_url self #:id => self.media_id
         end
+      end
+
+      def self.vimeo_media_url(obj)
+        "http://vimeo.com/moogaloop.swf?clip_id=#{obj.media_id}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
+      end
+
+      def self.vimeo_media_website(obj)
+        str = "http://vimeo.com/"
+        str += "album/" if obj.media_api_type == VIMEO_ALBUM
+        str += obj.media_id
       end
     end
   end
