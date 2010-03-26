@@ -96,8 +96,7 @@ class Muri
       
       def self.parsable?(uri)
         uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
-      end  
-      
+      end
     end
   end
 end

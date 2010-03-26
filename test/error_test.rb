@@ -35,7 +35,7 @@ describe "Parse Errors" do
   end
   
   it "should not bomb if no URI is provided" do
-    lambda { Muri.parse '' }.should_not raise_exception()
+    lambda { Muri.parse nil }.should_not raise_exception()
   end
   
 end
