@@ -2,7 +2,8 @@ require 'cgi'
 class Muri
   module Filter
     module Youtube
-
+      
+      protected
       YOUTUBE_VIDEO = "video"
       YOUTUBE_PLAYLIST = "playlist"
 
@@ -12,42 +13,41 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?youtube\.com$/i
+      end
+      
       def youtube_parse
-        @info[:service] = 'Youtube'
+        self.media_service = 'Youtube'
         url_common = "http://www.youtube.com"
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
+        params = self.url.query.nil? ? {} : CGI::parse(self.url.query)#.each {|k,v| b[k] = v.first}
         
-        if (@url.path =~ /^\/watch$/i) && params.include?("v")
-          @info[:media_id] = params["v"].first
-          @info[:media_api_type] = YOUTUBE_VIDEO
-        elsif (@url.path =~ /\/v\/([a-z0-9\-\_]+)/i)
-          @info[:media_id] = $1
-          @info[:media_api_type] = YOUTUBE_VIDEO
-        elsif (@url.path =~ /^\/p\/([a-z0-9\-\_]+)/i)
-          @info[:media_id] = $1
-          @info[:media_api_type] = YOUTUBE_PLAYLIST
-        elsif (@url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
-          @info[:media_id] = params['p'].first
-          @info[:media_api_type] = YOUTUBE_PLAYLIST
+        if (self.url.path =~ /^\/watch$/i) && params.include?("v")
+          self.media_id = params["v"].first
+          self.media_api_type = YOUTUBE_VIDEO
+        elsif (self.url.path =~ /\/v\/([a-z0-9\-\_]+)/i)
+          self.media_id = $1
+          self.media_api_type = YOUTUBE_VIDEO
+        elsif (self.url.path =~ /^\/p\/([a-z0-9\-\_]+)/i)
+          self.media_id = $1
+          self.media_api_type = YOUTUBE_PLAYLIST
+        elsif (self.url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
+          self.media_id = params['p'].first
+          self.media_api_type = YOUTUBE_PLAYLIST
         else
           raise UnsupportedURI          
         end
         
-        @info[:media_api_id] = @info[:media_id]
-        if @info[:media_api_type] == YOUTUBE_VIDEO
-          @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
-          @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
-          @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
-        elsif @info[:media_api_type] == YOUTUBE_PLAYLIST
-          @info[:website] = "#{url_common}/view_play_list?p=#{@info[:media_id]}"
-          @info[:media_url] = "#{url_common}/p/#{@info[:media_id]}"
+        self.media_api_id = self.media_id
+        if self.media_api_type == YOUTUBE_VIDEO
+          self.media_website = "#{url_common}/watch?v=#{self.media_id}"
+          self.media_url = "#{url_common}/v/#{self.media_id}"
+          self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
+        elsif self.media_api_type == YOUTUBE_PLAYLIST
+          self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
+          self.media_url = "#{url_common}/p/#{self.media_id}"
         end
-        
-        self
-      end     
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?youtube\.com$/i
-      end      
+      end
     end
   end
 end

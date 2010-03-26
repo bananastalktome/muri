@@ -2,6 +2,7 @@ class Muri
   module Filter
     module Flickr
     
+      protected
       FLICKR_PHOTO = "photo"
       FLICKR_SET = "set"
       
@@ -11,44 +12,40 @@ class Muri
         end
       end
       
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
+      end
+      
       def flickr_parse
-        @info[:service] = 'Flickr'
+        self.media_service = 'Flickr'
         
-        if @url.path =~ /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
+        if self.url.path =~ /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
           media_creator = $1
-          @info[:media_id] = $3
-          @info[:media_api_type] = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
-        elsif (@url.host + @url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
+          self.media_id = $3
+          self.media_api_type = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
+        elsif (self.url.host + self.url.path) =~ /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
           farm = $1
           server_id = $2
-          @info[:media_id] = $3
-          @info[:media_api_type] = FLICKR_PHOTO
+          self.media_id = $3
+          self.media_api_type = FLICKR_PHOTO
           media_secret = $4
-          url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{@info[:media_id]}_#{media_secret}"
-          @info[:media_url] = "#{url_prefix}.jpg"
-          @info[:media_thumbnail] = "#{url_prefix}_t.jpg"
-        elsif (@url.host + @url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
-          @info[:media_id] = self.class.decode58($1)
-          @info[:media_api_type] = FLICKR_PHOTO
+          url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
+          self.media_url = "#{url_prefix}.jpg"
+          self.media_thumbnail = "#{url_prefix}_t.jpg"
+        elsif (self.url.host + self.url.path) =~ /^flic\.kr\/p\/([a-z0-9]+)/i
+          self.media_id = self.class.decode58($1)
+          self.media_api_type = FLICKR_PHOTO
         else
           raise UnsupportedURI          
         end
         
-        @info[:media_api_id] = @info[:media_id]
-        if @info[:media_api_type] == FLICKR_PHOTO 
-          @info[:website] = "http://flic.kr/p/" + self.class.encode58(@info[:media_id].to_i)
-        elsif @info[:media_api_type] == FLICKR_SET
-          @info[:website] = "http://www.flickr.com/photos/#{media_creator}/sets/#{@info[:media_id]}"#/show takes direct
+        self.media_api_id = self.media_id
+        if self.media_api_type == FLICKR_PHOTO 
+          self.media_website = "http://flic.kr/p/" + self.class.encode58(self.media_id.to_i)
+        elsif self.media_api_type == FLICKR_SET
+          self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct
         end
-        
-        self
       end
-      
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
-      end  
-  
-      
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'lib/muri.rb'
 shared_examples_for "Twitpic parse" do
   it "should be Twitpic service" do
-    @a.service.should == 'Twitpic'
+    @a.media_service.should == 'Twitpic'
   end
   it "should be valid" do
     @a.valid?.should == true
@@ -25,7 +25,7 @@ describe "Twitpic parse first" do
   end
   
   it "should have a website" do
-    @a.website.should == "http://twitpic.com/17d7th"
+    @a.media_website.should == "http://twitpic.com/17d7th"
   end
    
   it "should have media api id" do

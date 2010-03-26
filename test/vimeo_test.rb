@@ -2,7 +2,7 @@ require 'lib/muri.rb'
 
 shared_examples_for "Vimeo parse" do
   it "should be Vimeo service" do
-    @a.service.should == 'Vimeo'
+    @a.media_service.should == 'Vimeo'
   end
   
   it "should be valid" do
@@ -36,8 +36,12 @@ describe "Vimeo parse first" do
     @a.media_id.should == '7312128'
   end
   
+  it "should have a media url" do
+    @a.media_url.should == 'http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1'
+  end
+  
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/7312128'
+    @a.media_website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
@@ -55,8 +59,12 @@ describe "Vimeo parse second" do
     @a.media_id.should == '7312128'
   end
   
+  it "should have a media url" do
+    @a.media_url.should == "http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
+  end
+  
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/7312128'
+    @a.media_website.should == 'http://vimeo.com/7312128'
   end
    
   it "should have media api id" do
@@ -75,7 +83,7 @@ describe "Vimeo parse album first" do
   end
 
   it "should have a website" do
-    @a.website.should == 'http://vimeo.com/album/89702'
+    @a.media_website.should == 'http://vimeo.com/album/89702'
   end
    
   it "should have media api id" do

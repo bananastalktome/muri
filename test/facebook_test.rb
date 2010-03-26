@@ -2,7 +2,7 @@ require 'lib/muri.rb'
 
 shared_examples_for "Facebook parse" do
   it "should be Facebook service" do
-    @a.service.should == 'Facebook'
+    @a.media_service.should == 'Facebook'
   end
 
   it "should be valid" do
@@ -53,7 +53,7 @@ describe "Facebook parse second" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://www.facebook.com/photo.php?pid=34929102&l=a1abf8cd37&id=15201063'
+    @a.media_website.should == 'http://www.facebook.com/photo.php?pid=34929102&l=a1abf8cd37&id=15201063'
   end
    
   it "should have media api id" do

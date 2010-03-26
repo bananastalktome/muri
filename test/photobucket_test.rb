@@ -2,7 +2,7 @@ require 'lib/muri.rb'
 
 shared_examples_for "Photobucket parse" do
   it "should be Photobucket service" do
-    @a.service.should == 'Photobucket'
+    @a.media_service.should == 'Photobucket'
   end
   
   it "should be valid" do
@@ -13,7 +13,7 @@ end
 shared_examples_for "Photobucket parse photo" do
   it_should_behave_like "Photobucket parse"
   it "should be Photobucket service" do
-    @a.service.should == 'Photobucket'
+    @a.media_service.should == 'Photobucket'
   end
   
   it "should be valid" do
@@ -49,11 +49,11 @@ describe "Photobucket parse group album first" do
     @a.media_id.should == 'F9P8EG7YR8'
   end
   it "should have media api id" do
-    @a.media_id.should == 'F9P8EG7YR8'
+    @a.media_api_id.should == 'F9P8EG7YR8'
   end
   
   it "shoud have website" do
-    @a.website.should == 'http://gs0001.photobucket.com/groups/0001/F9P8EG7YR8/'
+    @a.media_website.should == 'http://gs0001.photobucket.com/groups/0001/F9P8EG7YR8/'
   end
 end
 
@@ -67,11 +67,11 @@ describe "Photobucket parse album first" do
     @a.media_id.should == 'pbapi/api-test/api-test-subalbum'
   end
   it "should have media api id" do
-    @a.media_id.should == 'pbapi/api-test/api-test-subalbum'
+    @a.media_api_id.should == 'pbapi/api-test/api-test-subalbum'
   end
   
   it "shoud have website" do
-    @a.website.should == 'http://s244.photobucket.com/albums/gg17/pbapi/api-test/api-test-subalbum/'
+    @a.media_website.should == 'http://s244.photobucket.com/albums/gg17/pbapi/api-test/api-test-subalbum/'
   end
 end
 
@@ -86,7 +86,7 @@ describe "Photobucket parse first" do
   end
   
   it "should have content type" do
-    @a.content_type.should == "jpg"
+    @a.media_content_type.should == "jpg"
   end
 
   it "should have media url" do
@@ -110,11 +110,11 @@ describe "Photobucket parse first" do
   end
   
   it "should have content type" do
-    @a.content_type.should == "jpg"
+    @a.media_content_type.should == "jpg"
   end
   
   it "should have a website" do
-    @a.website.should == "http://s244.photobucket.com/albums/gg17/pbapi/?action=view&current=file.jpg"
+    @a.media_website.should == "http://s244.photobucket.com/albums/gg17/pbapi/?action=view&current=file.jpg"
   end
   
   it "should have media url" do
@@ -141,11 +141,11 @@ describe "Photobucket parse second" do
   end
   
   it "should have content type" do
-    @a.content_type.should == "jpg"
+    @a.media_content_type.should == "jpg"
   end
   
   it "should have a website" do
-    @a.website.should == "http://gs0006.photobucket.com/groups/0006/G5PAK3TBQS/?action=view&current=DSCF0015-1-1.jpg"
+    @a.media_website.should == "http://gs0006.photobucket.com/groups/0006/G5PAK3TBQS/?action=view&current=DSCF0015-1-1.jpg"
   end
   
   it "should have media url" do

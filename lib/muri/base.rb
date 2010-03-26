@@ -1,6 +1,8 @@
 require 'uri'
 class Muri
-
+  
+  attr_accessor :url, :errors
+  
   # NoParser raised if no parser is found for URI
   class NoParser < StandardError; end
   
@@ -33,13 +35,13 @@ class Muri
   
   # Determine if Muri object is valid (errors mean not valid)
   def valid?
-    @info[:errors].nil?
+    self.errors.nil?
   end
   
   # 'Borrowed' from uri/generic.rb
   @@to_s = Kernel.instance_method(:to_s)
   def inspect
-    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.original_url}>"}
+    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.media_original_url}>"}
   end
   
   # Show a list of the available parsers
@@ -51,29 +53,42 @@ class Muri
   
   def _parse(raw_url)
     begin
-      @url = URI.parse(raw_url)
-      if @url.scheme.nil?
+      self.url = URI.parse(raw_url)
+      if self.url.scheme.nil?
         raw_url = "http://#{raw_url}"
-        @url = URI.parse(raw_url)
+        self.url = URI.parse(raw_url)
       end
       if parser = determine_feed_parser
-        @info[:uri] = @url
-        @info[:original_url] = raw_url
+        self.media_uri = self.url
+        self.media_original_url = raw_url
         send(PARSERS[parser])
       else
         raise NoParser
       end
     rescue NoParser, UnsupportedURI, URI::BadURIError, URI::InvalidURIError => e
-      @info[:errors] = "#{e.class}"
+      self.errors = "#{e.class}"
     end
   end
   
   def determine_feed_parser
-    PARSERS.keys.detect {|klass| klass.parsable?(@url)}
+    PARSERS.keys.detect {|klass| klass.parsable?(self.url)}
   end
-      
-  def method_missing(func, args = nil)
-    @info[func.to_sym].nil? ? nil : @info[func.to_sym]
+
+
+  def method_missing(method, *arguments, &block)
+    if method.to_s =~ /^media_(.+)/
+      process_option_method(method, *arguments)
+    else
+      super
+    end
+  end
+  
+  def process_option_method(method, *arguments)
+    if method.to_s =~ /^media_(.+)=/
+      @info[$1.to_sym] = arguments.first
+    elsif method.to_s =~ /^media_(.+)/
+      @info[$1.to_sym]
+    end
   end
   
   protected

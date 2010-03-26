@@ -1,7 +1,7 @@
 require 'lib/muri.rb'
 shared_examples_for "Flickr parse" do
   it "should be Flickr service" do
-    @a.service.should == 'Flickr'
+    @a.media_service.should == 'Flickr'
   end
   it "should be valid" do
     @a.valid?.should == true
@@ -32,7 +32,7 @@ describe "Flickr parse first" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://flic.kr/p/4bxMqq'
+    @a.media_website.should == 'http://flic.kr/p/4bxMqq'
   end
    
   it "should have media api id" do
@@ -49,7 +49,7 @@ describe "Flickr parse second" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://flic.kr/p/4bxMqq'
+    @a.media_website.should == 'http://flic.kr/p/4bxMqq'
   end
    
   it "should have media api id" do
@@ -71,7 +71,7 @@ describe "Flickr parse set first" do
   end
   
   it "should have a website" do
-    @a.website.should == 'http://www.flickr.com/photos/bananastalktome/sets/72157623467777820'
+    @a.media_website.should == 'http://www.flickr.com/photos/bananastalktome/sets/72157623467777820'
   end
    
   it "should have media api id" do

@@ -48,6 +48,8 @@ Gem::Specification.new do |s|
   s.summary = %q{Media URI Parser}
   s.test_files = [
     "test/imageshack_test.rb",
+    "test/basic_tests.rb",
+     "test/facebook_test.rb",
      "test/twitpic_test.rb",
      "test/flickr_test.rb",
      "test/vimeo_test.rb",
