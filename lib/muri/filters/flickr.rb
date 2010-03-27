@@ -21,13 +21,13 @@ class Muri
       end
 
       def flickr_parse
-        self.media_service = 'Flickr'
+        self.media_service = FLICKR_SERVICE_NAME #'Flickr'
 
-        if self.url.path =~ REGEX_FLICKR_PHOTO_OR_SET
+        if self.uri.path =~ REGEX_FLICKR_PHOTO_OR_SET
           media_creator = $1
           self.media_id = $3
           self.media_api_type = $2.nil? ? FLICKR_PHOTO : FLICKR_SET
-        elsif (self.url.host + self.url.path) =~ REGEX_FLICKR_STATIC_PHOTO
+        elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_STATIC_PHOTO
           farm = $1
           server_id = $2
           self.media_id = $3
@@ -36,19 +36,49 @@ class Muri
           url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
           self.media_url = "#{url_prefix}.jpg"
           self.media_thumbnail = "#{url_prefix}_t.jpg"
-        elsif (self.url.host + self.url.path) =~ REGEX_FLICKR_SHORTURL
-          self.media_id = self.class.decode58($1)
+        elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_SHORTURL
+          self.media_id = Filter::Flickr.decode58($1)
           self.media_api_type = FLICKR_PHOTO
         else
           raise UnsupportedURI
         end
 
         self.media_api_id = self.media_id
-        if self.flickr_photo?
-          self.media_website = "http://flic.kr/p/" + self.class.encode58(self.media_id.to_i)
-        elsif self.flickr_set?
+        if self.is_flickr_photo?
+          self.media_website = "http://flic.kr/p/" + Filter::Flickr.encode58(self.media_id.to_i)
+        elsif self.is_flickr_set?
           self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct
         end
+      end
+      
+      # Ported from PHP.
+      def self.decode58(str)
+        decoded = 0
+        multi = 1
+        alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+        while str.length > 0
+          digit = str[(str.length - 1),1]
+          decoded += multi * alphabet.index(digit)
+          multi = multi * alphabet.length
+          str.chop!
+        end
+    
+        decoded
+      end
+    
+      # Ported from PHP.
+      def self.encode58(str)
+        alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+        base_count = alphabet.length
+        encoded = ''
+        while str >= base_count
+          div = str / base_count
+          mod = (str-(base_count * div))
+          encoded = alphabet[mod,1] + encoded
+          str = div
+        end
+        encoded = (alphabet[str,1] + encoded) if str
+        encoded
       end
     end
   end

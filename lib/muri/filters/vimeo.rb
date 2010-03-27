@@ -21,16 +21,16 @@ class Muri
       end
 
       def vimeo_parse
-        self.media_service = 'Vimeo'
-        params = self.url.query.nil? ? {} : self.class.param_parse(self.url.query)
+        self.media_service = VIMEO_SERVICE_NAME #'Vimeo'
+        params = Muri.param_parse(self.uri.query)
 
-        if self.url.path =~ REGEX_VIMEO_VIDEO_OR_ALBUM
+        if self.uri.path =~ REGEX_VIMEO_VIDEO_OR_ALBUM
           self.media_id = $2
           self.media_api_type = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
-        elsif self.url.path =~ REGEX_VIMEO_GROUP_VIDEO
+        elsif self.uri.path =~ REGEX_VIMEO_GROUP_VIDEO
           self.media_id = $2
           self.media_api_type = VIMEO_VIDEO
-        elsif ((self.url.path =~ REGEX_VIMEO_SWF_VIDEO) && (params["clip_id"] =~ /^([0-9]+)$/))
+        elsif ((self.uri.path =~ REGEX_VIMEO_SWF_VIDEO) && (params["clip_id"] =~ /^([0-9]+)$/))
           self.media_id = params["clip_id"]
           self.media_api_type = VIMEO_VIDEO
         else
@@ -39,7 +39,7 @@ class Muri
 
         self.media_api_id = self.media_id
         self.media_website = Filter::Vimeo.vimeo_media_website self #:api_type => self.media_api_type, :id => self.media_id
-        if self.vimeo_video?
+        if self.is_vimeo_video?
           self.media_url = Filter::Vimeo.vimeo_media_url self #:id => self.media_id
         end
       end

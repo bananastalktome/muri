@@ -16,10 +16,10 @@ class Muri
       end
 
       def twitpic_parse
-        self.media_service = 'Twitpic'
+        self.media_service = TWITPIC_SERVICE_NAME #'Twitpic'
         url_common = "http://twitpic.com"
 
-        if self.url.path =~ /^\/([a-z0-9]+)/i
+        if self.uri.path =~ /^\/([a-z0-9]+)/i
           self.media_id = $1
           self.media_website = "#{url_common}/#{self.media_id}"
           self.media_url = "#{url_common}/show/large/#{self.media_id}"

@@ -22,20 +22,21 @@ class Muri
       end
 
       def youtube_parse
-        self.media_service = 'Youtube'
+        self.media_service = YOUTUBE_SERVICE_NAME #'Youtube'
+        
         url_common = "http://www.youtube.com"
-        params = self.url.query.nil? ? {} : self.class.param_parse(self.url.query)
+        params = Muri.param_parse(self.uri.query)
 
-        if (self.url.path =~ REGEX_YOUTUBE_VIDEO_WATCH) && params['v']
+        if (self.uri.path =~ REGEX_YOUTUBE_VIDEO_WATCH) && params['v']
           self.media_id = params['v']
           self.media_api_type = YOUTUBE_VIDEO
-        elsif (self.url.path =~ REGEX_YOUTUBE_VIDEO_DIRECT)
+        elsif (self.uri.path =~ REGEX_YOUTUBE_VIDEO_DIRECT)
           self.media_id = $1
           self.media_api_type = YOUTUBE_VIDEO
-        elsif (self.url.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
+        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
           self.media_id = $1
           self.media_api_type = YOUTUBE_PLAYLIST
-        elsif (self.url.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && (params['p'])
+        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && (params['p'])
           self.media_id = params['p']
           self.media_api_type = YOUTUBE_PLAYLIST
         else
@@ -43,11 +44,11 @@ class Muri
         end
 
         self.media_api_id = self.media_id
-        if self.youtube_video?
+        if self.is_youtube_video?
           self.media_website = "#{url_common}/watch?v=#{self.media_id}"
           self.media_url = "#{url_common}/v/#{self.media_id}"
           self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
-        elsif self.youtube_playlist?
+        elsif self.is_youtube_playlist?
           self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
           self.media_url = "#{url_common}/p/#{self.media_id}"
         end

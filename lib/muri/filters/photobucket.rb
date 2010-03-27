@@ -24,17 +24,17 @@ class Muri
       end
 
       def photobucket_parse
-        self.media_service = 'Photobucket'
+        self.media_service = PHOTOBUCKET_SERVICE_NAME #'Photobucket'
 
-        self.url.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
+        self.uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
         self.media_server_id = $1.gsub(/([a-z]*)/i,"")
-        params = self.url.query.nil? ? {} : self.class.param_parse(self.url.query)
+        params = Muri.param_parse(self.uri.query)
 
-        if self.url.path =~ REGEX_PHOTOBUCKET_IMAGE
+        if self.uri.path =~ REGEX_PHOTOBUCKET_IMAGE
           self.media_id = $3
           self.media_content_type = $4
           photobucket_image_set_common($1, $2)
-        elsif self.url.path =~ REGEX_PHOTOBUCKET_ALBUM_OR_IMAGE
+        elsif self.uri.path =~ REGEX_PHOTOBUCKET_ALBUM_OR_IMAGE
           pb_id = $1
           album = $2
           url_common = "#{self.media_server_id}.photobucket.com/albums/#{pb_id}/#{album}"
@@ -48,11 +48,11 @@ class Muri
             self.media_api_type = PHOTOBUCKET_ALBUM
             self.media_website = "http://s#{url_common}/"
           end
-        elsif self.url.path =~ REGEX_PHOTOBUCKET_GROUP_IMAGE
+        elsif self.uri.path =~ REGEX_PHOTOBUCKET_GROUP_IMAGE
           self.media_id = $3
           self.media_content_type = $4
           photobucket_group_image_set_common($1, $2)
-        elsif self.url.path =~ REGEX_PHOTOBUCKET_GROUP_ALBUM_OR_IMAGE
+        elsif self.uri.path =~ REGEX_PHOTOBUCKET_GROUP_ALBUM_OR_IMAGE
           group = $1
           hash_value = $2
           url_common = "#{self.media_server_id}.photobucket.com/groups/#{group}/#{hash_value}"
@@ -70,7 +70,7 @@ class Muri
           raise UnsupportedURI
         end
 
-        self.media_api_id = self.photobucket_media? ? self.media_url : self.media_id
+        self.media_api_id = self.is_photobucket_media? ? self.media_url : self.media_id
       end
 
       private

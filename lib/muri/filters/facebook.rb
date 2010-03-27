@@ -22,19 +22,19 @@ class Muri
       end
 
       def facebook_parse
-        self.media_service = 'Facebook'
-        params = self.url.query.nil? ? {} : self.class.param_parse(self.url.query)
+        self.media_service = FACEBOOK_SERVICE_NAME #'Facebook'
+        params = Muri.param_parse(self.uri.query)
 
         url_common = "http://www.facebook.com"
 
-#         if self.url.path =~ /^\/v\/([0-9]+)/
+#         if self.uri.path =~ /^\/v\/([0-9]+)/
 #           @info[:media_id] = $1
 #           @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
 #
 #           # Currently no API for video, but media_id is best guess value for such content
 #           @info[:media_api_id] = @info[:media_id]
 #           @info[:media_api_type] = FACEBOOK_VIDEO
-        if ((self.url.path =~ REGEX_FACEBOOK_PHOTO) &&
+        if ((self.uri.path =~ REGEX_FACEBOOK_PHOTO) &&
             params["pid"] =~ /^([0-9]+)$/ &&
             params["id"] =~ /^([0-9]+)$/ &&
             params["l"] =~ /^([0-9a-z]+)$/i)
@@ -45,7 +45,7 @@ class Muri
           share_key = params["l"]
 
           self.media_website = "#{url_common}/photo.php?pid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
-        elsif ((self.url.path =~ REGEX_FACEBOOK_ALBUM) &&
+        elsif ((self.uri.path =~ REGEX_FACEBOOK_ALBUM) &&
             params["aid"] =~ /^([0-9]+)$/ &&
             params["id"] =~ /^([0-9]+)$/ &&
             params["l"] =~ /^([0-9a-z]+)$/i)

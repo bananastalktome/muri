@@ -15,16 +15,16 @@ class Muri
       end
 
       def imageshack_parse
-       self.media_service = 'Imageshack'
+       self.media_service = IMAGESHACK_SERVICE_NAME #'Imageshack'
 
-        self.url.host =~ /^img([0-9]*?)\.imageshack\.us/i
+        self.uri.host =~ /^img([0-9]*?)\.imageshack\.us/i
         server_id = $1
         url_common = "http://img#{server_id}.imageshack.us"
 
-        if self.url.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+)(\/)?/i
+        if self.uri.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+)(\/)?/i
           self.media_id = $1
           self.media_content_type = $2
-        elsif self.url.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+)/i
+        elsif self.uri.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+)/i
           content_server_id = $2
           self.media_id = $3
           self.media_content_type = $4
