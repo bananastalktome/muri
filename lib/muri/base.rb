@@ -49,7 +49,7 @@ class Muri
   # 'Borrowed' from uri/generic.rb
   @@to_s = Kernel.instance_method(:to_s)
   def inspect
-    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.media_original_url}>"}
+    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.uri.to_s}>"}
   end
 
   private
@@ -66,6 +66,7 @@ class Muri
         #self.media_uri = self.uri
         #self.media_original_url = raw_url
         send(PARSERS[parser])
+        @info.freeze
       else
         raise NoParser
       end
