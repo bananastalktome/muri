@@ -1,55 +1,58 @@
-require 'cgi'
 class Muri
   module Filter
     module Youtube
 
+      private
       YOUTUBE_VIDEO = "video"
       YOUTUBE_PLAYLIST = "playlist"
+      
+      REGEX_YOUTUBE_VIDEO_WATCH = /^\/watch\/?$/i
+      REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i
+      REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list\/?$/i
+      REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i
 
       def self.included(base)
-        base.class_eval do 
+        base.class_eval do
           self::PARSERS[Muri::Filter::Youtube] = "youtube_parse"
         end
       end
-      
+
+      def self.parsable?(uri)
+        uri.host =~ /^(www\.)?youtube\.com$/i
+      end
+
       def youtube_parse
-        @info[:service] = 'Youtube'
+        self.media_service = YOUTUBE_SERVICE_NAME #'Youtube'
+        
         url_common = "http://www.youtube.com"
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
-        
-        if (@url.path =~ /^\/watch$/i) && params.include?("v")
-          @info[:media_id] = params["v"].first
-          @info[:media_api_type] = YOUTUBE_VIDEO
-        elsif (@url.path =~ /\/v\/([a-z0-9\-\_]+)/i)
-          @info[:media_id] = $1
-          @info[:media_api_type] = YOUTUBE_VIDEO
-        elsif (@url.path =~ /^\/p\/([a-z0-9\-\_]+)/i)
-          @info[:media_id] = $1
-          @info[:media_api_type] = YOUTUBE_PLAYLIST
-        elsif (@url.path =~ /^\/view\_play\_list$/i) && (params.include?('p'))
-          @info[:media_id] = params['p'].first
-          @info[:media_api_type] = YOUTUBE_PLAYLIST
-        end
-        
-        if self.valid?
-          if @info[:media_api_type] == YOUTUBE_VIDEO
-            @info[:website] = "#{url_common}/watch?v=#{@info[:media_id]}"
-            @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
-            @info[:media_thumbnail] = "http://i.ytimg.com/vi/#{@info[:media_id]}/default.jpg"
-          elsif @info[:media_api_type] == YOUTUBE_PLAYLIST
-            @info[:website] = "#{url_common}/view_play_list?p=#{@info[:media_id]}"
-            @info[:media_url] = "#{url_common}/p/#{@info[:media_id]}"
-          end
-          @info[:media_api_id] = @info[:media_id]
+        params = Muri.param_parse(self.uri.query)
+
+        if (self.uri.path =~ REGEX_YOUTUBE_VIDEO_WATCH) && params['v']
+          self.media_id = params['v']
+          self.media_api_type = YOUTUBE_VIDEO
+        elsif (self.uri.path =~ REGEX_YOUTUBE_VIDEO_DIRECT)
+          self.media_id = $1
+          self.media_api_type = YOUTUBE_VIDEO
+        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
+          self.media_id = $1
+          self.media_api_type = YOUTUBE_PLAYLIST
+        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && (params['p'])
+          self.media_id = params['p']
+          self.media_api_type = YOUTUBE_PLAYLIST
         else
           raise UnsupportedURI
         end
-        
-        self
-      end     
-      def self.parsable?(uri)
-        uri.host =~ /^(www\.)?youtube\.com$/i
-      end      
+
+        self.media_api_id = self.media_id
+        if self.is_youtube_video?
+          self.media_website = "#{url_common}/watch?v=#{self.media_id}"
+          self.media_url = "#{url_common}/v/#{self.media_id}"
+          self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
+        elsif self.is_youtube_playlist?
+          self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
+          self.media_url = "#{url_common}/p/#{self.media_id}"
+        end
+      end
     end
   end
 end

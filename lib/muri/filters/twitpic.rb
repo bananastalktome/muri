@@ -1,41 +1,39 @@
 class Muri
   module Filter
     module Twitpic
-      
+
+      private
       TWITPIC_PHOTO = 'photo'
+
+      REGEX_TWITPIC_PHOTO = /^\/([a-z0-9]+)/i
       
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Twitpic] = "twitpic_parse"
         end
       end
-      
-      def twitpic_parse
-        @info[:service] = 'Twitpic'
-        url_common = "http://twitpic.com"
-        
-        if @url.path =~ /^\/([a-z0-9]+)/i
-          @info[:media_id] = $1
-          @info[:website] = "#{url_common}/#{@info[:media_id]}"
-          @info[:media_url] = "#{url_common}/show/large/#{@info[:media_id]}"
-          @info[:media_thumbnail] = "#{url_common}/show/thumb/#{@info[:media_id]}"          
-          @info[:media_api_type] = TWITPIC_PHOTO
-        end
 
-        # Twitpic does not have an API to pull photo info. Media ID is best guess
-        if self.valid?
-          @info[:media_api_id] = @info[:media_id]
-        else
-          raise UnsupportedURI
-        end
-        
-        self
-      end            
- 
       def self.parsable?(uri)
         uri.host =~ /^twitpic\.com$/i
       end
-      
+
+      def twitpic_parse
+        self.media_service = TWITPIC_SERVICE_NAME #'Twitpic'
+        url_common = "http://twitpic.com"
+
+        if self.uri.path =~ REGEX_TWITPIC_PHOTO
+          self.media_id = $1
+          self.media_website = "#{url_common}/#{self.media_id}"
+          self.media_url = "#{url_common}/show/large/#{self.media_id}"
+          self.media_thumbnail = "#{url_common}/show/thumb/#{self.media_id}"
+          self.media_api_type = TWITPIC_PHOTO
+        else
+          raise UnsupportedURI
+        end
+
+        # Twitpic does not have an API to pull photo info. Media ID is best guess
+        self.media_api_id = self.media_id
+      end
     end
   end
 end

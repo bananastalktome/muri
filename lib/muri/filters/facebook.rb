@@ -1,68 +1,66 @@
-require 'cgi'
 class Muri
   module Filter
     module Facebook
-      
+
+      private
       FACEBOOK_PHOTO = "photo"
       #FACEBOOK_VIDEO = "video"
       FACEBOOK_ALBUM = "album"
-      
+      REGEX_FACEBOOK_PHOTO = /^\/photo\.php$/i
+      REGEX_FACEBOOK_ALBUM = /^\/album\.php$/i
+
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Facebook] = "facebook_parse"
         end
       end
-      
-      def facebook_parse
-        @info[:service] = 'Facebook'
-        params = @url.query.nil? ? {} : CGI::parse(@url.query)#.each {|k,v| b[k] = v.first}
-        url_common = "http://www.facebook.com"
-        
-#         if @url.path =~ /^\/v\/([0-9]+)/
-#           @info[:media_id] = $1
-#           @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
-#           
-#           # Currently no API for video, but media_id is best guess value for such content
-#           @info[:media_api_id] = @info[:media_id]
-#           @info[:media_api_type] = FACEBOOK_VIDEO
-        if ((@url.path =~ /^\/photo\.php$/i) && 
-            params.include?("pid") && params["pid"].first =~ /^([0-9]+)$/ && 
-            params.include?("id") && params["id"].first =~ /^([0-9]+)$/ && 
-            params.include?("l") && params["l"].first =~ /^([0-9a-z]+)$/i)
-          
-          @info[:media_api_type] = FACEBOOK_PHOTO
-          @info[:media_id] = params["pid"].first
-          media_creator = params["id"].first
-          share_key = params["l"].first
-          
-          @info[:website] = "#{url_common}/photo.php?pid=#{@info[:media_id]}&l=#{share_key}&id=#{media_creator}"
-        elsif ((@url.path =~ /^\/album\.php$/i) && 
-            params.include?("aid") && params["aid"].first =~ /^([0-9]+)$/ && 
-            params.include?("id") && params["id"].first =~ /^([0-9]+)$/ && 
-            params.include?("l") && params["l"].first =~ /^([0-9a-z]+)$/i)
-          
-          @info[:media_api_type] = FACEBOOK_ALBUM
-          @info[:media_id] = params["aid"].first
-          media_creator = params["id"].first
-          share_key = params["l"].first
-          
-          @info[:website] = "#{url_common}/album.php?aid=#{@info[:media_id]}&l=#{share_key}&id=#{media_creator}"
-        end
-        
-        if self.valid?
-          # The media_api_id is the PID which can be searched for in the facebook photos/albums table          
-          @info[:media_api_id] = (media_creator.to_i << 32) + @info[:media_id].to_i
-        else
-          raise UnsupportedURI
-        end
-        
-        self
-      end            
- 
+
       def self.parsable?(uri)
         uri.host =~ /^(www\.)?facebook\.com$/i
       end
-      
+
+      def facebook_parse
+        self.media_service = FACEBOOK_SERVICE_NAME #'Facebook'
+        params = Muri.param_parse(self.uri.query)
+
+        url_common = "http://www.facebook.com"
+
+#         if self.uri.path =~ /^\/v\/([0-9]+)/
+#           @info[:media_id] = $1
+#           @info[:media_url] = "#{url_common}/v/#{@info[:media_id]}"
+#
+#           # Currently no API for video, but media_id is best guess value for such content
+#           @info[:media_api_id] = @info[:media_id]
+#           @info[:media_api_type] = FACEBOOK_VIDEO
+        if ((self.uri.path =~ REGEX_FACEBOOK_PHOTO) &&
+            params["pid"] =~ /^([0-9]+)$/ &&
+            params["id"] =~ /^([0-9]+)$/ &&
+            params["l"] =~ /^([0-9a-z]+)$/i)
+
+          self.media_api_type = FACEBOOK_PHOTO
+          self.media_id = params["pid"]
+          media_creator = params["id"]
+          share_key = params["l"]
+
+          self.media_website = "#{url_common}/photo.php?pid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
+        elsif ((self.uri.path =~ REGEX_FACEBOOK_ALBUM) &&
+            params["aid"] =~ /^([0-9]+)$/ &&
+            params["id"] =~ /^([0-9]+)$/ &&
+            params["l"] =~ /^([0-9a-z]+)$/i)
+
+          self.media_api_type = FACEBOOK_ALBUM
+          self.media_id = params["aid"]
+          media_creator = params["id"]
+          share_key = params["l"]
+
+          self.media_website = "#{url_common}/album.php?aid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
+        else
+          raise UnsupportedURI
+        end
+
+        # The media_api_id is the PID which can be searched for in the facebook photos/albums table
+        self.media_api_id = (media_creator.to_i << 32) +self.media_id.to_i
+      end
     end
   end
 end

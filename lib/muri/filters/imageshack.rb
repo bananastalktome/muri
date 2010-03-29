@@ -2,43 +2,40 @@ class Muri
   module Filter
     module Imageshack
 
+      private
+
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Imageshack] = "imageshack_parse"
         end
       end
-      
-      def imageshack_parse
-        @info[:service] = 'Imageshack'
-        
-        @url.host =~ /^img([0-9]*?)\.imageshack\.us/i
-        server_id = $1
-        url_common = "http://img#{server_id}.imageshack.us"
-        
-        if @url.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+)(\/)?/i
-          @info[:media_id] = $1
-          @info[:content_type] = $2
-        elsif @url.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+)/i
-          content_server_id = $2
-          @info[:media_id] = $3
-          @info[:content_type] = $4
-          @info[:media_url] = "#{url_common}/img#{server_id}/#{content_server_id}/#{@info[:media_id]}.#{@info[:content_type]}"
-        end
-        
-        # imageshack does not currently have API for retrieving individual video information
-        if self.valid?
-          @info[:website] = "#{url_common}/i/#{@info[:media_id]}.#{@info[:content_type]}/"
-        else
-          raise UnsupportedURI          
-        end
-        
-        self
-      end       
-      
+
       def self.parsable?(uri)
         uri.host =~ /^img([0-9]*?)\.imageshack\.us$/i #/^(img([0-9]*?)\.imageshack\.us)|(yfrog\.com)/i
-      end  
-      
+      end
+
+      def imageshack_parse
+       self.media_service = IMAGESHACK_SERVICE_NAME #'Imageshack'
+
+        self.uri.host =~ /^img([0-9]*?)\.imageshack\.us/i
+        server_id = $1
+        url_common = "http://img#{server_id}.imageshack.us"
+
+        if self.uri.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+)(\/)?/i
+          self.media_id = $1
+          self.media_content_type = $2
+        elsif self.uri.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+)/i
+          content_server_id = $2
+          self.media_id = $3
+          self.media_content_type = $4
+          self.media_url = "#{url_common}/img#{server_id}/#{content_server_id}/#{self.media_id}.#{self.media_content_type}"
+        else
+          raise UnsupportedURI
+        end
+
+        # imageshack does not currently have API for retrieving individual video information
+        self.media_website = "#{url_common}/i/#{self.media_id}.#{self.media_content_type}/"
+      end
     end
   end
 end
