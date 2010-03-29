@@ -43,7 +43,6 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 <code>
   a.media_service         # 'Youtube'
   a.media_id              # 'blahblahblah'
-  a.media_original_url    # 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
   a.media_uri             # URI object for 'http://www.youtube.com/watch?v=blahblahblah&feature=rec-LGOUT-exp_fresh+div-1r-1-HM'
 </code>
 </pre>
