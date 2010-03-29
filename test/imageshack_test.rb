@@ -2,50 +2,54 @@ require 'lib/muri.rb'
 
 shared_examples_for "Imageshack parse" do
   it "should be Imageshack service" do
-    @a.service.should == 'Imageshack'
+    @a.media_service.should == 'Imageshack'
   end
   it "should be valid" do
     @a.valid?.should == true
   end
 end
 
-describe "Imageshack parse first" do
-  before(:all) do
-    @a = Muri.parse 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
-  end
-  it_should_behave_like "Imageshack parse"
+{'http://img178.imageshack.us/i/dsc01576lo7.jpg/' =>
+  { :media_id => 'dsc01576lo7',
+    :media_website => 'http://img178.imageshack.us/i/dsc01576lo7.jpg/',
+    :media_content_type => 'jpg'
+  },
+'http://img178.imageshack.us/img178/773/dsc01576lo7.jpg' =>
+  { :media_id => 'dsc01576lo7',
+    :media_website => 'http://img178.imageshack.us/i/dsc01576lo7.jpg/',
+    :media_content_type => 'jpg',
+    :media_url => 'http://img178.imageshack.us/img178/773/dsc01576lo7.jpg'
+  }
+}.each do |url, values|
   
-  it "should have media id" do
-    @a.media_id.should == 'dsc01576lo7'
-  end
-  
-  it "should have website" do
-    @a.website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
-  end
-   
-  it "should have content_type" do
-    @a.content_type.should == 'jpg'
-  end  
-end
-describe "Imageshack parse second" do
-  before(:all) do
-    @a = Muri.parse 'http://img178.imageshack.us/img178/773/dsc01576lo7.jpg'
-  end
-  it_should_behave_like "Imageshack parse"
-  
-  it "should have media id" do
-    @a.media_id.should == 'dsc01576lo7'
-  end
-  
-  it "should have website" do
-    @a.website.should == 'http://img178.imageshack.us/i/dsc01576lo7.jpg/'
-  end
-   
-  it "should have content_type" do
-    @a.content_type.should == 'jpg'
-  end  
-  
-  it "should have website" do
-    @a.media_url.should == 'http://img178.imageshack.us/img178/773/dsc01576lo7.jpg'
+  describe "Imageshack parse #{url}" do
+    before(:all) do
+      @a = Muri.parse url
+    end
+    it_should_behave_like "Imageshack parse"
+    
+    if values[:media_id]
+      it "should have media id" do
+        @a.media_id.should == values[:media_id]
+      end
+    end
+    
+    if values[:media_website]
+      it "should have website" do
+        @a.media_website.should == values[:media_website]
+      end
+    end
+    
+    if values[:media_content_type] 
+      it "should have content_type" do
+        @a.media_content_type.should == values[:media_content_type] 
+      end  
+    end
+    
+    if values[:media_url]
+      it "should have media_url" do
+        @a.media_url.should == values[:media_url]
+      end
+    end
   end
 end
