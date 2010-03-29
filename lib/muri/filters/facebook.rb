@@ -1,4 +1,3 @@
-require 'cgi'
 class Muri
   module Filter
     module Facebook
@@ -9,7 +8,6 @@ class Muri
       FACEBOOK_ALBUM = "album"
       REGEX_FACEBOOK_PHOTO = /^\/photo\.php$/i
       REGEX_FACEBOOK_ALBUM = /^\/album\.php$/i
-
 
       def self.included(base)
         base.class_eval do
@@ -63,7 +61,6 @@ class Muri
         # The media_api_id is the PID which can be searched for in the facebook photos/albums table
         self.media_api_id = (media_creator.to_i << 32) +self.media_id.to_i
       end
-
     end
   end
 end

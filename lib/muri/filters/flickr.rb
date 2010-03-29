@@ -7,7 +7,7 @@ class Muri
       FLICKR_SET = "set"
 
       REGEX_FLICKR_PHOTO_OR_SET = /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
-      REGEX_FLICKR_STATIC_PHOTO = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)(\_[a-z]){0,1}\.([a-z]+)/i
+      REGEX_FLICKR_STATIC_PHOTO = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)((?:\_[a-z]){1,2}){0,1}\.([a-z]+)/i
       REGEX_FLICKR_SHORTURL = /^flic\.kr\/p\/([a-z0-9]+)/i
 
       def self.included(base)
@@ -47,7 +47,7 @@ class Muri
         if self.is_flickr_photo?
           self.media_website = "http://flic.kr/p/" + Filter::Flickr.encode58(self.media_id.to_i)
         elsif self.is_flickr_set?
-          self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}"#/show takes direct
+          self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}" # appending /show takes direct to image through redirect
         end
       end
       
@@ -62,7 +62,6 @@ class Muri
           multi = multi * alphabet.length
           str.chop!
         end
-    
         decoded
       end
     

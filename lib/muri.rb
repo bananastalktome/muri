@@ -1,3 +1,6 @@
+require 'uri'
+require 'cgi'
+
 # Register built-in filters
 Dir["#{File.dirname(__FILE__) + '/muri/filters'}/**/*"].each do |filter|
   require "#{filter}"

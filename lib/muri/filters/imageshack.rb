@@ -36,7 +36,6 @@ class Muri
         # imageshack does not currently have API for retrieving individual video information
         self.media_website = "#{url_common}/i/#{self.media_id}.#{self.media_content_type}/"
       end
-
     end
   end
 end

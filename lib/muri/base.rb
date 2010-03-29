@@ -1,4 +1,3 @@
-require 'uri'
 class Muri
 
   attr_reader :uri, :errors
@@ -14,13 +13,13 @@ class Muri
 
   # Defines is_#{service}? and is_#{service type constant}? methods, and sets service name constnat
   ['Youtube', 'Flickr', 'Vimeo', 'Imageshack', 'Photobucket', 'Facebook', 'Twitpic'].each do |filter|
-    eval("include Filter::#{filter}")    
+    eval "include Filter::#{filter}"    
     is_service = "is_#{filter.downcase}?"
     define_method(is_service) { self.media_service == filter }
     self.constants.reject { |c| c !~ /^#{filter.upcase}/ }.each do |exp|
       define_method("is_#{exp.downcase}?") { self.media_api_type == eval(exp) && eval("self.#{is_service}") }
     end
-    const_set("#{filter.upcase}_SERVICE_NAME", "#{filter}")
+    const_set "#{filter.upcase}_SERVICE_NAME", "#{filter}"
   end
 
   def self.parse(url)
@@ -36,25 +35,28 @@ class Muri
     @info = { }
     _parse(url)
   end
-
-  def to_s
-    @info.to_s
-  end
-
+  
   # Determine if Muri object is valid (errors mean not valid)
   def valid?
     self.errors.nil?
   end
+  
+  def to_s
+    @info.to_s
+  end
 
   # 'Borrowed' from uri/generic.rb
-  @@to_s = Kernel.instance_method(:to_s)
   def inspect
-    @@to_s.bind(self).call.sub!(/>\z/) {" URL:#{self.uri.to_s}>"}
+    Kernel.instance_method(:to_s).bind(self).call.sub!(/>\z/) {" URL:#{self.uri.to_s}>"}
   end
 
   private
   attr_writer :uri, :errors
 
+  def self.determine_feed_parser(uri)
+    PARSERS.keys.detect {|klass| klass.parsable?(uri)}
+  end
+  
   def _parse(raw_url)
     begin
       self.uri = URI.parse(raw_url)
@@ -62,21 +64,14 @@ class Muri
         raw_url = "http://#{raw_url}"
         self.uri = URI.parse(raw_url)
       end
-      if parser = determine_feed_parser
-        #self.media_uri = self.uri
-        #self.media_original_url = raw_url
+      if parser = Muri.determine_feed_parser(self.uri)
         send(PARSERS[parser])
-        @info.freeze
       else
         raise NoParser
       end
     rescue NoParser, UnsupportedURI, URI::BadURIError, URI::InvalidURIError => e
       self.errors = "#{e.class}"
     end
-  end
-
-  def determine_feed_parser
-    PARSERS.keys.detect {|klass| klass.parsable?(self.uri)}
   end
 
   def method_missing(method, *arguments, &block)

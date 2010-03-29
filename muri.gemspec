@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
      "lib/muri/filters/vimeo.rb",
      "lib/muri/filters/youtube.rb",
      "muri.gemspec",
-     "test/basic_tests.rb",
      "test/error_test.rb",
      "test/facebook_test.rb",
      "test/flickr_test.rb",
@@ -47,8 +46,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Media URI Parser}
   s.test_files = [
-    "test/basic_tests.rb",
-     "test/facebook_test.rb",
+    "test/facebook_test.rb",
      "test/twitpic_test.rb",
      "test/photobucket_test.rb",
      "test/vimeo_test.rb",

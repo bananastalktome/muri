@@ -1,4 +1,3 @@
-require 'cgi'
 class Muri
   module Filter
     module Photobucket
@@ -22,7 +21,7 @@ class Muri
       def self.parsable?(uri)
         uri.host =~ /^([a-z0-9]*?[^(media)])\.photobucket\.com$/i
       end
-
+      
       def photobucket_parse
         self.media_service = PHOTOBUCKET_SERVICE_NAME #'Photobucket'
 
@@ -33,7 +32,7 @@ class Muri
         if self.uri.path =~ REGEX_PHOTOBUCKET_IMAGE
           self.media_id = $3
           self.media_content_type = $4
-          photobucket_image_set_common($1, $2)
+          photobucket_set_image_common($1, $2)
         elsif self.uri.path =~ REGEX_PHOTOBUCKET_ALBUM_OR_IMAGE
           pb_id = $1
           album = $2
@@ -42,7 +41,7 @@ class Muri
             filename = params["current"].split(".")
             self.media_id = filename.first
             self.media_content_type = filename.last
-            photobucket_image_set_common(pb_id, album)
+            photobucket_set_image_common(pb_id, album)
           else
             self.media_id = "#{album}"
             self.media_api_type = PHOTOBUCKET_ALBUM
@@ -51,7 +50,7 @@ class Muri
         elsif self.uri.path =~ REGEX_PHOTOBUCKET_GROUP_IMAGE
           self.media_id = $3
           self.media_content_type = $4
-          photobucket_group_image_set_common($1, $2)
+          photobucket_set_group_image_common($1, $2)
         elsif self.uri.path =~ REGEX_PHOTOBUCKET_GROUP_ALBUM_OR_IMAGE
           group = $1
           hash_value = $2
@@ -60,7 +59,7 @@ class Muri
             filename = params["current"].split(".")
             self.media_id = filename.first
             self.media_content_type = filename.last
-            photobucket_group_image_set_common(group, hash_value)
+            photobucket_set_group_image_common(group, hash_value)
           else
             self.media_id = hash_value
             self.media_website = "http://gs#{url_common}/"
@@ -73,30 +72,23 @@ class Muri
         self.media_api_id = self.is_photobucket_media? ? self.media_url : self.media_id
       end
 
-      private
-
-      def photobucket_image_set_common(pb_id, album)
+      def photobucket_set_image_common(pb_id, album)
         url_common = "#{self.media_server_id}.photobucket.com/albums/#{pb_id}/#{album}/"
         url_suffix = "#{url_common}#{self.media_id}.#{self.media_content_type}"
         self.media_api_type = PHOTOBUCKET_MEDIA
         self.media_url = "http://i" + url_suffix
         self.media_website = "http://s#{url_common}?action=view&current=#{self.media_id}.#{self.media_content_type}"
-        photobucket_set_thumbnail(url_suffix)
+        self.media_thumbnail = "http://mobth#{url_suffix}"
       end
 
-      def photobucket_group_image_set_common(group, hash_value)
+      def photobucket_set_group_image_common(group, hash_value)
         url_common = "#{self.media_server_id}.photobucket.com/groups/#{group}/#{hash_value}"
         url_suffix = "#{url_common}/#{self.media_id}.#{self.media_content_type}"
         self.media_api_type = PHOTOBUCKET_MEDIA
         self.media_url = "http://gi" + url_suffix
         self.media_website = "http://gs#{url_common}/?action=view&current=#{self.media_id}.#{self.media_content_type}"
-        photobucket_set_thumbnail(url_suffix)
+        self.media_thumbnail = "http://mobth#{url_suffix}"
       end
-
-      def photobucket_set_thumbnail(suffix)
-        self.media_thumbnail = "http://mobth#{suffix}"
-      end
-
     end
   end
 end

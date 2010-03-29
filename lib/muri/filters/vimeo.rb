@@ -1,4 +1,3 @@
-require 'cgi'
 class Muri
   module Filter
     module Vimeo
@@ -6,6 +5,7 @@ class Muri
       private
       VIMEO_VIDEO = "video"
       VIMEO_ALBUM = "album"
+      
       REGEX_VIMEO_VIDEO_OR_ALBUM = /^\/(album\/)?([0-9]+)\/?$/i
       REGEX_VIMEO_GROUP_VIDEO = /^\/groups\/([0-9a-z\@\-\_]+)\/videos\/([0-9]+)\/?$/i
       REGEX_VIMEO_SWF_VIDEO = /^\/moogaloop\.swf$/i

@@ -1,15 +1,15 @@
-require 'cgi'
 class Muri
   module Filter
     module Youtube
 
       private
-      YOUTUBE_VIDEO = "video".freeze
-      YOUTUBE_PLAYLIST = "playlist".freeze
-      REGEX_YOUTUBE_VIDEO_WATCH = /^\/watch$/i.freeze
-      REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i.freeze
-      REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list$/i.freeze
-      REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i.freeze
+      YOUTUBE_VIDEO = "video"
+      YOUTUBE_PLAYLIST = "playlist"
+      
+      REGEX_YOUTUBE_VIDEO_WATCH = /^\/watch\/?$/i
+      REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i
+      REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list\/?$/i
+      REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i
 
       def self.included(base)
         base.class_eval do

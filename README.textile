@@ -8,7 +8,7 @@ MURI Currently supports:
 * Vimeo (single videos and albums)
 ** "API documentation":http://vimeo.com/api/docs/simple-api
 * Flickr (single images and sets)
-** "API documentation":http://www.flickr.com/services/api/
+** "API documentation":http://www.flickr.com/services/api/ or "[2]":http://developer.yahoo.com/flickr/
 * Imageshack
 * Photobucket
 ** "API documentation":http://photobucket.com/developer/documentation

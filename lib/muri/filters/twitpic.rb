@@ -5,6 +5,8 @@ class Muri
       private
       TWITPIC_PHOTO = 'photo'
 
+      REGEX_TWITPIC_PHOTO = /^\/([a-z0-9]+)/i
+      
       def self.included(base)
         base.class_eval do
           self::PARSERS[Muri::Filter::Twitpic] = "twitpic_parse"
@@ -19,7 +21,7 @@ class Muri
         self.media_service = TWITPIC_SERVICE_NAME #'Twitpic'
         url_common = "http://twitpic.com"
 
-        if self.uri.path =~ /^\/([a-z0-9]+)/i
+        if self.uri.path =~ REGEX_TWITPIC_PHOTO
           self.media_id = $1
           self.media_website = "#{url_common}/#{self.media_id}"
           self.media_url = "#{url_common}/show/large/#{self.media_id}"
