@@ -2,9 +2,17 @@ require 'lib/muri.rb'
 
 shared_examples_for "Vimeo parse" do
   it "should be Vimeo service" do
-    @a.media_service.should == 'Vimeo'
+    #@a.media_service.should == 'Vimeo'
+    @a.is_vimeo?.should == true
   end
   
+  it "should be not be other services" do
+    @a.is_photobucket?.should == false
+    @a.is_youtube?.should == false
+    @a.is_facebook?.should == false
+    @a.is_flickr?.should == false
+  end
+    
   it "should be valid" do
     @a.valid?.should == true
   end
@@ -17,6 +25,14 @@ shared_examples_for "Vimeo parse video" do
   it "should have media api type = VIMEO_VIDEO" do
     @a.media_api_type.should == Muri::VIMEO_VIDEO
   end   
+  
+  it "should be vimeo video" do
+    @a.is_vimeo_video?.should == true
+  end  
+  
+  it "should not be youtube video" do
+    @a.is_youtube_video?.should == false
+  end   
 end
 shared_examples_for "Vimeo parse album" do
   it_should_behave_like "Vimeo parse"
@@ -24,6 +40,14 @@ shared_examples_for "Vimeo parse album" do
   it "should have media api type = VIMEO_ALBUM" do
     @a.media_api_type.should == Muri::VIMEO_ALBUM
   end   
+  
+  it "should be vimeo album" do
+    @a.is_vimeo_album?.should == true
+  end  
+  
+  it "should not be photobucket album" do
+    @a.is_photobucket_album?.should == false
+  end     
 end
 
 {'http://vimeo.com/moogaloop.swf?clip_id=7312128&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' =>

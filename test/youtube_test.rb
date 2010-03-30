@@ -1,9 +1,17 @@
 require 'lib/muri.rb'
 shared_examples_for "Youtube parse" do
   it "should be Youtube service" do
-    @a.media_service.should == 'Youtube'
+    #@a.media_service.should == 'Youtube'
+    @a.is_youtube?.should == true
   end
   
+  it "should be not be other services" do
+    @a.is_photobucket?.should == false
+    @a.is_vimeo?.should == false
+    @a.is_facebook?.should == false
+    @a.is_flickr?.should == false
+  end
+    
   it "should be valid" do
     @a.valid?.should == true
   end
@@ -15,6 +23,14 @@ shared_examples_for "Youtube parse single" do
   it "should have media api type = YOUTUBE_VIDEO" do
     @a.media_api_type.should == Muri::YOUTUBE_VIDEO
   end
+  
+  it "should be youtube video" do
+    @a.is_youtube_video?.should == true
+  end
+  
+  it "should not be vimeo video" do
+    @a.is_vimeo_video?.should == false
+  end
 end
 
 shared_examples_for "Youtube parse playlist" do
@@ -22,7 +38,11 @@ shared_examples_for "Youtube parse playlist" do
   
   it "should have media api type = YOUTUBE_PLAYLIST" do
     @a.media_api_type.should == Muri::YOUTUBE_PLAYLIST
-  end  
+  end
+  
+  it "should be youtube playlist" do
+    @a.is_youtube_playlist?.should == true
+  end
 end
 
 {'http://www.youtube.com/v/4CYDFoEz8rg&hl=en_US&fs=1&' =>

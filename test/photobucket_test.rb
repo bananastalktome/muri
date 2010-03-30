@@ -2,9 +2,17 @@ require 'lib/muri.rb'
 
 shared_examples_for "Photobucket parse" do
   it "should be Photobucket service" do
-    @a.media_service.should == 'Photobucket'
+    #@a.media_service.should == 'Photobucket'
+    @a.is_photobucket?.should == true
   end
   
+  it "should be not be other services" do
+    @a.is_vimeo?.should == false
+    @a.is_youtube?.should == false
+    @a.is_facebook?.should == false
+    @a.is_flickr?.should == false
+  end
+    
   it "should be valid" do
     @a.valid?.should == true
   end
@@ -16,6 +24,10 @@ shared_examples_for "Photobucket parse photo" do
   it "should have media api type = PHOTOBUCKET_MEDIA" do
     @a.media_api_type.should == Muri::PHOTOBUCKET_MEDIA
   end
+  
+  it "should be photobucket media" do
+    @a.is_photobucket_media?.should == true
+  end  
 end
 
 shared_examples_for "Photobucket parse album" do
@@ -24,6 +36,14 @@ shared_examples_for "Photobucket parse album" do
   it "should have media api type = PHOTOBUCKET_ALBUM" do
     @a.media_api_type.should == Muri::PHOTOBUCKET_ALBUM
   end
+
+  it "should be photobucket album" do
+    @a.is_photobucket_album?.should == true
+  end 
+  
+  it "should not be facebook album" do
+    @a.is_facebook_album?.should == false
+  end    
 end
 shared_examples_for "Photobucket parse group album" do
   it_should_behave_like "Photobucket parse"
@@ -31,6 +51,10 @@ shared_examples_for "Photobucket parse group album" do
   it "should have media api type = PHOTOBUCKET_GROUP_ALBUM" do
     @a.media_api_type.should == Muri::PHOTOBUCKET_GROUP_ALBUM
   end
+  
+  it "should be group album" do
+    @a.is_photobucket_group_album?.should == true
+  end  
 end
 
 {'http://gs0001.photobucket.com/groups/0001/F9P8EG7YR8/' =>
