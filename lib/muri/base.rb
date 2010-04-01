@@ -12,7 +12,7 @@ class Muri
   PARSERS = { }
 
   # Defines is_#{service}? and is_#{service type constant}? methods, and sets service name constnat
-  ['Youtube', 'Flickr', 'Vimeo', 'Imageshack', 'Photobucket', 'Facebook', 'Twitpic'].each do |filter|
+  ['Youtube', 'Flickr', 'Vimeo', 'Imageshack', 'Photobucket', 'Facebook', 'Twitpic', 'Picasa'].each do |filter|
     eval "include Filter::#{filter}"    
     is_service = "is_#{filter.downcase}?"
     define_method(is_service) { self.media_service == filter }

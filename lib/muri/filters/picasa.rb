@@ -24,17 +24,17 @@ class Muri
           username = $1
           album_photoid = $2.split("%23")
           photoid = album_photoid.last
-          album = album_photoid[0..-2].join("#")
+          album = album_photoid[0..-2].join("#")#in case other hash symbols exist
           self.media_id = photoid
-          self.media_website = "#{url_common}/#{username}/#{album}"
+          self.media_website = "#{url_common}/#{username}/#{album}##{photoid}"
           #self.media_url = "#{url_common}/show/large/#{self.media_id}"
           #self.media_thumbnail = "#{url_common}/show/thumb/#{self.media_id}"
-          #self.media_api_type = PICASA_PHOTO
+          self.media_api_type = PICASA_PHOTO
         else
           raise UnsupportedURI
         end
 
-        # self.media_api_id = self.media_id
+        self.media_api_id = "user/#{username}/album/#{album}/photoid/#{photoid}"
       end
     end
   end
