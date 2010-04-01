@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-03-29}
+  s.date = %q{2010-04-01}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/muri/filters/flickr.rb",
      "lib/muri/filters/imageshack.rb",
      "lib/muri/filters/photobucket.rb",
+     "lib/muri/filters/picasa.rb",
      "lib/muri/filters/twitpic.rb",
      "lib/muri/filters/vimeo.rb",
      "lib/muri/filters/youtube.rb",
@@ -36,6 +37,7 @@ Gem::Specification.new do |s|
      "test/flickr_test.rb",
      "test/imageshack_test.rb",
      "test/photobucket_test.rb",
+     "test/picasa_test.rb",
      "test/twitpic_test.rb",
      "test/vimeo_test.rb",
      "test/youtube_test.rb"
@@ -46,7 +48,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Media URI Parser}
   s.test_files = [
-    "test/imageshack_test.rb",
+    "test/picasa_test.rb",
+     "test/imageshack_test.rb",
      "test/twitpic_test.rb",
      "test/flickr_test.rb",
      "test/vimeo_test.rb",

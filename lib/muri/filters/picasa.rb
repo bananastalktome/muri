@@ -27,14 +27,12 @@ class Muri
           album = album_photoid[0..-2].join("#")#in case other hash symbols exist
           self.media_id = photoid
           self.media_website = "#{url_common}/#{username}/#{album}##{photoid}"
-          #self.media_url = "#{url_common}/show/large/#{self.media_id}"
-          #self.media_thumbnail = "#{url_common}/show/thumb/#{self.media_id}"
           self.media_api_type = PICASA_PHOTO
+          self.media_api_id = "#{username}/album/#{album}/photoid/#{photoid}"          
         else
           raise UnsupportedURI
         end
 
-        self.media_api_id = "user/#{username}/album/#{album}/photoid/#{photoid}"
       end
     end
   end

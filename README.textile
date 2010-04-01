@@ -16,6 +16,8 @@ MURI Currently supports:
 ** "API documentation":http://twitpic.com/api.do
 * Facebook (photos and albums)
 ** "API documentation":http://wiki.developers.facebook.com/index.php/API
+* Picasa (photos)
+** "API documentation":http://code.google.com/apis/picasaweb/docs/2.0/developers_guide.html
 
 h3. Installation & basic usage
 
@@ -57,9 +59,12 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 </code>
 </pre>
 
+* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
+
+
 *NOTE: Facebook photos return a @media_api_id@ which can be used to search for photo information in a Facebook photos.get API call as the pid. This pid is NOT the same as the pid found in the query string (the @media_id@)*
 
-* Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
+*ALSO NOTE: Picasa @media_api_id@ is a partial string for using the photo API call, so for example @'bananastalktome/album/TestForAPI/photoid/5450524726782297346'@, thus the API call would be @"http://picasaweb.google.com/data/feed/api/user/#{media_api_id}"@*
 
 
 * A direct media url for Youtube, Photobucket (photos, not albums), Twitpic, Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format) and flickr (@http://farm#{num}.static.flickr.com/@ format)
@@ -71,7 +76,7 @@ d
 </code>
 </pre>
 
-* A media landing website url for Facebook, Youtube, Photobucket, Imageshack, Vimeo, Twitpic, and Flickr (flickr returns the @http://flic.kr/p/#{ID}@ short url)
+* A media landing website url for Facebook, Picasa, Youtube, Photobucket, Imageshack, Vimeo, Twitpic, and Flickr (flickr returns the @http://flic.kr/p/#{ID}@ short url)
 
 <pre>
 <code>

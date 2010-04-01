@@ -34,7 +34,7 @@ end
 {'http://picasaweb.google.com/bananastalktome/TestForAPI#5450524726782297346' => 
   { :media_id => '5450524726782297346',
     :media_website => 'http://picasaweb.google.com/bananastalktome/TestForAPI#5450524726782297346',
-    :media_api_id => 'user/bananastalktome/album/TestForAPI/photoid/5450524726782297346'
+    :media_api_id => 'bananastalktome/album/TestForAPI/photoid/5450524726782297346'
   }
 }.each do |url, values|
   
