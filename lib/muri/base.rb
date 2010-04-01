@@ -17,7 +17,9 @@ class Muri
     is_service = "is_#{filter.downcase}?"
     define_method(is_service) { self.media_service == filter }
     self.constants.reject { |c| c !~ /^#{filter.upcase}/ }.each do |exp|
-      define_method("is_#{exp.downcase}?") { self.media_api_type == eval(exp) && eval("self.#{is_service}") }
+      define_method("is_#{exp.downcase}?") do
+        self.media_api_type == eval(exp) && self.instance_eval(is_service)
+      end
     end
     const_set "#{filter.upcase}_SERVICE_NAME", "#{filter}"
   end
