@@ -8,7 +8,7 @@ MURI Currently supports:
 * Vimeo (single videos and albums)
 ** "API documentation":http://vimeo.com/api/docs/simple-api
 * Flickr (single images and sets)
-** "API documentation":http://www.flickr.com/services/api/ or "[2]":http://developer.yahoo.com/flickr/
+** "API documentation":http://www.flickr.com/services/api/ or "API Doc 2":http://developer.yahoo.com/flickr/
 * Imageshack
 * Photobucket
 ** "API documentation":http://photobucket.com/developer/documentation
@@ -68,7 +68,6 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 
 
 * A direct media url for Youtube, Photobucket (photos, not albums), Twitpic, Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format) and flickr (@http://farm#{num}.static.flickr.com/@ format)
-d
 
 <pre>
 <code>
