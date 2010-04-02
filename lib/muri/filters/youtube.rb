@@ -36,7 +36,7 @@ class Muri
         elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
           self.media_id = $1
           self.media_api_type = YOUTUBE_PLAYLIST
-        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && (params['p'])
+        elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && params['p']
           self.media_id = params['p']
           self.media_api_type = YOUTUBE_PLAYLIST
         else
