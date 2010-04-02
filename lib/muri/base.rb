@@ -9,19 +9,21 @@ class Muri
   #   match accepted formats
   class UnsupportedURI < ArgumentError; end
 
-  PARSERS = { }
+  AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
 
-  # Defines is_#{service}? and is_#{service type constant}? methods, and sets service name constnat
-  %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].each do |filter|
-    eval "include Filter::#{filter}"    
-    is_service = "is_#{filter.downcase}?"
-    define_method(is_service) { self.media_service == filter }
-    self.constants.reject { |c| c !~ /^#{filter.upcase}/ }.each do |exp|
+  PARSERS = { }
+  
+  # Defines is_#{service}? and is_#{service type}? methods, and sets service name constnat
+  AVAILABLE_PARSERS.each do |parser|
+    eval "include Filter::#{parser}"    
+    is_service = "is_#{parser.downcase}?"
+    define_method(is_service) { self.media_service == parser }
+    self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
       define_method("is_#{exp.downcase}?") do
         self.media_api_type == eval(exp) && self.instance_eval(is_service)
       end
     end
-    const_set "#{filter.upcase}_SERVICE_NAME", "#{filter}"
+    const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
   end
 
   def self.parse(url)
@@ -35,7 +37,7 @@ class Muri
   
   def initialize(url)
     @info = { }
-    _parse(url)
+    parse(url)
   end
   
   # Determine if Muri object is valid (errors mean not valid)
@@ -59,7 +61,7 @@ class Muri
     PARSERS.keys.detect {|klass| klass.parsable?(uri)}
   end
   
-  def _parse(raw_url)
+  def parse(raw_url)
     begin
       self.uri = URI.parse(raw_url)
       if self.uri.scheme.nil?
