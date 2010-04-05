@@ -33,9 +33,16 @@ describe "Parse Errors" do
       m.errors.should == "Muri::UnsupportedURI"
     end
   end
-  
+
+  it "should parse URI with spaces" do
+    a = Muri.parse 'http://i105.photobucket.com/albums/m226/Mascutti/Vikas couches with%20paintings/v214.jpg'
+    lambda { a.uri.path }.should_not raise_exception()
+  end  
+
   it "should not bomb if no URI is provided" do
     lambda { Muri.parse nil }.should_not raise_exception()
   end
-  
 end
+
+
+

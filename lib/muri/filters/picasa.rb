@@ -20,9 +20,9 @@ class Muri
         url_common = "http://picasaweb.google.com"
         
         #I hate to have to do this, but it's the best way I can think of to get the hash symbol
-        reencoded_url = URI.parse(URI.encode self.uri.to_s)
+        #reencoded_url = URI.parse(URI.encode self.uri.to_s)
         
-        if reencoded_url.path =~ /^\/(.[^\/]+)\/(.[^\/]+)/i
+        if self.uri.path =~ /^\/(.[^\/]+)\/(.[^\/]+)/i
           username = $1
           album_photoid = $2.split("%23")
           photoid = album_photoid.last

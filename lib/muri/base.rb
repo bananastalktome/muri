@@ -63,6 +63,7 @@ class Muri
   
   def parse(raw_url)
     begin
+      raw_url = URI.encode(URI.decode(raw_url)) unless raw_url.nil?
       self.uri = URI.parse(raw_url)
       if self.uri.scheme.nil?
         raw_url = "http://#{raw_url}"
