@@ -3,14 +3,14 @@ require 'lib/muri.rb'
 shared_examples_for "Imageshack parse" do
   it "should be Imageshack service" do
     #@a.media_service.should == 'Imageshack'
-    @a.is_imageshack?.should == true
+    @a.imageshack?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_vimeo?.should == false
-    @a.is_youtube?.should == false
-    @a.is_facebook?.should == false
-    @a.is_photobucket?.should == false
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.photobucket?.should == false
   end
     
   it "should be valid" do

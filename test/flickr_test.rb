@@ -2,14 +2,14 @@ require 'lib/muri.rb'
 shared_examples_for "Flickr parse" do
   it "should be Flickr service" do
     # @a.media_service.should == 'Flickr'
-    @a.is_flickr?.should == true
+    @a.flickr?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_vimeo?.should == false
-    @a.is_youtube?.should == false
-    @a.is_facebook?.should == false
-    @a.is_photobucket?.should == false
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.photobucket?.should == false
   end
     
   it "should be valid" do
@@ -24,11 +24,11 @@ shared_examples_for "Flickr parse photo" do
   end
   
   it "should be flickr photo" do
-    @a.is_flickr_photo?.should == true
+    @a.flickr_photo?.should == true
   end 
   
   it "should not be facebook photo" do
-    @a.is_facebook_photo?.should == false
+    @a.facebook_photo?.should == false
   end      
 end
 
@@ -39,7 +39,7 @@ shared_examples_for "Flickr parse set" do
   end
 
   it "should be flickr set" do
-    @a.is_flickr_set?.should == true
+    @a.flickr_set?.should == true
   end    
 end
 

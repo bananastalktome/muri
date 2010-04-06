@@ -2,14 +2,14 @@ require 'lib/muri.rb'
 shared_examples_for "Youtube parse" do
   it "should be Youtube service" do
     #@a.media_service.should == 'Youtube'
-    @a.is_youtube?.should == true
+    @a.youtube?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_photobucket?.should == false
-    @a.is_vimeo?.should == false
-    @a.is_facebook?.should == false
-    @a.is_flickr?.should == false
+    @a.photobucket?.should == false
+    @a.vimeo?.should == false
+    @a.facebook?.should == false
+    @a.flickr?.should == false
   end
     
   it "should be valid" do
@@ -25,11 +25,11 @@ shared_examples_for "Youtube parse single" do
   end
   
   it "should be youtube video" do
-    @a.is_youtube_video?.should == true
+    @a.youtube_video?.should == true
   end
   
   it "should not be vimeo video" do
-    @a.is_vimeo_video?.should == false
+    @a.vimeo_video?.should == false
   end
 end
 
@@ -41,7 +41,7 @@ shared_examples_for "Youtube parse playlist" do
   end
   
   it "should be youtube playlist" do
-    @a.is_youtube_playlist?.should == true
+    @a.youtube_playlist?.should == true
   end
 end
 

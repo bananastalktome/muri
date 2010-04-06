@@ -2,14 +2,14 @@ require 'lib/muri.rb'
 shared_examples_for "Twitpic parse" do
   it "should be Twitpic service" do
     #@a.media_service.should == 'Twitpic'
-    @a.is_twitpic?.should == true
+    @a.twitpic?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_vimeo?.should == false
-    @a.is_youtube?.should == false
-    @a.is_facebook?.should == false
-    @a.is_flickr?.should == false
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.flickr?.should == false
   end
     
   it "should be valid" do
@@ -24,11 +24,11 @@ shared_examples_for "Twitpic parse photo" do
   end
   
   it "should be twitpic photo" do
-    @a.is_twitpic_photo?.should == true
+    @a.twitpic_photo?.should == true
   end  
   
   it "should not be facebook photo" do
-    @a.is_facebook_photo?.should == false
+    @a.facebook_photo?.should == false
   end   
 end
 {'http://twitpic.com/17d7th' =>

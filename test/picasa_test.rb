@@ -1,14 +1,14 @@
 require 'lib/muri.rb'
 shared_examples_for "Picasa parse" do
   it "should be Picasa service" do
-    @a.is_picasa?.should == true
+    @a.picasa?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_vimeo?.should == false
-    @a.is_youtube?.should == false
-    @a.is_facebook?.should == false
-    @a.is_photobucket?.should == false
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.photobucket?.should == false
   end
     
   it "should be valid" do
@@ -23,11 +23,11 @@ shared_examples_for "Picasa parse photo" do
   end
   
   it "should be picasa photo" do
-    @a.is_picasa_photo?.should == true
+    @a.picasa_photo?.should == true
   end 
   
   it "should not be facebook photo" do
-    @a.is_facebook_photo?.should == false
+    @a.facebook_photo?.should == false
   end      
 end
 

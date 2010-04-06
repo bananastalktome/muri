@@ -3,14 +3,14 @@ require 'lib/muri.rb'
 shared_examples_for "Facebook parse" do
   it "should be Facebook service" do
     #@a.media_service.should == 'Facebook'
-    @a.is_facebook?.should == true
+    @a.facebook?.should == true
   end
   
   it "should be not be other services" do
     #@a.media_service.should == 'Facebook'
-    @a.is_vimeo?.should == false
-    @a.is_flickr?.should == false
-    @a.is_youtube?.should == false
+    @a.vimeo?.should == false
+    @a.flickr?.should == false
+    @a.youtube?.should == false
   end
   
   it "should be valid" do
@@ -25,11 +25,11 @@ shared_examples_for "Facebook parse photo" do
   end
   
   it "should be facebook photo" do
-    @a.is_facebook_photo?.should == true
+    @a.facebook_photo?.should == true
   end
   
   it "should not be flickr photo" do
-    @a.is_flickr_photo?.should == false
+    @a.flickr_photo?.should == false
   end  
 end
 

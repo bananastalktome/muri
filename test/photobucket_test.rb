@@ -3,14 +3,14 @@ require 'lib/muri.rb'
 shared_examples_for "Photobucket parse" do
   it "should be Photobucket service" do
     #@a.media_service.should == 'Photobucket'
-    @a.is_photobucket?.should == true
+    @a.photobucket?.should == true
   end
   
   it "should be not be other services" do
-    @a.is_vimeo?.should == false
-    @a.is_youtube?.should == false
-    @a.is_facebook?.should == false
-    @a.is_flickr?.should == false
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.flickr?.should == false
   end
     
   it "should be valid" do
@@ -26,7 +26,7 @@ shared_examples_for "Photobucket parse photo" do
   end
   
   it "should be photobucket media" do
-    @a.is_photobucket_media?.should == true
+    @a.photobucket_media?.should == true
   end  
 end
 
@@ -38,11 +38,11 @@ shared_examples_for "Photobucket parse album" do
   end
 
   it "should be photobucket album" do
-    @a.is_photobucket_album?.should == true
+    @a.photobucket_album?.should == true
   end 
   
   it "should not be facebook album" do
-    @a.is_facebook_album?.should == false
+    @a.facebook_album?.should == false
   end    
 end
 shared_examples_for "Photobucket parse group album" do
@@ -53,7 +53,7 @@ shared_examples_for "Photobucket parse group album" do
   end
   
   it "should be group album" do
-    @a.is_photobucket_group_album?.should == true
+    @a.photobucket_group_album?.should == true
   end  
 end
 

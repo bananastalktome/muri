@@ -69,7 +69,7 @@ class Muri
           raise UnsupportedURI
         end
 
-        self.media_api_id = self.is_photobucket_media? ? self.media_url : self.media_id
+        self.media_api_id = self.photobucket_media? ? self.media_url : self.media_id
       end
 
       def photobucket_set_image_common(pb_id, album)
