@@ -42,3 +42,4 @@ end
 # http://picasaweb.google.com/bananastalktome/TestForAPI#5450524726782297346
 # API Call: http://picasaweb.google.com/data/feed/api/user/bananastalktome/album/TestForAPI/photoid/5450524726782297346
 # #=%23
+# http://picasaweb.google.com/data/entry/api/user/bananastalktome/photoid/5450524726782297346
