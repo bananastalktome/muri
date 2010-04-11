@@ -32,14 +32,10 @@ elsif ARGV.length > 1
   abort "Too many arguments; please specify only the directory to murify."
 end
 
-FILENAME="config/muri.rb"
-output = {:youtube      => {:enabled => true},
-          :vimeo        => {:enabled => true},
-          :twitpic      => {:enabled => true},
-          :imageshack   => {:enabled => true},          
-          :facebook     => {:enabled => true, :key => "", :secret => ""},
-          :photobucket  => {:enabled => true, :key => "", :secret => ""},
-          :flickr       => {:enabled => true, :key => "", :secret => ""}}.to_yaml
+FILENAME="config/muri.yaml"
+output = {:flickr => {:api_key => nil, :secret => nil},
+          :youtube => {:enabled => false},
+          :vimeo => {:enabled => false}}.to_yaml
 
 
 base = ARGV.shift

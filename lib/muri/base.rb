@@ -10,8 +10,10 @@ class Muri
   class UnsupportedURI < ArgumentError; end
 
   AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
+  AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
 
   PARSERS = { }
+  FETCHERS = { }
   
   # Defines #{service}? and #{service_type}? methods, and sets service name constnat
   AVAILABLE_PARSERS.each do |parser|
@@ -31,9 +33,31 @@ class Muri
     end
     const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
   end
-
+  
+  MuriOptions.keys.each do |fetcher|
+    if fetch = AVAILABLE_FETCHERS.index{|f| f =~ /^#{fetcher}$/i }
+      eval "include Fetcher::#{AVAILABLE_FETCHERS[fetch]}"
+    end
+  end
+  
   def self.parse(url)
     self.new(url)
+  end
+
+  # Fetch and return in obj clone
+  def self.fetch(obj)
+    copy = obj.clone
+    fetch! copy
+  end
+  
+  # Fetch and directly modify passed object
+  def self.fetch!(obj)
+    obj.send(FETCHERS[obj.media_service]) if obj.valid? && FETCHERS[obj.media_service]
+    obj
+  end  
+  
+  def self.parse_and_fetch(url)
+    fetch self.parse(url)
   end
 
   # Show a list of the available parsers
@@ -44,6 +68,11 @@ class Muri
   def initialize(url)
     @info = { }
     parse(url)
+  end
+  
+  def initialize_copy(source)  
+    super  
+    @info = @info.dup  
   end
   
   # Determine if Muri object is valid (errors mean not valid)
@@ -80,7 +109,7 @@ class Muri
       else
         raise NoParser
       end
-    rescue NoParser, UnsupportedURI, URI::BadURIError, URI::InvalidURIError => e
+    rescue NoParser, UnsupportedURI, URI::BadURIError, URI::InvalidURIError, OpenURI::HTTPError => e
       self.errors = "#{e.class}"
     end
   end

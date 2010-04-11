@@ -48,6 +48,7 @@ class Muri
           self.media_website = "#{url_common}/watch?v=#{self.media_id}"
           self.media_url = "#{url_common}/v/#{self.media_id}"
           self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
+          self.media_thumbnail_large = "http://i.ytimg.com/vi/#{self.media_id}/hqdefault.jpg"
         elsif self.youtube_playlist?
           self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
           self.media_url = "#{url_common}/p/#{self.media_id}"
