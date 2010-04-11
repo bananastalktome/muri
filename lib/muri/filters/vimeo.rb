@@ -39,7 +39,7 @@ class Muri
 
         self.media_api_id = self.media_id
         self.media_website = Filter::Vimeo.vimeo_media_website self #:api_type => self.media_api_type, :id => self.media_id
-        if self.is_vimeo_video?
+        if self.vimeo_video?
           self.media_url = Filter::Vimeo.vimeo_media_url self #:id => self.media_id
         end
       end

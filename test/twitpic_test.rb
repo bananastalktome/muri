@@ -1,8 +1,17 @@
 require 'lib/muri.rb'
 shared_examples_for "Twitpic parse" do
   it "should be Twitpic service" do
-    @a.media_service.should == 'Twitpic'
+    #@a.media_service.should == 'Twitpic'
+    @a.twitpic?.should == true
   end
+  
+  it "should be not be other services" do
+    @a.vimeo?.should == false
+    @a.youtube?.should == false
+    @a.facebook?.should == false
+    @a.flickr?.should == false
+  end
+    
   it "should be valid" do
     @a.valid?.should == true
   end
@@ -12,7 +21,15 @@ shared_examples_for "Twitpic parse photo" do
   it_should_behave_like "Twitpic parse"
   it "should have media api type = TWITPIC_PHOTO" do
     @a.media_api_type.should == Muri::TWITPIC_PHOTO
+  end
+  
+  it "should be twitpic photo" do
+    @a.twitpic_photo?.should == true
   end  
+  
+  it "should not be facebook photo" do
+    @a.facebook_photo?.should == false
+  end   
 end
 {'http://twitpic.com/17d7th' =>
   { :media_id => '17d7th',

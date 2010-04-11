@@ -44,9 +44,9 @@ class Muri
         end
 
         self.media_api_id = self.media_id
-        if self.is_flickr_photo?
+        if self.flickr_photo?
           self.media_website = "http://flic.kr/p/" + Filter::Flickr.encode58(self.media_id.to_i)
-        elsif self.is_flickr_set?
+        elsif self.flickr_set?
           self.media_website = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}" # appending /show takes direct to image through redirect
         end
       end

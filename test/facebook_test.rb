@@ -2,9 +2,17 @@ require 'lib/muri.rb'
 
 shared_examples_for "Facebook parse" do
   it "should be Facebook service" do
-    @a.media_service.should == 'Facebook'
+    #@a.media_service.should == 'Facebook'
+    @a.facebook?.should == true
   end
-
+  
+  it "should be not be other services" do
+    #@a.media_service.should == 'Facebook'
+    @a.vimeo?.should == false
+    @a.flickr?.should == false
+    @a.youtube?.should == false
+  end
+  
   it "should be valid" do
     @a.valid?.should == true
   end
@@ -15,6 +23,14 @@ shared_examples_for "Facebook parse photo" do
   it "should have media api type = FACEBOOK_PHOTO" do
     @a.media_api_type.should == Muri::FACEBOOK_PHOTO
   end
+  
+  it "should be facebook photo" do
+    @a.facebook_photo?.should == true
+  end
+  
+  it "should not be flickr photo" do
+    @a.flickr_photo?.should == false
+  end  
 end
 
 {'http://www.facebook.com/photo.php?pid=34929102&l=a1abf8cd37&id=15201063' =>
