@@ -18,17 +18,17 @@ class Muri
        self.media_service = IMAGESHACK_SERVICE_NAME #'Imageshack'
 
         self.uri.host =~ /^img([0-9]*?)\.imageshack\.us/i
-        server_id = $1
-        url_common = "http://img#{server_id}.imageshack.us"
+        server_id       = $1
+        url_common      = "http://img#{server_id}.imageshack.us"
 
         if self.uri.path =~ /^\/i\/([a-z0-9]+?)\.([a-z0-9]+)(\/)?/i
-          self.media_id = $1
-          self.media_content_type = $2
+          self.media_id             = $1
+          self.media_content_type   = $2
         elsif self.uri.path =~ /^\/img([0-9]*?)\/([0-9]+?)\/([a-z0-9]+?)\.([a-z0-9]+)/i
-          content_server_id = $2
-          self.media_id = $3
+          content_server_id       = $2
+          self.media_id           = $3
           self.media_content_type = $4
-          self.media_url = "#{url_common}/img#{server_id}/#{content_server_id}/#{self.media_id}.#{self.media_content_type}"
+          self.media_url          = "#{url_common}/img#{server_id}/#{content_server_id}/#{self.media_id}.#{self.media_content_type}"
         else
           raise UnsupportedURI
         end

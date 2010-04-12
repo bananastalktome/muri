@@ -22,17 +22,17 @@ class Muri
         url_common = "http://twitpic.com"
 
         if self.uri.path =~ REGEX_TWITPIC_PHOTO
-          self.media_id = $1
-          self.media_website = "#{url_common}/#{self.media_id}"
-          self.media_url = "#{url_common}/show/large/#{self.media_id}"
-          self.media_thumbnail = "#{url_common}/show/thumb/#{self.media_id}"
-          self.media_api_type = TWITPIC_PHOTO
+          self.media_id         = $1
+          self.media_website    = "#{url_common}/#{self.media_id}"
+          self.media_url        = "#{url_common}/show/large/#{self.media_id}"
+          self.media_thumbnail  = "#{url_common}/show/thumb/#{self.media_id}"
+          self.media_api_type   = TWITPIC_PHOTO
         else
           raise UnsupportedURI
         end
 
         # Twitpic does not have an API to pull photo info. Media ID is best guess
-        self.media_api_id = self.media_id
+        self.media_api_id     = self.media_id
       end
     end
   end

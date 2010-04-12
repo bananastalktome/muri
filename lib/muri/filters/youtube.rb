@@ -24,20 +24,23 @@ class Muri
       def youtube_parse
         self.media_service = YOUTUBE_SERVICE_NAME #'Youtube'
         
-        url_common = "http://www.youtube.com"
-        params = Muri.param_parse(self.uri.query)
+        url_common  = "http://www.youtube.com"
+        params      = Muri.param_parse(self.uri.query)
 
         if (self.uri.path =~ REGEX_YOUTUBE_VIDEO_WATCH) && params['v']
-          self.media_id = params['v']
+          self.media_id       = params['v']
           self.media_api_type = YOUTUBE_VIDEO
+          
         elsif (self.uri.path =~ REGEX_YOUTUBE_VIDEO_DIRECT)
-          self.media_id = $1
+          self.media_id       = $1
           self.media_api_type = YOUTUBE_VIDEO
+          
         elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_DIRECT)
-          self.media_id = $1
+          self.media_id       = $1
           self.media_api_type = YOUTUBE_PLAYLIST
+          
         elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && params['p']
-          self.media_id = params['p']
+          self.media_id       = params['p']
           self.media_api_type = YOUTUBE_PLAYLIST
         else
           raise UnsupportedURI
@@ -45,13 +48,13 @@ class Muri
 
         self.media_api_id = self.media_id
         if self.youtube_video?
-          self.media_website = "#{url_common}/watch?v=#{self.media_id}"
-          self.media_url = "#{url_common}/v/#{self.media_id}"
-          self.media_thumbnail = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
-          self.media_thumbnail_large = "http://i.ytimg.com/vi/#{self.media_id}/hqdefault.jpg"
+          self.media_website          = "#{url_common}/watch?v=#{self.media_id}"
+          self.media_url              = "#{url_common}/v/#{self.media_id}"
+          self.media_thumbnail        = "http://i.ytimg.com/vi/#{self.media_id}/default.jpg"
+          self.media_thumbnail_large  = "http://i.ytimg.com/vi/#{self.media_id}/hqdefault.jpg"
         elsif self.youtube_playlist?
-          self.media_website = "#{url_common}/view_play_list?p=#{self.media_id}"
-          self.media_url = "#{url_common}/p/#{self.media_id}"
+          self.media_website          = "#{url_common}/view_play_list?p=#{self.media_id}"
+          self.media_url              = "#{url_common}/p/#{self.media_id}"
         end
       end
     end

@@ -70,11 +70,6 @@ class Muri
     parse(url)
   end
   
-  def initialize_copy(source)  
-    super  
-    @info = @info.dup  
-  end
-  
   # Determine if Muri object is valid (errors mean not valid)
   def valid?
     self.errors.nil?
@@ -101,8 +96,8 @@ class Muri
       raw_url = URI.encode(URI.decode(raw_url)) unless raw_url.nil?
       self.uri = URI.parse(raw_url)
       if self.uri.scheme.nil?
-        raw_url = "http://#{raw_url}"
-        self.uri = URI.parse(raw_url)
+        raw_url   = "http://#{raw_url}"
+        self.uri  = URI.parse(raw_url)
       end
       if parser = Muri.determine_feed_parser(self.uri)
         send(PARSERS[parser])
@@ -113,7 +108,12 @@ class Muri
       self.errors = "#{e.class}"
     end
   end
-
+  
+  def initialize_copy(source)  
+    super
+    @info = @info.dup  
+  end
+  
   def method_missing(method, *arguments, &block)
     if method.to_s =~ /^media_(.+)/
       process_option_method(method, *arguments)
@@ -121,7 +121,7 @@ class Muri
       super
     end
   end
-
+  
   def process_option_method(method, *arguments)
     if method.to_s =~ /^media_(.+)=/
       @info[$1.to_sym] = arguments.first

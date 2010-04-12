@@ -37,10 +37,10 @@ class Muri
             params["id"] =~ /^([0-9]+)$/ &&
             params["l"] =~ /^([0-9a-z]+)$/i)
 
-          self.media_api_type = FACEBOOK_PHOTO
-          self.media_id = params["pid"]
-          media_creator = params["id"]
-          share_key = params["l"]
+          self.media_api_type   = FACEBOOK_PHOTO
+          self.media_id         = params["pid"]
+          media_creator         = params["id"]
+          share_key             = params["l"]
 
           self.media_website = "#{url_common}/photo.php?pid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
         elsif ((self.uri.path =~ REGEX_FACEBOOK_ALBUM) &&
@@ -48,18 +48,18 @@ class Muri
             params["id"] =~ /^([0-9]+)$/ &&
             params["l"] =~ /^([0-9a-z]+)$/i)
 
-          self.media_api_type = FACEBOOK_ALBUM
-          self.media_id = params["aid"]
-          media_creator = params["id"]
-          share_key = params["l"]
+          self.media_api_type   = FACEBOOK_ALBUM
+          self.media_id         = params["aid"]
+          media_creator         = params["id"]
+          share_key             = params["l"]
 
-          self.media_website = "#{url_common}/album.php?aid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
+          self.media_website    = "#{url_common}/album.php?aid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
         else
           raise UnsupportedURI
         end
 
         # The media_api_id is the PID which can be searched for in the facebook photos/albums table
-        self.media_api_id = (media_creator.to_i << 32) + self.media_id.to_i
+        self.media_api_id       = (media_creator.to_i << 32) + self.media_id.to_i
       end
     end
   end

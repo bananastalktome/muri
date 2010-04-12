@@ -16,21 +16,21 @@ class Muri
       end
 
       def picasa_parse
-        self.media_service = PICASA_SERVICE_NAME
-        url_common = "http://picasaweb.google.com"
+        self.media_service  = PICASA_SERVICE_NAME
+        url_common          = "http://picasaweb.google.com"
         
         #I hate to have to do this, but it's the best way I can think of to get the hash symbol
         #reencoded_url = URI.parse(URI.encode self.uri.to_s)
         
         if self.uri.path =~ /^\/(.[^\/]+)\/(.[^\/]+)/i
-          username = $1
-          album_photoid = $2.split("%23")
-          photoid = album_photoid.last
-          album = album_photoid[0..-2].join("#") #in case other hash symbols exist
-          self.media_id = photoid
-          self.media_website = "#{url_common}/#{username}/#{album}##{photoid}"
+          username            = $1
+          album_photoid       = $2.split("%23")
+          photoid             = album_photoid.last
+          album               = album_photoid[0..-2].join("#") #in case other hash symbols exist
+          self.media_id       = photoid
+          self.media_website  = "#{url_common}/#{username}/#{album}##{photoid}"
           self.media_api_type = PICASA_PHOTO
-          self.media_api_id = "#{username}/album/#{album}/photoid/#{photoid}"          
+          self.media_api_id   = "#{username}/album/#{album}/photoid/#{photoid}"          
         else
           raise UnsupportedURI
         end

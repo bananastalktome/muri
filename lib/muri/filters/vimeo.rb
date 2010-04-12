@@ -25,22 +25,22 @@ class Muri
         params = Muri.param_parse(self.uri.query)
 
         if self.uri.path =~ REGEX_VIMEO_VIDEO_OR_ALBUM
-          self.media_id = $2
-          self.media_api_type = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
+          self.media_id         = $2
+          self.media_api_type   = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
         elsif self.uri.path =~ REGEX_VIMEO_GROUP_VIDEO
-          self.media_id = $2
-          self.media_api_type = VIMEO_VIDEO
+          self.media_id         = $2
+          self.media_api_type   = VIMEO_VIDEO
         elsif ((self.uri.path =~ REGEX_VIMEO_SWF_VIDEO) && (params["clip_id"] =~ /^([0-9]+)$/))
-          self.media_id = params["clip_id"]
-          self.media_api_type = VIMEO_VIDEO
+          self.media_id         = params["clip_id"]
+          self.media_api_type   = VIMEO_VIDEO
         else
           raise UnsupportedURI
         end
 
-        self.media_api_id = self.media_id
-        self.media_website = Filter::Vimeo.vimeo_media_website self #:api_type => self.media_api_type, :id => self.media_id
+        self.media_api_id     = self.media_id
+        self.media_website    = Filter::Vimeo.vimeo_media_website self #:api_type => self.media_api_type, :id => self.media_id
         if self.vimeo_video?
-          self.media_url = Filter::Vimeo.vimeo_media_url self #:id => self.media_id
+          self.media_url      = Filter::Vimeo.vimeo_media_url self #:id => self.media_id
         end
       end
 
@@ -50,7 +50,7 @@ class Muri
 
       def self.vimeo_media_website(obj)
         str = "http://vimeo.com/"
-        str += "album/" if obj.media_api_type == VIMEO_ALBUM
+        str += "album/" if obj.vimeo_album?
         str += obj.media_id
       end
     end
