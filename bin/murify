@@ -34,6 +34,8 @@ end
 
 FILENAME="config/muri.yaml"
 output = {:flickr => {:api_key => nil, :secret => nil},
+          :photobucket => {:api_key => nil, :secret => nil},
+          :picasa => {:enabled => false},
           :youtube => {:enabled => false},
           :vimeo => {:enabled => false}}.to_yaml
 

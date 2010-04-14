@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Schneider"]
-  s.date = %q{2010-04-10}
+  s.date = %q{2010-04-14}
   s.default_executable = %q{murify}
   s.description = %q{Automatically get media information from the URL.}
   s.email = %q{bananastalktome@gmail.com}
@@ -26,6 +26,8 @@ Gem::Specification.new do |s|
      "lib/muri.rb",
      "lib/muri/base.rb",
      "lib/muri/fetchers/flickr.rb",
+     "lib/muri/fetchers/photobucket.rb",
+     "lib/muri/fetchers/picasa.rb",
      "lib/muri/fetchers/vimeo.rb",
      "lib/muri/fetchers/youtube.rb",
      "lib/muri/filter.rb",
