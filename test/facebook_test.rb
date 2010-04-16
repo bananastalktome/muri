@@ -28,8 +28,8 @@ shared_examples_for "Facebook parse photo" do
     @a.facebook_photo?.should == true
   end
   
-  it "should not be flickr photo" do
-    @a.flickr_photo?.should == false
+  it "should not be flickr media" do
+    @a.flickr_media?.should == false
   end  
 end
 

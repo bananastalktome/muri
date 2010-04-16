@@ -3,11 +3,11 @@ class Muri
     module Flickr
 
       private
-      FLICKR_PHOTO = "photo"
+      FLICKR_MEDIA = "media"
       FLICKR_SET = "set"
 
-      REGEX_FLICKR_PHOTO_OR_SET = /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
-      REGEX_FLICKR_STATIC_PHOTO = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)((?:\_[a-z]){1,2}){0,1}\.([a-z]+)/i
+      REGEX_FLICKR_MEDIA_OR_SET = /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
+      REGEX_FLICKR_STATIC_MEDIA = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)((?:\_[a-z]){1,2}){0,1}\.([a-z]+)/i
       REGEX_FLICKR_SHORTURL = /^flic\.kr\/p\/([a-z0-9]+)/i
 
       def self.included(base)
@@ -23,6 +23,7 @@ class Muri
       def flickr_parse
         self.media_service      = FLICKR_SERVICE_NAME #'Flickr'
 
+<<<<<<< HEAD:lib/muri/filters/flickr.rb
         if self.uri.path =~ REGEX_FLICKR_PHOTO_OR_SET
           media_creator         = $1
           self.media_id         = $3
@@ -41,14 +42,38 @@ class Muri
         elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_SHORTURL
           self.media_id         = Filter::Flickr.decode58($1)
           self.media_api_type   = FLICKR_PHOTO
+=======
+        if self.uri.path =~ REGEX_FLICKR_MEDIA_OR_SET
+          media_creator = $1
+          self.media_id = $3
+          self.media_api_type = $2.nil? ? FLICKR_MEDIA : FLICKR_SET
+        elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_STATIC_MEDIA
+          farm = $1
+          server_id = $2
+          self.media_id = $3
+          self.media_api_type = FLICKR_MEDIA
+          media_secret = $4
+          url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
+          self.media_url = "#{url_prefix}.jpg"
+          self.media_thumbnail = "#{url_prefix}_t.jpg"
+        elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_SHORTURL
+          self.media_id = Filter::Flickr.decode58($1)
+          self.media_api_type = FLICKR_MEDIA
+>>>>>>> testing:lib/muri/filters/flickr.rb
         else
           raise UnsupportedURI
         end
 
+<<<<<<< HEAD:lib/muri/filters/flickr.rb
         self.media_api_id       = self.media_id
         
         if self.flickr_photo?
           self.media_website    = "http://flic.kr/p/" + Filter::Flickr.encode58(self.media_id.to_i)
+=======
+        self.media_api_id = self.media_id
+        if self.flickr_media?
+          self.media_website = "http://flic.kr/p/" + Filter::Flickr.encode58(self.media_id.to_i)
+>>>>>>> testing:lib/muri/filters/flickr.rb
         elsif self.flickr_set?
           self.media_website    = "http://www.flickr.com/photos/#{media_creator}/sets/#{self.media_id}" # appending /show takes direct to image through redirect
         end
