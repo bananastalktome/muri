@@ -1,0 +1,6 @@
+Muri Changelog
+===================================
+
+Version 1.1.3 (git)
+  * Changed "FLICKR_PHOTO" to "FLICKR_MEDIA" (since it can parse videos)
+    - "flickr_photo?" is replaced by "flickr_media?" now

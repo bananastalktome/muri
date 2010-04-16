@@ -20,11 +20,11 @@ end
 shared_examples_for "Flickr parse photo" do
   it_should_behave_like "Flickr parse"
   it "should have media api type = FLICKR_PHOTO" do
-    @a.media_api_type.should == Muri::FLICKR_PHOTO
+    @a.media_api_type.should == Muri::FLICKR_MEDIA
   end
   
-  it "should be flickr photo" do
-    @a.flickr_photo?.should == true
+  it "should be flickr media" do
+    @a.flickr_media?.should == true
   end 
   
   it "should not be facebook photo" do
