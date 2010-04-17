@@ -12,28 +12,51 @@ class Muri
       
       def flickr_fetch
         if self.flickr_photo?
-          doc = Nokogiri::XML(open("http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=#{MuriOptions[:flickr][:api_key]}&photo_id=#{self.media_api_id}"))
-          self.media_title          = doc.search("title").inner_text
-          self.media_description    = doc.search("description").inner_text
-          self.media_keywords       = doc.search("tags tag").collect{ |t| t.inner_text }
-          self.media_notes          = doc.search("notes").inner_text
-          photo_element             = doc.search("photo").first
+          url = "http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=#{MuriOptions[:flickr][:api_key]}&photo_id=#{self.media_api_id}"
+          doc = Muri::fetch_xml(url)
           
-          farm                      = photo_element[:farm]
-          server_id                 = photo_element[:server]
-          media_secret              = photo_element[:secret]
+          self.media_title            = REXML::XPath.first(doc, '//title').text
+          self.media_description      = REXML::XPath.first(doc, '//description').text
+          self.media_keywords         = REXML::XPath.each(doc, '//tags tag').collect{ |t| t.text }
+          self.media_notes            = REXML::XPath.first(doc, '//notes').text
+          self.media_posted           = Time.at(REXML::XPath.first(doc, '//dates').attributes["posted"].to_i)
+          self.media_updated          = Time.at(REXML::XPath.first(doc, '//dates').attributes["lastupdate"].to_i)
+          photo_element               = REXML::XPath.first(doc, '//photo')
           
-          url_prefix                = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_api_id}_#{media_secret}"
-          self.media_url            = "#{url_prefix}.jpg"
-          self.media_thumbnail      = "#{url_prefix}_t.jpg"
+          farm                        = photo_element.attributes['farm']
+          server_id                   = photo_element.attributes['server']
+          secret                      = photo_element.attributes['secret']
           
-          self.media_posted         = Time.at(doc.search('dates').first[:posted].to_i)
-                                      #Time.parse(doc.search('dates').first[:posted], Time.now.utc)
-          self.media_updated        = Time.at(doc.search('dates').first[:lastupdate].to_i)
-                                      #Time.parse(doc.search('dates').first[:lastupdate], Time.now.utc)
+          url_prefix                  = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_api_id}_#{secret}"
+          self.media_url              = "#{url_prefix}.jpg"
+          self.media_thumbnail        = "#{url_prefix}_t.jpg"          
+          true
+        else
+          false
         end
+      rescue
+        false          
       end
       
+      #def flickr_nokogiri
+        #doc = Nokogiri::XML(open("http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=#{MuriOptions[:flickr][:api_key]}&photo_id=#{self.media_api_id}"))
+        #self.media_title          = doc.search("title").inner_text
+        #self.media_description    = doc.search("description").inner_text
+        #self.media_keywords       = doc.search("tags tag").collect{ |t| t.inner_text }
+        #self.media_notes          = doc.search("notes").inner_text
+        #photo_element             = doc.search("photo").first
+        #
+        #farm                      = photo_element[:farm]
+        #server_id                 = photo_element[:server]
+        #media_secret              = photo_element[:secret]
+        #
+        #url_prefix                = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_api_id}_#{media_secret}"
+        #self.media_url            = "#{url_prefix}.jpg"
+        #self.media_thumbnail      = "#{url_prefix}_t.jpg"
+        #self.media_posted         = Time.at(doc.search('dates').first[:posted].to_i)
+        #self.media_updated        = Time.at(doc.search('dates').first[:lastupdate].to_i)
+        #                            #Time.parse(doc.search('dates').first[:lastupdate], Time.now.utc)
+      #end
     end
   end
 end

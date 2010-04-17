@@ -1,6 +1,17 @@
 Muri Changelog
 ===================================
 
+EXPERIMENTAL
+  * Added Fetching capabilities to muri
+    - API fetching enabled from muri.yaml file if using rails (call `murify` in a manner similar to capistrano's `capify`), or from setting MuriOptions hash
+    - 3 ways to fetch
+      1. Can call fetch! directly on a muri parsed object
+      2. Can call new_muri_object = Muri.fetch(parsed_muri_object)
+      3. Can call muri_object = Muri.parse_and_fetch('www.blahblah.com')
+    (Calling fetch! on a muri object returns a boolean indicating if the API could fetch information)
+    - When properly fetched, vimeo has a media_thumbnail_large for HQ thumbnail
+
 Version 1.1.3 (git)
   * Changed "FLICKR_PHOTO" to "FLICKR_MEDIA" (since it can parse videos)
     - "flickr_photo?" is replaced by "flickr_media?" now
+  * Added media_thumbnail_large attribute for youtube HQ thumbnails

@@ -1,7 +1,6 @@
 class Muri
   module Fetcher
     module Youtube
-
       private
       
       def self.included(base)
@@ -12,26 +11,32 @@ class Muri
       
       def youtube_fetch
         if self.youtube_video?
-         #  doc = Nokogiri::XML(open("http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}"))
-#           self.media_title            = doc.xpath("//media:title").inner_text
-#           self.media_description      = doc.xpath("//media:description").inner_text
-#           self.media_keywords         = doc.xpath("//media:keywords").inner_text.split(", ")
-#           self.media_duration         = doc.xpath("//yt:duration").first[:seconds].to_i
-#           self.media_date             = Time.parse(doc.search("published").inner_text, Time.now.utc)
-#           self.media_updated          = Time.parse(doc.search('updated').inner_text, Time.now.utc)
-
-          xml = Net::HTTP.get_response("http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}").body
-          doc = REXML::Document.new(xml)
+          url = "http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}"
+          doc = Muri::fetch_xml(url)
           
           self.media_title            = REXML::XPath.first(doc, '//media:title').text
           self.media_description      = REXML::XPath.first(doc, '//media:description').text
           self.media_keywords         = REXML::XPath.first(doc, '//media:keywords').text.split(", ")
           self.media_duration         = REXML::XPath.first(doc, '//yt:duration').attributes['seconds'].to_i
-          self.media_date             = Time.parse(REXML::XPath.first(doc, '//published').text, Time.now.utc)
+          self.media_posted           = Time.parse(REXML::XPath.first(doc, '//published').text, Time.now.utc)
           self.media_updated          = Time.parse(REXML::XPath.first(doc, '//updated').text, Time.now.utc)
+          true
+        else
+          false
         end
+      rescue
+        false          
       end
       
+      #def youtube_nokogiri
+        #doc = Nokogiri::XML(open("http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}"))
+        #self.media_title            = doc.xpath("//media:title").inner_text
+        #self.media_description      = doc.xpath("//media:description").inner_text
+        #self.media_keywords         = doc.xpath("//media:keywords").inner_text.split(", ")
+        #self.media_duration         = doc.xpath("//yt:duration").first[:seconds].to_i
+        #self.media_posted           = Time.parse(doc.search("published").inner_text, Time.now.utc)
+        #self.media_updated          = Time.parse(doc.search('updated').inner_text, Time.now.utc)
+      #end
     end
   end
 end

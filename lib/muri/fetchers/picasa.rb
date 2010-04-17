@@ -11,17 +11,34 @@ class Muri
       end
       
       def picasa_fetch
-        if self.picasa_photo?
-          doc = Nokogiri::XML(open("http://picasaweb.google.com/data/feed/api/user/#{self.media_api_id}?v=2"))
-          self.media_title          = doc.search("title").inner_text
-          self.media_description    = doc.search("subtitle").inner_text
-          self.media_keywords       = doc.xpath("//media:keywords").inner_text
-          self.media_url            = doc.xpath("//media:content").first["url"]
-          self.media_thumbnail      = doc.xpath("//media:thumbnail").last["url"]
-          self.media_updated        = Time.parse(doc.search('updated').inner_text, Time.now.utc)
+        if self.picasa_photo?                   
+          url = "http://picasaweb.google.com/data/feed/api/user/#{self.media_api_id}?v=2"
+          doc = Muri::fetch_xml(url)
+
+          
+          self.media_title            = REXML::XPath.first(doc, '//title').text
+          self.media_description      = REXML::XPath.first(doc, '//subtitle').text
+          self.media_keywords         = REXML::XPath.first(doc, '//media:keywords').text.split(", ")
+          self.media_url              = REXML::XPath.first(doc, '//media:content').attributes["url"]          
+          self.media_thumbnail        = REXML::XPath.each(doc, '//media:thumbnail').last.attributes["url"]          
+          self.media_updated          = Time.parse(REXML::XPath.first(doc, '//updated').text, Time.now.utc)          
+          true
+        else
+          false
         end
+      rescue
+        false          
       end
       
+      #def picasa_nokogiri
+        #doc = Nokogiri::XML(open("http://picasaweb.google.com/data/feed/api/user/#{self.media_api_id}?v=2"))
+        #self.media_title          = doc.search("title").inner_text
+        #self.media_description    = doc.search("subtitle").inner_text
+        #self.media_keywords       = doc.xpath("//media:keywords").inner_text
+        #self.media_url            = doc.xpath("//media:content").first["url"]
+        #self.media_thumbnail      = doc.xpath("//media:thumbnail").last["url"]
+        #self.media_updated        = Time.parse(doc.search('updated').inner_text, Time.now.utc) 
+      #end
     end
   end
 end

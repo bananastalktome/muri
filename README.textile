@@ -66,6 +66,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 
 *ALSO NOTE: Picasa @media_api_id@ is a partial string for using the photo API call, so for example @'bananastalktome/album/TestForAPI/photoid/5450524726782297346'@, thus the API call would be @"http://picasaweb.google.com/data/feed/api/user/#{media_api_id}"@*
 
+h3. Additional Attributes
 
 * A direct media url for Youtube, Photobucket (photos, not albums), Twitpic, Imageshack (@http://img#{num}.imageshack.us/img#{num}/#{NUMBER}/#{IMAGENAME}@ format) and flickr (@http://farm#{num}.static.flickr.com/@ format)
 
@@ -99,10 +100,31 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 </code>
 </pre>
 
+(youtube and vimeo additionally has @media_thumbnail_large@, which is the HQ version of the thumbnail)
+
 *Some additional information may be provided, which can be determined by looking through each filters code.*
 
 
 If an attribute is not present, muri returns @nil@.
+
+h3. API Fetching!
+
+Muri recently added the ability to fetch media information, leveraging the media service API's
+There are 3 ways to utilize this functionality:
+  1. Can call fetch! directly on a muri parsed object
+    (Calling fetch! on a muri object returns a boolean indicating if the API could fetch information)
+  2. Can call new_muri_object = Muri.fetch(parsed_muri_object)
+  3. Can call muri_object = Muri.parse_and_fetch('www.blahblah.com')
+As may be expected, this introduces a slew of new attributes which can be returned from @media_.....@ method calls.
+
+Here is a list of the currently available attributes:
+* media_title
+* media_description
+* media_posted
+* media_updated
+* media_keywords
+* media_duration
+* media_notes
 
 
 h3. Contact

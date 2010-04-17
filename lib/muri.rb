@@ -1,7 +1,8 @@
 require 'uri'
 require 'cgi'
 require 'open-uri'
-require 'nokogiri'
+require 'rexml/document'
+#require 'nokogiri'
 
 if ENV.include?('RAILS_ENV')
   if (File.file? "#{RAILS_ROOT}/config/muri.yaml")
@@ -23,6 +24,6 @@ Dir["#{File.dirname(__FILE__) + '/muri/fetchers'}/**/*"].each do |fetcher|
   require "#{fetcher}"
 end
 
-%w(filter base).each do |f|
+%w(filter fetcher base).each do |f|
   require File.dirname(__FILE__) + "/muri/#{f}"
 end

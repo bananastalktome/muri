@@ -47,17 +47,14 @@ class Muri
   # Fetch and return in obj clone
   def self.fetch(obj)
     copy = obj.clone
-    fetch! copy
+    copy.fetch!
+    copy
   end
   
-  # Fetch and directly modify passed object
-  def self.fetch!(obj)
-    obj.send(FETCHERS[obj.media_service]) if obj.valid? && FETCHERS[obj.media_service]
-    obj
-  end  
   
   def self.parse_and_fetch(url)
-    fetch self.parse(url)
+    obj = self.parse(url)
+    obj.fetch!
   end
 
   # Show a list of the available parsers
@@ -83,7 +80,11 @@ class Muri
   def inspect
     Kernel.instance_method(:to_s).bind(self).call.sub!(/>\z/) {" URL:#{self.uri.to_s}>"}
   end
-
+  
+  def fetch!
+    self.send(FETCHERS[self.media_service]) if self.valid? && FETCHERS[self.media_service]
+  end
+  
   private
   attr_writer :uri, :errors
 

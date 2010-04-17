@@ -7,7 +7,7 @@ begin
     gem.homepage = "http://github.com/bananastalktome/muri/"
     gem.description = "Automatically get media information from the URL."
     gem.authors = ["William Schneider"]
-    gem.add_dependency("nokogiri")
+    #gem.add_dependency("nokogiri")
     gem.files.exclude 'test.sqlite3'
     gem.has_rdoc = true
   end
