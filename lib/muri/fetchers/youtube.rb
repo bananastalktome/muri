@@ -6,10 +6,14 @@ class Muri
       def self.included(base)
         base.class_eval do
           self::FETCHERS[YOUTUBE_SERVICE_NAME] = "youtube_fetch"
+          def self.youtube_fetchable?
+            MuriOptions[:youtube].include?(:enabled) && (MuriOptions[:youtube][:enabled] == true)
+          end                       
         end
       end
       
       def youtube_fetch
+        raise unless Muri.youtube_fetchable?
         if self.youtube_video?
           url = "http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}"
           doc = Muri::fetch_xml(url)

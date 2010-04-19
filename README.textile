@@ -111,10 +111,10 @@ h3. API Fetching!
 
 Muri recently added the ability to fetch media information, leveraging the media service API's
 There are 3 ways to utilize this functionality:
-  1. Can call fetch! directly on a muri parsed object
+# Can call fetch! directly on a muri parsed object
     (Calling fetch! on a muri object returns a boolean indicating if the API could fetch information)
-  2. Can call new_muri_object = Muri.fetch(parsed_muri_object)
-  3. Can call muri_object = Muri.parse_and_fetch('www.blahblah.com')
+# Can call new_muri_object = Muri.fetch(parsed_muri_object)
+# Can call muri_object = Muri.parse_and_fetch('www.blahblah.com')
 As may be expected, this introduces a slew of new attributes which can be returned from @media_.....@ method calls.
 
 Here is a list of the currently available attributes:

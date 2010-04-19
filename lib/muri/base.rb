@@ -1,5 +1,4 @@
 class Muri
-
   attr_reader :uri, :errors
 
   # NoParser raised if no parser is found for URI
@@ -8,9 +7,6 @@ class Muri
   # UnsupportedURI raised if parser is found, but URI path does not
   #   match accepted formats
   class UnsupportedURI < ArgumentError; end
-
-  AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
-  AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
 
   PARSERS = { }
   FETCHERS = { }
@@ -39,7 +35,25 @@ class Muri
       eval "include Fetcher::#{AVAILABLE_FETCHERS[fetch]}"
     end
   end
-  
+
+  class << self
+    AVAILABLE_FETCHERS.each do |fetcher|
+      fetcher = fetcher.downcase.to_sym
+      define_method("enable_#{fetcher}_fetcher") { set_muri_options(fetcher, :enabled, true) }
+      define_method("#{fetcher}_api_key=") { |key| set_muri_options(fetcher, :api_key, key) }
+      define_method("#{fetcher}_secret=") { |key| set_muri_options(fetcher, :secret, key) }
+      define_method("disable_#{fetcher}_fetcher"){ MuriOptions.delete(fetcher) }
+    end
+    
+    def set_muri_options(fetcher, key, value, include_module = true)
+      MuriOptions[fetcher.downcase.to_sym] ||= { }
+      MuriOptions[fetcher.downcase.to_sym][key] = value
+      if include_module && (fetch = AVAILABLE_FETCHERS.index{|f| f =~ /^#{fetcher}$/i })
+        eval("include Fetcher::#{AVAILABLE_FETCHERS[fetch]}")
+      end
+    end
+  end
+
   def self.parse(url)
     self.new(url)
   end
@@ -51,15 +65,20 @@ class Muri
     copy
   end
   
-  
   def self.parse_and_fetch(url)
     obj = self.parse(url)
     obj.fetch!
+    obj
   end
 
   # Show a list of the available parsers
   def self.parsers
     PARSERS.keys
+  end
+  
+  # Show a list of the available fetchers
+  def self.fetchers
+    FETCHERS.keys
   end
   
   def initialize(url)
@@ -87,6 +106,8 @@ class Muri
   
   private
   attr_writer :uri, :errors
+
+
 
   def self.determine_feed_parser(uri)
     PARSERS.keys.detect {|klass| klass.parsable?(uri)}

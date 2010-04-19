@@ -7,10 +7,14 @@ class Muri
       def self.included(base)
         base.class_eval do
           self::FETCHERS[PHOTOBUCKET_SERVICE_NAME] = "photobucket_fetch"
+          def self.photobucket_fetchable?
+            MuriOptions[:photobucket].include?(:api_key)
+          end
         end
       end
       
       def photobucket_fetch
+        raise unless Muri.photobucket_fetchable?
         if self.photobucket_media?
           api_url = "http://api.photobucket.com/media/#{CGI::escape(media_api_id)}"
 
