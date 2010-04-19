@@ -29,8 +29,8 @@ class Muri
         else
           false
         end
-      #rescue
-      #  false          
+      rescue
+        false          
       end
       
       #def youtube_nokogiri

@@ -24,20 +24,19 @@ class Muri
           api_url = "http://api.photobucket.com/media/#{arg}"
 
           url = Muri::Fetcher::Photobucket.media_api_request(api_url)
-          pp url
           doc = Muri.send(:fetch_xml, url)
 
           self.media_title            = REXML::XPath.first(doc, '//title').text
           self.media_description      = REXML::XPath.first(doc, '//description').text
           self.media_keywords         = REXML::XPath.each(doc, '//tag').collect{ |t| t.attributes["tag"] }
-          self.media_thumbnail        = REXML::XPath.each(doc, '//thumb').text
+          self.media_thumbnail        = REXML::XPath.first(doc, '//thumb').text
           self.media_posted           = Time.at(REXML::XPath.first(doc, '//media').attributes["uploaddate"].to_i)
           true
         else
           false
         end
-      #rescue
-      #  false        
+      rescue
+        false        
       end
       
       def self.media_api_request(api_call)

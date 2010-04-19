@@ -8,7 +8,8 @@ class Muri
         base.class_eval do
           self::FETCHERS[VIMEO_SERVICE_NAME] = "vimeo_fetch"
           def self.vimeo_fetchable?
-            MuriOptions.include?(:vimeo) && MuriOptions[:vimeo].include?(:enabled) && (MuriOptions[:vimeo][:enabled] == true)
+            #MuriOptions.include?(:vimeo) && MuriOptions[:vimeo].include?(:enabled) && (MuriOptions[:vimeo][:enabled] == true)
+            Muri::Options.vimeo_enabled == true
           end              
         end
       end
