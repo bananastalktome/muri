@@ -2,5 +2,7 @@ Muri Changelog
 ===================================
 
 Version 1.1.3 (git)
+  * Changed service names all lowercase letters (eg. "Vimeo" to "vimeo").
+    - Should not have any major impact on usage, mostly an internal change.
   * Changed "FLICKR_PHOTO" to "FLICKR_MEDIA" (since it can parse videos)
     - "flickr_photo?" is replaced by "flickr_media?" now

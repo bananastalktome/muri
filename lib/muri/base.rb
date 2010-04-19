@@ -9,15 +9,15 @@ class Muri
   #   match accepted formats
   class UnsupportedURI < ArgumentError; end
 
-  AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
+  AVAILABLE_PARSERS = %w[youtube flickr vimeo imageshack photobucket facebook twitpic picasa].freeze
 
   PARSERS = { }
   
   # Defines #{service}? and #{service_type}? methods, and sets service name constnat
   AVAILABLE_PARSERS.each do |parser|
-    eval "include Filter::#{parser}"    
-    is_service = "is_#{parser.downcase}?"
-    service = "#{parser.downcase}?"
+    eval "include Filter::#{parser.capitalize}"    
+    is_service = "is_#{parser}?"
+    service = "#{parser}?"
     define_method(service) { self.media_service == parser }    
     define_method(is_service) { puts "This method will be deprecated, use #{service} instead"; self.instance_eval(service) }
     self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
