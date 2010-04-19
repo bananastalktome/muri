@@ -1,5 +1,24 @@
 require 'lib/muri.rb'
 
+require 'pp'
+describe "fetcher basic tests" do
+
+  it "should work" do
+    #pp Muri::Options.methods.sort
+    #Muri.enable_youtube_fetcher
+    Muri.photobucket_api_key = "api"
+    Muri.photobucket_secret = 'secret'
+    pp Muri::Options.options
+    #m = Muri.parse_and_fetch 'http://www.youtube.com/watch?v=4CYDFoEz8rg'
+    m = Muri.parse_and_fetch 'http://gi0006.photobucket.com/groups/0006/G5PAK3TBQS/DSCF0015-1-1.jpg'
+    #pp m
+    pp m.media_title
+  end
+
+
+
+end
+
 describe "Parse Errors" do
   @no_parser = ["http://media.photobucket.com/image/searchterm/pbapi/file.jpg",
         "http://pic.pbsrc.com/dev_help/WebHelpPublic/PhotobucketPublicHelp.htm"]

@@ -1,3 +1,6 @@
+require 'digest'
+require 'openssl'
+require 'base64'
 class Muri
   module Fetcher
     module Photobucket
@@ -8,7 +11,8 @@ class Muri
         base.class_eval do
           self::FETCHERS[PHOTOBUCKET_SERVICE_NAME] = "photobucket_fetch"
           def self.photobucket_fetchable?
-            MuriOptions[:photobucket].include?(:api_key)
+            #MuriOptions.include?(:photobucket) && MuriOptions[:photobucket].include?(:api_key)
+            Muri::Options.photobucket_api_key && Muri::Options.photobucket_secret
           end
         end
       end
@@ -16,10 +20,12 @@ class Muri
       def photobucket_fetch
         raise unless Muri.photobucket_fetchable?
         if self.photobucket_media?
-          api_url = "http://api.photobucket.com/media/#{CGI::escape(media_api_id)}"
+          arg = CGI::escape(self.media_api_id)
+          api_url = "http://api.photobucket.com/media/#{arg}"
 
           url = Muri::Fetcher::Photobucket.media_api_request(api_url)
-          doc = Muri::fetch_xml(url)
+          pp url
+          doc = Muri.send(:fetch_xml, url)
 
           self.media_title            = REXML::XPath.first(doc, '//title').text
           self.media_description      = REXML::XPath.first(doc, '//description').text
@@ -30,25 +36,27 @@ class Muri
         else
           false
         end
-      rescue
-        false        
+      #rescue
+      #  false        
       end
       
       def self.media_api_request(api_call)
         params = {"format" => "xml",
-                  "oauth_consumer_key" => MuriOptions[:photobucket][:api_key],
-                  "oauth_nonce" => CGI::escape(Digest::MD5.hexdigest(Time.zone.now.to_s)),
+                  "oauth_consumer_key" => Muri::Options.photobucket_api_key,
+                  "oauth_nonce" => CGI::escape(Digest::MD5.hexdigest(Time.now.to_s)),
                   "oauth_signature_method" => CGI::escape('HMAC-SHA1'),
-                  "oauth_timestamp" => "#{Time.zone.now.utc.to_i}",
+                  "oauth_timestamp" => "#{Time.now.to_i}",
                   "oauth_version" => "1.0"}
+                  
         param_string = params.sort.inject(''){ |str, key| str << "#{key.first}=#{params[key.first]}&" }.chop
-        
+
         request_url = "GET&" + (CGI::escape api_call) + "&" + CGI::escape(param_string)
-        digest = OpenSSL::HMAC.digest('sha1', MuriOptions[:photobucket][:secret]+"&", request_url)
+        digest = OpenSSL::HMAC.digest('sha1', Muri::Options.photobucket_secret.to_s + "&", request_url)
         signature_hash = CGI::escape(Base64.encode64(digest).chomp)
         
         "#{api_call}?#{param_string}&oauth_signature=#{signature_hash}"
       end
+      
       
       #def photobucket_nokogiri
         #doc = Nokogiri::XML(open(Muri::Fetcher::Photobucket.media_api_request(api_url)))

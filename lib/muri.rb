@@ -8,18 +8,27 @@ require 'net/http'
 class Muri
   AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
   AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
-  #class Options
-  #  #attr_accessor :options
-  #  #Muri::Options.vimeo_enabled
-  #  #Muri::Options.vimeo_api_key
-  #  class << self
-  #    Muri::AVAILABLE_FETCHERS.each do |fetcher|
-  #      define_method("#{fetcher.downcase}") {}
-  #      define_method("#{fetcher.downcase}_enabled=") {}
-  #    
-  #    end
-  #  end
-  #end
+  class Options
+
+    #Muri::Options.vimeo_enabled
+    #Muri::Options.vimeo_api_key
+    class << self
+      attr_accessor :options
+      Muri::AVAILABLE_FETCHERS.each do |fetcher|
+        service = fetcher.downcase.to_sym
+        %w[enabled api_key secret].each do |method|
+          define_method("#{service}_#{method}") do
+            (@options.include?(service) && @options[service].include?(method.to_sym)) ? @options[service][method.to_sym] : nil
+          end
+          define_method("#{service}_#{method}=") do |val|
+            @options ||= {}
+            @options[service] ||= { }
+            @options[service][method.to_sym] = val
+          end
+        end
+      end
+    end
+  end
 end
 
 if ENV.include?('RAILS_ENV')

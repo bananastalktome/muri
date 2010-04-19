@@ -7,7 +7,8 @@ class Muri
         base.class_eval do
           self::FETCHERS[YOUTUBE_SERVICE_NAME] = "youtube_fetch"
           def self.youtube_fetchable?
-            MuriOptions[:youtube].include?(:enabled) && (MuriOptions[:youtube][:enabled] == true)
+            #MuriOptions.include?(:youtube) && MuriOptions[:youtube].include?(:enabled) && (MuriOptions[:youtube][:enabled] == true)
+            Muri::Options.youtube_enabled == true
           end                       
         end
       end
@@ -16,7 +17,7 @@ class Muri
         raise unless Muri.youtube_fetchable?
         if self.youtube_video?
           url = "http://gdata.youtube.com/feeds/api/videos/#{self.media_api_id}"
-          doc = Muri::fetch_xml(url)
+          doc = Muri.send(:fetch_xml, url)
           
           self.media_title            = REXML::XPath.first(doc, '//media:title').text
           self.media_description      = REXML::XPath.first(doc, '//media:description').text
@@ -28,8 +29,8 @@ class Muri
         else
           false
         end
-      rescue
-        false          
+      #rescue
+      #  false          
       end
       
       #def youtube_nokogiri

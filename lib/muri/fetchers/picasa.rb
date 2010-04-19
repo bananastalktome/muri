@@ -8,7 +8,7 @@ class Muri
         base.class_eval do
           self::FETCHERS[PICASA_SERVICE_NAME] = "picasa_fetch"
           def self.picasa_fetchable?
-            MuriOptions[:picasa].include?(:enabled) && (MuriOptions[:picasa][:enabled] == true)
+            MuriOptions.include?(:picasa) && MuriOptions[:picasa].include?(:enabled) && (MuriOptions[:picasa][:enabled] == true)
           end          
         end
       end
@@ -17,8 +17,7 @@ class Muri
         raise unless Muri.picasa_fetchable?
         if self.picasa_photo?                   
           url = "http://picasaweb.google.com/data/feed/api/user/#{self.media_api_id}?v=2"
-          doc = Muri::fetch_xml(url)
-
+          doc = Muri.send(:fetch_xml, url)
           
           self.media_title            = REXML::XPath.first(doc, '//title').text
           self.media_description      = REXML::XPath.first(doc, '//subtitle').text

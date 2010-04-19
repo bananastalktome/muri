@@ -1,4 +1,5 @@
 class Muri
+
   attr_reader :uri, :errors
 
   # NoParser raised if no parser is found for URI
@@ -12,7 +13,7 @@ class Muri
   FETCHERS = { }
   
   # Defines #{service}? and #{service_type}? methods, and sets service name constnat
-  AVAILABLE_PARSERS.each do |parser|
+  Muri::AVAILABLE_PARSERS.each do |parser|
     eval "include Filter::#{parser}"    
     is_service = "is_#{parser.downcase}?"
     service = "#{parser.downcase}?"
@@ -30,29 +31,8 @@ class Muri
     const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
   end
   
-  MuriOptions.keys.each do |fetcher|
-    if fetch = AVAILABLE_FETCHERS.index{|f| f =~ /^#{fetcher}$/i }
-      eval "include Fetcher::#{AVAILABLE_FETCHERS[fetch]}"
-    end
-  end
-
-  class << self
-    AVAILABLE_FETCHERS.each do |fetcher|
-      fetcher = fetcher.downcase.to_sym
-      define_method("enable_#{fetcher}_fetcher") { set_muri_options(fetcher, :enabled, true) }
-      define_method("#{fetcher}_api_key=") { |key| set_muri_options(fetcher, :api_key, key) }
-      define_method("#{fetcher}_secret=") { |key| set_muri_options(fetcher, :secret, key) }
-      define_method("disable_#{fetcher}_fetcher"){ MuriOptions.delete(fetcher) }
-    end
-    
-    def set_muri_options(fetcher, key, value, include_module = true)
-      MuriOptions[fetcher.downcase.to_sym] ||= { }
-      MuriOptions[fetcher.downcase.to_sym][key] = value
-      if include_module && (fetch = AVAILABLE_FETCHERS.index{|f| f =~ /^#{fetcher}$/i })
-        eval("include Fetcher::#{AVAILABLE_FETCHERS[fetch]}")
-      end
-    end
-  end
+  extend Filter
+  extend Fetcher
 
   def self.parse(url)
     self.new(url)
@@ -107,7 +87,13 @@ class Muri
   private
   attr_writer :uri, :errors
 
-
+  def self.param_parse(query)
+    return { } if query.nil?
+    params_flat = { }
+    params = CGI::parse(query)
+    params.each {|k,v| params_flat[k] = v.first}
+    params_flat
+  end
 
   def self.determine_feed_parser(uri)
     PARSERS.keys.detect {|klass| klass.parsable?(uri)}

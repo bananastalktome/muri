@@ -8,7 +8,7 @@ class Muri
         base.class_eval do
           self::FETCHERS[FLICKR_SERVICE_NAME] = "flickr_fetch"
           def self.flickr_fetchable?
-            MuriOptions[:flickr].include?(:api_key)
+            MuriOptions.include?(:flickr) && MuriOptions[:flickr].include?(:api_key)
           end          
         end
       end
@@ -17,7 +17,7 @@ class Muri
         raise unless Muri.flickr_fetchable?
         if self.flickr_photo?
           url = "http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=#{MuriOptions[:flickr][:api_key]}&photo_id=#{self.media_api_id}"
-          doc = Muri::fetch_xml(url)
+          doc = Muri.send(:fetch_xml, url)
           
           self.media_title            = REXML::XPath.first(doc, '//title').text
           self.media_description      = REXML::XPath.first(doc, '//description').text
