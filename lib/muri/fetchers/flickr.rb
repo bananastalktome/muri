@@ -8,7 +8,6 @@ class Muri
         base.class_eval do
           self::FETCHERS[FLICKR_SERVICE_NAME] = "flickr_fetch"
           def self.flickr_fetchable?
-            #MuriOptions.include?(:flickr) && MuriOptions[:flickr].include?(:api_key)
             Muri::Options.flickr_api_key
           end          
         end

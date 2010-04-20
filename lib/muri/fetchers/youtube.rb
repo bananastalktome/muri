@@ -7,7 +7,6 @@ class Muri
         base.class_eval do
           self::FETCHERS[YOUTUBE_SERVICE_NAME] = "youtube_fetch"
           def self.youtube_fetchable?
-            #MuriOptions.include?(:youtube) && MuriOptions[:youtube].include?(:enabled) && (MuriOptions[:youtube][:enabled] == true)
             Muri::Options.youtube_enabled == true
           end                       
         end

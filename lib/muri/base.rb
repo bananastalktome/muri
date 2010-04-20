@@ -15,23 +15,17 @@ class Muri
   # Defines #{service}? and #{service_type}? methods, and sets service name constnat
   Muri::AVAILABLE_PARSERS.each do |parser|
     eval "include Filter::#{parser}"    
-    is_service = "is_#{parser.downcase}?"
     service = "#{parser.downcase}?"
     define_method(service) { self.media_service == parser }    
-    define_method(is_service) { puts "This method will be deprecated, use #{service} instead"; self.instance_eval(service) }
     self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
       define_method("#{exp.downcase}?") do
         self.media_api_type == eval(exp) && self.instance_eval(service)
       end
-      define_method("is_#{exp.downcase}?") do
-        puts "This method will be deprecated, use #{exp.downcase}? instead"
-        self.instance_eval("#{exp.downcase}?")
-      end    
     end
     const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
   end
   
-  extend Filter
+  #extend Filter
   extend Fetcher
 
   def self.parse(url)

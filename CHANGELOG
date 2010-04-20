@@ -3,7 +3,7 @@ Muri Changelog
 
 EXPERIMENTAL
   * Added Fetching capabilities to muri
-    - API fetching enabled from muri.yaml file if using rails (call `murify` in a manner similar to capistrano's `capify`), or from setting MuriOptions hash
+    - API fetching enabled from muri.yaml file if using rails (call `murify` in a manner similar to capistrano's `capify`), or from setting Muri::Options object
     - 3 ways to fetch
       1. Can call fetch! directly on a muri parsed object
       2. Can call new_muri_object = Muri.fetch(parsed_muri_object)

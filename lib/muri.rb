@@ -3,33 +3,41 @@ require 'cgi'
 require 'open-uri'
 require 'rexml/document'
 require 'net/http'
+require 'openssl'
+require 'base64'
 
 class Muri
   AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
   AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
+  
   class Options
     class << self
-      @options = { }
-      def options=(value) @options=value; end
-      private :options=
+      attr_reader :options
       
-      SERVICE_VALUES = %w[enabled api_key secret]
+      SERVICE_KEYS = %w[enabled api_key secret]
+
+      def options=(val) @options=val; end
+      private 'options='
       
       def set_options(hash)
         hash.each do |key, val_hash|
           if Muri::AVAILABLE_FETCHERS.include? key.to_s.downcase
-            val_hash.each { |k,v| eval("Muri::Options.#{key}_#{k}=", "#{v}") unless (!SERVICE_NAMES.include?(k.to_s.downcase) || v.nil? || (v.strip == "")) }
+            val_hash.each { |k,v| Muri::Options.send("#{key}_#{k}=", v.to_s) unless (v.nil? || (v.strip == "") || !SERVICE_KEYS.include?(k.to_s.downcase)) }
           end
         end
       end
       
       def services
-        @options.class
+        @options.keys
+      end
+      
+      def remove_service(service)
+        @options.delete(service)
       end
       
       Muri::AVAILABLE_FETCHERS.each do |fetcher|
         service = fetcher.downcase.to_sym
-        SERVICE_VALUES.each do |method|
+        SERVICE_KEYS.each do |method|
           define_method("#{service}_#{method}") do
             (@options.include?(service) && @options[service].include?(method.to_sym)) ? @options[service][method.to_sym] : nil
           end
@@ -37,29 +45,16 @@ class Muri
             @options ||= {}
             @options[service] ||= { }
             @options[service][method.to_sym] = val
-            if (fetch = Muri::AVAILABLE_FETCHERS.index{|f| f =~ /^#{fetcher}$/i })
-              eval("include Fetcher::#{Muri::AVAILABLE_FETCHERS[fetch]}")
-            end            
           end
         end
       end
     end
   end
+  
 end
 
-
-
-#if ENV.include?('RAILS_ENV')
-#  if (File.file? "#{RAILS_ROOT}/config/muri.yaml")
-#    MuriOptions = YAML.load_file("#{RAILS_ROOT}/config/muri.yaml")
-#    MuriOptions.delete_if do |key, val_hash|
-#      val_hash[:api_key].nil? && !(val_hash[:enabled] == true)
-#    end
-#  end
-#end
-
-#MuriOptions = {} if not Object.const_defined? :MuriOptions
-##MuriOptions[:flickr] ||= {:api_key => 'SOME API KEY'}
+# Empty options
+Muri::Options.send('options=', {})
 
 # Register built-in filters
 Dir["#{File.dirname(__FILE__) + '/muri/filters'}/**/*"].each do |filter|
@@ -77,7 +72,9 @@ end
   require File.dirname(__FILE__) + "/muri/#{f}"
 end
 
+
 if ENV.include?('RAILS_ENV')
+  require 'yaml'
   if (File.file? "#{RAILS_ROOT}/config/muri.yaml")
     Muri::Options.set_options YAML.load_file("#{RAILS_ROOT}/config/muri.yaml")
   end

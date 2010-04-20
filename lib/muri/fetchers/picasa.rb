@@ -8,7 +8,6 @@ class Muri
         base.class_eval do
           self::FETCHERS[PICASA_SERVICE_NAME] = "picasa_fetch"
           def self.picasa_fetchable?
-            #MuriOptions.include?(:picasa) && MuriOptions[:picasa].include?(:enabled) && (MuriOptions[:picasa][:enabled] == true)
             Muri::Options.picasa_enabled == true
           end          
         end

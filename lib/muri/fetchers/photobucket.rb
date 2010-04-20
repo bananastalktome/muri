@@ -1,6 +1,3 @@
-require 'digest'
-require 'openssl'
-require 'base64'
 class Muri
   module Fetcher
     module Photobucket
@@ -11,7 +8,6 @@ class Muri
         base.class_eval do
           self::FETCHERS[PHOTOBUCKET_SERVICE_NAME] = "photobucket_fetch"
           def self.photobucket_fetchable?
-            #MuriOptions.include?(:photobucket) && MuriOptions[:photobucket].include?(:api_key)
             Muri::Options.photobucket_api_key && Muri::Options.photobucket_secret
           end
         end
