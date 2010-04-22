@@ -7,15 +7,15 @@ require 'openssl'
 require 'base64'
 
 class Muri
-  AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
-  AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
+  AVAILABLE_PARSERS = %w[youtube flickr vimeo imageshack photobucket facebook twitpic picasa].freeze
+  AVAILABLE_FETCHERS = %w[youtube flickr vimeo photobucket picasa].freeze
   PARSERS = { }
   FETCHERS = { }
   class Options
     class << self
       attr_reader :options
       
-      SERVICE_KEYS = %w[enabled api_key secret]
+      SERVICE_KEYS = %w[enabled api_key secret].freeze
 
       def options=(val) @options=val; end
       private 'options='

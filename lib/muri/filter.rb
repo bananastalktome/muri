@@ -5,7 +5,7 @@ class Muri
       base.class_eval do
         # Defines #{service}? and #{service_type}? methods, and sets service name constnat
         Muri::AVAILABLE_PARSERS.each do |parser|
-          eval "include Filter::#{parser}"
+          eval "include Filter::#{parser.capitalize}"
           service = "#{parser.downcase}?"
           define_method(service) { self.media_service == parser }
           self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
