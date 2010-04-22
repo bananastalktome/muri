@@ -6,15 +6,16 @@ class Muri
   
       def self.included(base)
         base.class_eval do
-          self::FETCHERS[VIMEO_SERVICE_NAME] = "vimeo_fetch"
-          def self.vimeo_fetchable?
-            Muri::Options.vimeo_enabled == true
-          end              
+          self::FETCHERS[VIMEO_SERVICE_NAME] = "vimeo_fetch"              
         end
+      end
+
+      def self.fetchable?
+        Muri::Options.vimeo_enabled == true
       end
       
       def vimeo_fetch
-        raise unless Muri.vimeo_fetchable?
+        raise unless Muri::Fetcher::Vimeo.fetchable?
         if self.vimeo_video?          
           url = "http://vimeo.com/api/v2/video/#{self.media_api_id}.xml"
           doc = Muri.send(:fetch_xml, url)

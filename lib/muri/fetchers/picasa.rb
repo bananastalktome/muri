@@ -6,15 +6,16 @@ class Muri
 
       def self.included(base)
         base.class_eval do
-          self::FETCHERS[PICASA_SERVICE_NAME] = "picasa_fetch"
-          def self.picasa_fetchable?
-            Muri::Options.picasa_enabled == true
-          end          
+          self::FETCHERS[PICASA_SERVICE_NAME] = "picasa_fetch"          
         end
+      end
+
+      def self.fetchable?
+        Muri::Options.picasa_enabled == true
       end
       
       def picasa_fetch
-        raise unless Muri.picasa_fetchable?
+        raise unless Muri::Fetcher::Picasa.fetchable?
         if self.picasa_photo?                   
           url = "http://picasaweb.google.com/data/feed/api/user/#{self.media_api_id}?v=2"
           doc = Muri.send(:fetch_xml, url)

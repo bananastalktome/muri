@@ -9,7 +9,8 @@ require 'base64'
 class Muri
   AVAILABLE_PARSERS = %w[Youtube Flickr Vimeo Imageshack Photobucket Facebook Twitpic Picasa].freeze
   AVAILABLE_FETCHERS = %w[Youtube Flickr Vimeo Photobucket Picasa].freeze
-  
+  PARSERS = { }
+  FETCHERS = { }
   class Options
     class << self
       attr_reader :options
@@ -32,7 +33,7 @@ class Muri
       end
       
       def remove_service(service)
-        @options.delete(service)
+        @options.delete(service.to_sym) if @options.include?(service.to_sym)
       end
       
       Muri::AVAILABLE_FETCHERS.each do |fetcher|

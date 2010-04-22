@@ -9,11 +9,14 @@ class Muri
     
     # Wrapper for Muri::Options
     Muri::AVAILABLE_FETCHERS.each do |fetcher|
-      fetcher = fetcher.downcase.to_sym
+      fetcher = fetcher.downcase
       define_method("enable_#{fetcher}_fetcher") { set_muri_options(fetcher, :enabled, true) }
       define_method("#{fetcher}_api_key=") { |key| set_muri_options(fetcher, :api_key, key) }
       define_method("#{fetcher}_secret=") { |key| set_muri_options(fetcher, :secret, key) }
-      define_method("disable_#{fetcher}_fetcher"){ Muri::Options.remove_service(fetcher) }
+      define_method("disable_#{fetcher}_fetcher") do
+        Muri::Options.remove_service(fetcher)
+        Muri::FETCHERS.delete(fetcher)# if Muri::FETCHERS.include?(fetcher)
+      end
     end
     
     protected
