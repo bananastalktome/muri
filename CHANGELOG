@@ -1,8 +1,13 @@
 Muri Changelog
 ===================================
 
-Version 1.1.3 (git)
-  * Changed service names all lowercase letters (eg. "Vimeo" to "vimeo").
-    - Should not have any major impact on usage, mostly an internal change.
+Version 1.1.3
   * Changed "FLICKR_PHOTO" to "FLICKR_MEDIA" (since it can parse videos)
     - "flickr_photo?" is replaced by "flickr_media?" now
+  * Facebook parser overhaul thanks to their new 'Graph API'
+    - media_api_id is no longer the true facebook database API id for photos, though it is now for videos
+    - Facebook parser accepts video URL's, but albums temporarily disabled
+  * Removed deprecated "is_" methods
+  * Changed service names all lowercase letters (eg. "Vimeo" to "vimeo").
+    - Should not have any major impact on usage, mostly an internal change.
+  * URL parse now only escapes spaces, not all characters (allows # to create URI fragment)

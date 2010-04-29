@@ -16,18 +16,12 @@ class Muri
   # Defines #{service}? and #{service_type}? methods, and sets service name constnat
   AVAILABLE_PARSERS.each do |parser|
     eval "include Filter::#{parser.capitalize}"    
-    is_service = "is_#{parser}?"
     service = "#{parser}?"
     define_method(service) { self.media_service == parser }    
-    define_method(is_service) { puts "This method will be deprecated, use #{service} instead"; self.instance_eval(service) }
     self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
       define_method("#{exp.downcase}?") do
         self.media_api_type == eval(exp) && self.instance_eval(service)
       end
-      define_method("is_#{exp.downcase}?") do
-        puts "This method will be deprecated, use #{exp.downcase}? instead"
-        self.instance_eval("#{exp.downcase}?")
-      end    
     end
     const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
   end
@@ -69,7 +63,7 @@ class Muri
   
   def parse(raw_url)
     begin
-      raw_url = URI.encode(URI.decode(raw_url)) unless raw_url.nil?
+      raw_url = URI.encode(URI.decode(raw_url), " ") unless raw_url.nil?
       self.uri = URI.parse(raw_url)
       if self.uri.scheme.nil?
         raw_url = "http://#{raw_url}"
