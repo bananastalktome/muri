@@ -21,10 +21,10 @@ class Muri
         
         if (self.uri.path =~ /^\/(.[^\/]+)\/(.[^\/]+)/i) && !self.uri.fragment.nil?
           username = $1
-          album_photoid = self.uri.fragment.split("#")
-          
-          photoid = album_photoid.last
           album = $2 #album_photoid[0..-2].join("#") #in case other hash symbols exist
+          
+          album_photoid = self.uri.fragment.split("#")
+          photoid = album_photoid.last
           self.media_id = photoid
           self.media_website = "#{url_common}/#{username}/#{album}##{photoid}"
           self.media_api_type = PICASA_PHOTO
