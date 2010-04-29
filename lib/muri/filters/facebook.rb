@@ -32,7 +32,7 @@ class Muri
           
           self.media_api_type = FACEBOOK_VIDEO
           self.media_id = v
-          self.media_api_id = {:v => v}
+          self.media_api_id = v
           self.media_website = "#{url_common}/video/video.php?v=#{self.media_id}"
         elsif (url_string =~ REGEX_FACEBOOK_PHOTO &&
           (pid = url_string.gsub(/\A.*?pid=(\d+)(&.*|\Z)/i, '\1')) &&
@@ -41,7 +41,13 @@ class Muri
           self.media_api_type = FACEBOOK_PHOTO
           self.media_id = pid
           media_creator = uid
-          self.media_api_id = {:pid => pid, :uid => media_creator}
+          
+          fql_id = ((media_creator.to_i << 32) + self.media_id.to_i).to_s
+          
+          self.media_api_id = fql_id
+          
+          #ugh, ugly, I hate facebook. FQL id's may stop working soon, so this may become media_api_id again later.
+          self.media_api_ids = { :pid => pid, :uid => media_creator, :fql_id => fql_id }
 
           self.media_website = "#{url_common}/photo.php?pid=#{self.media_id}&id=#{media_creator}"
 #         elsif ((self.uri.path =~ REGEX_FACEBOOK_ALBUM) &&

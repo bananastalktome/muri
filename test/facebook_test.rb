@@ -55,19 +55,21 @@ end
   { :type => :photo,
     :media_id => '34929102',
     :media_website => 'http://www.facebook.com/photo.php?pid=34929102&id=15201063',
-    :media_api_id => {:pid => "34929102", :uid => "15201063"}
+    :media_api_id => '65288068484364750',
+    :media_api_ids => {:pid => "34929102", :uid => "15201063", :fql_id => '65288068484364750'}
   },
 'http://www.facebook.com/photo.php?pid=3343211&l=a1abf8cd37&id=322232#!/photo.php?pid=34929102&l=a1abf8cd37&id=15201063' =>
   { :type => :photo,
     :media_id => '34929102',
     :media_website => 'http://www.facebook.com/photo.php?pid=34929102&id=15201063',
-    :media_api_id => {:pid => "34929102", :uid => "15201063"}
+    :media_api_id => '65288068484364750',
+    :media_api_ids => {:pid => "34929102", :uid => "15201063", :fql_id => '65288068484364750'}
   },
 'http://www.facebook.com/photo.php?pid=34929101&id=15201063#!/video/video.php?v=545993063513&subj=15201063' =>
   { :type => :video,
     :media_id => '545993063513',
     :media_website => "http://www.facebook.com/video/video.php?v=545993063513",
-    :media_api_id => {:v => '545993063513'}
+    :media_api_id => '545993063513'
   }
 }.each do |url, values|
   describe "Facebook parse #{url}" do
@@ -83,6 +85,12 @@ end
     if values[:media_id]
       it "should have media id" do
         @a.media_id.should == values[:media_id]
+      end
+    end
+    
+    if values[:media_api_ids]
+      it "should have media api id hash" do
+        @a.media_api_ids.should == values[:media_api_ids]
       end
     end
     

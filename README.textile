@@ -62,7 +62,7 @@ Assuming the URI was successfully parsed (thus @a.valid? == true@), all media ty
 * Services with a @media_api_id@ also have a @media_api_type@, which indicates what sort of API call should be made (be it 'photo', 'video', 'media', 'set', 'album', or 'playlist', depending on URI type)
 
 
-*NOTE: Facebook photos return a @media_api_id@ hash, keyed for photos by @uid@ and @pid@ (user and photo id, not the true Graph API id), and for videos by @v@ (the video id)*
+*NOTE: Facebook content returns a @media_api_id@ string which is the FQL compatible ID. Facebook photos can also returns a @media_api_ids@ hash, keyed by @:uid@, @:pid@, and @:fql_id@ (user, photo, and fql id). This is courtesy the new Facebook Graph API messing stuff up.*
 
 *ALSO NOTE: Picasa @media_api_id@ is a partial string for using the photo API call, so for example @'bananastalktome/album/TestForAPI/photoid/5450524726782297346'@, thus the API call would be @"http://picasaweb.google.com/data/feed/api/user/#{media_api_id}"@*
 
