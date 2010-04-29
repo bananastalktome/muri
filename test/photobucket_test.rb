@@ -41,9 +41,9 @@ shared_examples_for "Photobucket parse album" do
     @a.photobucket_album?.should == true
   end 
   
-  it "should not be facebook album" do
-    @a.facebook_album?.should == false
-  end    
+#   it "should not be facebook album" do
+#     @a.facebook_album?.should == false
+#   end    
 end
 shared_examples_for "Photobucket parse group album" do
   it_should_behave_like "Photobucket parse"
