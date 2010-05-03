@@ -5,11 +5,11 @@ class Muri
       private
       FACEBOOK_PHOTO = "photo"
       FACEBOOK_VIDEO = "video"
+      FACEBOOK_ALBUM = "album"
       
-      #FACEBOOK_ALBUM = "album"
       REGEX_FACEBOOK_PHOTO = /\/photo\.php/i
       REGEX_FACEBOOK_VIDEO = /\/video\/video\.php/i
-      #REGEX_FACEBOOK_ALBUM = /^\/album\.php$/i
+      REGEX_FACEBOOK_ALBUM = /\/album\.php/i
 
       def self.included(base)
         base.class_eval do
@@ -50,17 +50,20 @@ class Muri
           self.media_api_ids = { :pid => pid, :uid => media_creator, :fql_id => fql_id }
 
           self.media_website = "#{url_common}/photo.php?pid=#{self.media_id}&id=#{media_creator}"
-#         elsif ((self.uri.path =~ REGEX_FACEBOOK_ALBUM) &&
-#             params["aid"] =~ /^([0-9]+)$/ &&
-#             params["id"] =~ /^([0-9]+)$/ &&
-#             params["l"] =~ /^([0-9a-z]+)$/i)
-# 
-#           self.media_api_type = FACEBOOK_ALBUM
-#           self.media_id = params["aid"]
-#           media_creator = params["id"]
-#           share_key = params["l"]
-# 
-#           self.media_website = "#{url_common}/album.php?aid=#{self.media_id}&l=#{share_key}&id=#{media_creator}"
+        elsif (url_string =~ REGEX_FACEBOOK_ALBUM &&
+          (aid = url_string.gsub(/\A.*?aid=(\d+)(&.*|\Z)/i, '\1')) &&
+          (uid = url_string.gsub(/\A.*?[^a]id=(\d+)(&.*|\Z)/i, '\1')))
+ 
+          self.media_api_type = FACEBOOK_ALBUM
+          self.media_id = aid
+          media_creator = uid
+          
+          fql_id = ((media_creator.to_i << 32) + self.media_id.to_i).to_s
+          
+          self.media_api_id = fql_id
+          
+          self.media_api_ids = { :aid => aid, :uid => media_creator, :fql_id => fql_id }          
+          self.media_website = "#{url_common}/album.php?aid=#{self.media_id}&id=#{media_creator}"
         else
           raise UnsupportedURI
         end

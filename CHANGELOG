@@ -1,6 +1,9 @@
 Muri Changelog
 ===================================
 
+Version 1.1.6 (Git)
+  * Reenabled Facebook album parsing ability
+
 Version 1.1.5
   * Minor update, changed facebook "media_api_id" to only return a string representation, not a hash
     - Facebook provides "media_api_ids" which is a hash including pid, uid, and fql_id (the regular "media_api_id")

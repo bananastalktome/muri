@@ -7,14 +7,14 @@ MURI Currently supports:
 ** "API documentation":http://code.google.com/apis/youtube/2.0/developers_guide_protocol_audience.html
 * Vimeo (single videos and albums)
 ** "API documentation":http://vimeo.com/api/docs/simple-api
-* Flickr (single images and sets)
+* Flickr (single media items and sets)
 ** "API documentation":http://www.flickr.com/services/api/ or "API Doc 2":http://developer.yahoo.com/flickr/
 * Imageshack
-* Photobucket
+* Photobucket (media items and albums)
 ** "API documentation":http://photobucket.com/developer/documentation
 * Twitpic
 ** "API documentation":http://twitpic.com/api.do
-* Facebook (photos and albums)
+* Facebook (photos, videos and albums)
 ** "API documentation":http://wiki.developers.facebook.com/index.php/API
 * Picasa (photos)
 ** "API documentation":http://code.google.com/apis/picasaweb/docs/2.0/developers_guide.html

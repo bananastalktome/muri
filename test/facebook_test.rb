@@ -17,6 +17,25 @@ shared_examples_for "Facebook parse" do
     @a.valid?.should == true
   end
 end
+shared_examples_for "Facebook parse album" do
+  it_should_behave_like "Facebook parse"
+  it "should have media api type = FACEBOOK_VIDEO" do
+    @a.media_api_type.should == Muri::FACEBOOK_ALBUM
+  end
+  
+  it "should be facebook video" do
+    @a.facebook_album?.should == true
+  end
+  
+  it "should not be facebook photo" do
+    @a.facebook_photo?.should == false
+  end  
+  
+  it "should not be flickr media" do
+    @a.flickr_media?.should == false
+  end  
+end
+
 shared_examples_for "Facebook parse video" do
   it_should_behave_like "Facebook parse"
   it "should have media api type = FACEBOOK_VIDEO" do
@@ -70,6 +89,12 @@ end
     :media_id => '545993063513',
     :media_website => "http://www.facebook.com/video/video.php?v=545993063513",
     :media_api_id => '545993063513'
+  },
+'http://www.facebook.com/home.php?#!/album.php?id=15201063&aid=2149275' =>
+  { :type => :album,
+    :media_id => '2149275',
+    :media_website => 'http://www.facebook.com/album.php?aid=2149275&id=15201063',
+    :media_api_id => '65288068451584923'    
   }
 }.each do |url, values|
   describe "Facebook parse #{url}" do
@@ -80,6 +105,8 @@ end
       it_should_behave_like "Facebook parse photo"
     elsif values[:type] == :video
       it_should_behave_like "Facebook parse video"
+    elsif values[:type] == :album
+      it_should_behave_like "Facebook parse album"
     end
   
     if values[:media_id]
