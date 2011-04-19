@@ -79,7 +79,17 @@ end
   { :type => :video,
     :media_id => 'IPFnWoYy_8w',
     :media_api_id => 'IPFnWoYy_8w'
-  }
+  },
+  "http://youtu.be/ZL1Jta1j42c" =>
+  { :type => :video,
+    :media_id => "ZL1Jta1j42c",
+    :media_api_id => "ZL1Jta1j42c"
+  },
+  "http://youtu.be/ZL1Jta1j42c?hd=1" =>
+  { :type => :video,
+    :media_id => "ZL1Jta1j42c",
+    :media_api_id => "ZL1Jta1j42c"
+  }  
 }.each do |url, values|
   describe "Youtube parse #{values[:type]} #{url}" do
     before(:all) do

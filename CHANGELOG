@@ -3,6 +3,7 @@ Muri Changelog
 
 Version 1.1.6 (Git)
   * Reenabled Facebook album parsing ability
+  * Enabled short URL's for youtube (ex/ http://youtu.be/ZL1Jta1j42c)
 
 Version 1.1.5
   * Minor update, changed facebook "media_api_id" to only return a string representation, not a hash

@@ -10,6 +10,7 @@ class Muri
       REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i
       REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list\/?$/i
       REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i
+      REGEX_YOUTUBE_SHORTURL = /^\/([a-z0-9]+)$/i
 
       def self.included(base)
         base.class_eval do
@@ -18,7 +19,7 @@ class Muri
       end
 
       def self.parsable?(uri)
-        uri.host =~ /^(www\.)?youtube\.com$/i
+        uri.host =~ /^(www\.)?youtu(be\.com|\.be)$/i
       end
 
       def youtube_parse
@@ -39,6 +40,9 @@ class Muri
         elsif (self.uri.path =~ REGEX_YOUTUBE_PLAYLIST_WATCH) && params['p']
           self.media_id = params['p']
           self.media_api_type = YOUTUBE_PLAYLIST
+        elsif (self.uri.path =~ REGEX_YOUTUBE_SHORTURL)
+          self.media_id = $1
+          self.media_api_type = YOUTUBE_VIDEO
         else
           raise UnsupportedURI
         end
