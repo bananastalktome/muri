@@ -1,6 +1,9 @@
 Muri Changelog
 ===================================
 
+Version 1.1.7
+  * Minor fix for issue with ruby 1.9.2, closes [https://github.com/bananastalktome/muri/issues/1]
+
 Version 1.1.6
   * Reenabled Facebook album parsing ability
   * Enabled short URL's for youtube (ex/ http://youtu.be/ZL1Jta1j42c)

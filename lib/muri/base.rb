@@ -20,7 +20,7 @@ class Muri
     define_method(service) { self.media_service == parser }    
     self.constants.reject { |c| c !~ /^#{parser.upcase}/ }.each do |exp|
       define_method("#{exp.downcase}?") do
-        self.media_api_type == eval(exp) && self.instance_eval(service)
+        self.media_api_type == eval("#{exp}") && self.instance_eval(service)
       end
     end
     const_set "#{parser.upcase}_SERVICE_NAME", "#{parser}"
