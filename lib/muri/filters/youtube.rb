@@ -10,7 +10,7 @@ class Muri
       REGEX_YOUTUBE_VIDEO_DIRECT = /\/v\/([a-z0-9\-\_]+)/i
       REGEX_YOUTUBE_PLAYLIST_WATCH = /^\/view\_play\_list\/?$/i
       REGEX_YOUTUBE_PLAYLIST_DIRECT = /^\/p\/([a-z0-9\-\_]+)/i
-      REGEX_YOUTUBE_SHORTURL = /^\/([a-z0-9]+)$/i
+      REGEX_YOUTUBE_SHORTURL = /^\/([a-z0-9\-\_]+)$/i
 
       def self.included(base)
         base.class_eval do

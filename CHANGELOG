@@ -1,6 +1,9 @@
 Muri Changelog
 ===================================
 
+Version 1.1.8
+  * Fix to allow youtube short URL's to properly work (youtu.be/blah style)
+
 Version 1.1.7
   * Minor fix for issue with ruby 1.9.2, closes [https://github.com/bananastalktome/muri/issues/1]
 
