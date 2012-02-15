@@ -37,7 +37,7 @@ Using muri is just as easy!
 </code>
 </pre>
 
-If @a.valid?@ you are good to go. If not, either the URI host was not recognized, or the path/parameters provided along with a known URI host were not recognized. When these two types of errors are encountered, an exception is caught and returned in @a.errors@ as either "Muri::NoParser" or "Muri::UnrecognizedURI" (or potentially "URI::BadURIError" or "URI::InvalidURIError" if the URI passed is bad). If you don't care about the type of error, just whether the URI was parsed, @a.valid?@ will give you a boolean answer.
+If @a.valid?@ is true, you are good to go. If not, either the URI host was not recognized, or the path/parameters provided along with a known URI host were not recognized. When these two types of errors are encountered, an exception is caught and returned in @a.errors@ as either "Muri::NoParser" or "Muri::UnrecognizedURI" (or potentially "URI::BadURIError" or "URI::InvalidURIError" if the URI passed is bad). If you don't care about the type of error, just whether the URI was parsed, @a.valid?@ will give you a boolean answer.
 
 Assuming the URI was successfully parsed (thus @a.valid? == true@), all media types share several common attributes:
 
