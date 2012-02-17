@@ -1,5 +1,7 @@
 Muri Changelog
 ===================================
+Version 1.1.9
+  * Updated flickr static url's to use & recognize new http://farm{farm-id}.staticflickr.com/ scheme
 
 Version 1.1.8
   * Fix to allow youtube short URL's to properly work (youtu.be/blah style)

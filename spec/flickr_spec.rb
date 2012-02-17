@@ -54,7 +54,14 @@ end
     :media_id => '2088436532',
     :media_website => 'http://flic.kr/p/4bxMqq',
     :media_api_id => '2088436532',
-    :media_thumbnail => 'http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_t.jpg'
+    :media_thumbnail => 'http://farm3.staticflickr.com/2178/2088436532_ee07b4474e_t.jpg'
+  },
+  'http://farm3.staticflickr.com/2178/2088436532_ee07b4474e_b.jpg' =>
+  { :type => :photo,
+    :media_id => '2088436532',
+    :media_website => 'http://flic.kr/p/4bxMqq',
+    :media_api_id => '2088436532',
+    :media_thumbnail => 'http://farm3.staticflickr.com/2178/2088436532_ee07b4474e_t.jpg'
   },
   'http://www.flickr.com/photos/bananastalktome/sets/72157623467777820/' =>
   { :type => :set,

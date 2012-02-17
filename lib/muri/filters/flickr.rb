@@ -7,7 +7,7 @@ class Muri
       FLICKR_SET = "set"
 
       REGEX_FLICKR_MEDIA_OR_SET = /^\/photos\/([a-z0-9\-\_\@]+?)\/(sets\/)?([0-9]+)/i
-      REGEX_FLICKR_STATIC_MEDIA = /^farm([1-3])\.static.flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)((?:\_[a-z]){1,2}){0,1}\.([a-z]+)/i
+      REGEX_FLICKR_STATIC_MEDIA = /^farm([1-3])\.static.?flickr.com\/([0-9]+?)\/([0-9]+?)\_([a-z0-9]+?)((?:\_[a-z]){1,2}){0,1}\.([a-z]+)/i
       REGEX_FLICKR_SHORTURL = /^flic\.kr\/p\/([a-z0-9]+)/i
 
       def self.included(base)
@@ -17,7 +17,7 @@ class Muri
       end
 
       def self.parsable?(uri)
-        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.|)(flickr)\.com)/i
+        uri.host =~ /^(www\.)?(flic\.kr|(farm[0-9]\.static\.?|)(flickr)\.com)/i
       end
 
       def flickr_parse
@@ -33,7 +33,7 @@ class Muri
           self.media_id = $3
           self.media_api_type = FLICKR_MEDIA
           media_secret = $4
-          url_prefix = "http://farm#{farm}.static.flickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
+          url_prefix = "http://farm#{farm}.staticflickr.com/#{server_id}/#{self.media_id}_#{media_secret}"
           self.media_url = "#{url_prefix}.jpg"
           self.media_thumbnail = "#{url_prefix}_t.jpg"
         elsif (self.uri.host + self.uri.path) =~ REGEX_FLICKR_SHORTURL
@@ -82,24 +82,3 @@ class Muri
     end
   end
 end
-#           if !$5.nil?
-#             @info[:media_size] = case $5.downcase
-#               when '_s' then 'square'
-#               when '_t' then 'thumbnail'
-#               when '_m' then 'small'
-#               when '_b' then 'large'
-#               when '_o' then 'original'
-#               else 'medium'
-#             end
-#           end
-#           @info[:content_type] = $6
-# http://www.flickr.com/photos/bananastalktome/2088436532/ (preview)
-# http://flic.kr/p/4bxMqq (preview)
-# http://farm3.static.flickr.com/2178/2088436532_ee07b4474e_m.jpg (direct)
-#   farm-id: 3
-#   server-id: 2178
-#   photo-id: 2088436532
-#   secret: ee07b4474e
-#   size: m
-# * add _d before .jpg in url to create a download URL
-# http://www.flickr.com/photos/bananastalktome/sets/72157623467777820/ (set preview)
