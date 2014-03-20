@@ -8,7 +8,8 @@ class Muri
       
       REGEX_VIMEO_VIDEO_OR_ALBUM = /^\/(album\/)?([0-9]+)\/?$/i
       REGEX_VIMEO_GROUP_VIDEO = /^\/groups\/([0-9a-z\@\-\_]+)\/videos\/([0-9]+)\/?$/i
-      REGEX_VIMEO_SWF_VIDEO = /^\/moogaloop\.swf$/i
+      REGEX_VIMEO_DEPRECATED_SWF_VIDEO = /^\/moogaloop\.swf$/i
+      REGEX_VIMEO_EMBEDDED_VIDEO_URI = /player\.vimeo\.com\/(?:video|moog)\/([0-9]+)/i
 
       def self.included(base)
         base.class_eval do
@@ -17,20 +18,24 @@ class Muri
       end
 
       def self.parsable?(uri)
-        uri.host =~ /^(www\.)?vimeo\.com$/i
+        uri.host =~ /^(www\.|player\.)?vimeo\.com$/i
       end
 
       def vimeo_parse
         self.media_service = VIMEO_SERVICE_NAME #'Vimeo'
         params = Muri.param_parse(self.uri.query)
-
+        
+        
         if self.uri.path =~ REGEX_VIMEO_VIDEO_OR_ALBUM
           self.media_id = $2
           self.media_api_type = $1.nil? ? VIMEO_VIDEO : VIMEO_ALBUM
         elsif self.uri.path =~ REGEX_VIMEO_GROUP_VIDEO
           self.media_id = $2
           self.media_api_type = VIMEO_VIDEO
-        elsif ((self.uri.path =~ REGEX_VIMEO_SWF_VIDEO) && (params["clip_id"] =~ /^([0-9]+)$/))
+        elsif self.uri.to_s =~ REGEX_VIMEO_EMBEDDED_VIDEO_URI
+          self.media_id = $1
+          self.media_api_type = VIMEO_VIDEO
+        elsif ((self.uri.path =~ REGEX_VIMEO_DEPRECATED_SWF_VIDEO) && (params["clip_id"] =~ /^([0-9]+)$/))
           self.media_id = params["clip_id"]
           self.media_api_type = VIMEO_VIDEO
         else
@@ -45,7 +50,8 @@ class Muri
       end
 
       def self.vimeo_media_url(obj)
-        "http://vimeo.com/moogaloop.swf?clip_id=#{obj.media_id}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
+        #"http://vimeo.com/moogaloop.swf?clip_id=#{obj.media_id}&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1"
+        "http://player.vimeo.com/video/#{obj.media_id}"
       end
 
       def self.vimeo_media_website(obj)

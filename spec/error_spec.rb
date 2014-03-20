@@ -1,4 +1,4 @@
-require 'lib/muri.rb'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/muri.rb')
 
 describe "Parse Errors" do
   @no_parser = ["http://media.photobucket.com/image/searchterm/pbapi/file.jpg",

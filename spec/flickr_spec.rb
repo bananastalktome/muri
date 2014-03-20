@@ -1,4 +1,5 @@
-require 'lib/muri.rb'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/muri.rb')
+
 shared_examples_for "Flickr parse" do
   it "should be Flickr service" do
     # @a.media_service.should == 'Flickr'
@@ -68,6 +69,18 @@ end
     :media_id => '72157623467777820',
     :media_website => 'http://www.flickr.com/photos/bananastalktome/sets/72157623467777820',
     :media_api_id => '72157623467777820'
+  },
+  'http://www.flickr.com/photos/eyetwist/12814906754/in/set-72157594565593508' =>
+  { :type => :photo,
+    :media_id => '12814906754',
+    :media_website => 'http://flic.kr/p/kwpKjb',
+    :media_api_id => '12814906754'
+  },
+  'http://www.flickr.com/photos/12037949754@N01/155761353/' =>
+  { :type => :photo,
+    :media_id => '155761353',
+    :media_website => 'http://flic.kr/p/eLjqz',
+    :media_api_id => '155761353'
   }
 }.each do |url, values|
   

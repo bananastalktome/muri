@@ -1,4 +1,5 @@
-require 'lib/muri.rb'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/muri.rb')
+
 shared_examples_for "Youtube parse" do
   it "should be Youtube service" do
     #@a.media_service.should == 'Youtube'

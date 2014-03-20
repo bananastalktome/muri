@@ -1,4 +1,4 @@
-require 'lib/muri.rb'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/muri.rb')
 
 shared_examples_for "Facebook parse" do
   it "should be Facebook service" do

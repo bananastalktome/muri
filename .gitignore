@@ -1,2 +1,7 @@
 *.gem
-
+.ruby-gemset
+.ruby-version
+.bundle
+.config
+Gemfile.lock
+pkg

@@ -1,4 +1,4 @@
-require 'lib/muri.rb'
+require File.expand_path(File.dirname(__FILE__) + '/../lib/muri.rb')
 
 shared_examples_for "Vimeo parse" do
   it "should be Vimeo service" do
@@ -50,25 +50,31 @@ shared_examples_for "Vimeo parse album" do
   end     
 end
 
-{'http://vimeo.com/moogaloop.swf?clip_id=7312128&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' =>
+{'http://vimeo.com/moogaloop.swf?clip_id=89009115&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1' =>
   { :type => :video,
-    :media_id => '7312128',
-    :media_url => 'http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1',
-    :media_website => 'http://vimeo.com/7312128',
-    :media_api_id => '7312128'
+    :media_id => '89009115',
+    :media_url => 'http://player.vimeo.com/video/89009115',
+    :media_website => 'http://vimeo.com/89009115',
+    :media_api_id => '89009115'
   },
-  'http://vimeo.com/7312128' =>
+  'http://vimeo.com/89009115' =>
   { :type => :video,
-    :media_id => '7312128',
-    :media_url => "http://vimeo.com/moogaloop.swf?clip_id=7312128&server=vimeo.com&show_title=1&show_byline=1&show_portrait=0&color=&fullscreen=1",
-    :media_website => 'http://vimeo.com/7312128',
-    :media_api_id => '7312128'
+    :media_id => '89009115',
+    :media_url => 'http://player.vimeo.com/video/89009115',
+    :media_website => 'http://vimeo.com/89009115',
+    :media_api_id => '89009115'
   },
   'http://vimeo.com/album/89702' =>
   { :type => :album,
     :media_id => '89702',
     :media_website => 'http://vimeo.com/album/89702',
     :media_api_id => '89702'
+  },
+  'http://player.vimeo.com/video/89009115' =>
+  { :type => :video,
+    :media_id => '89009115',
+    :media_website => 'http://vimeo.com/89009115',
+    :media_api_id => '89009115'
   }
 }.each do |url, values|
   describe "Vimeo parse #{values[:type]} #{url}" do
